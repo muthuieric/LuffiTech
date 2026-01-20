@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from 'react';
 import { Plus, Minus, HelpCircle } from 'lucide-react';
 
@@ -5,23 +7,27 @@ const FAQItem = ({ question, answer }: { question: string, answer: string }) => 
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border-b border-slate-200 dark:border-slate-700 last:border-0">
+    <div 
+      className={`border-b border-slate-200 dark:border-slate-700 last:border-0 transition-colors duration-300 ${isOpen ? 'bg-indigo-50/50 dark:bg-slate-700/30' : 'bg-transparent'}`}
+    >
       <button 
-        className="w-full py-6 flex items-center justify-between text-left focus:outline-none group"
+        className="w-full py-6 px-6 flex items-center justify-between text-left focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500/20 group rounded-lg"
         onClick={() => setIsOpen(!isOpen)}
+        aria-expanded={isOpen}
       >
-        <span className="text-lg font-medium text-slate-900 dark:text-white pr-8 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+        <span className={`text-lg font-medium pr-8 transition-colors duration-300 ${isOpen ? 'text-indigo-700 dark:text-indigo-400' : 'text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400'}`}>
           {question}
         </span>
-        <span className={`text-slate-400 shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180 text-indigo-600' : ''}`}>
+        <span className={`shrink-0 transition-all duration-300 ${isOpen ? 'rotate-180 text-indigo-600' : 'text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-300'}`}>
           {isOpen ? <Minus size={20} /> : <Plus size={20} />}
         </span>
       </button>
+      
       <div 
-        className={`grid transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100 pb-6' : 'grid-rows-[0fr] opacity-0'}`}
+        className={`grid transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
       >
         <div className="overflow-hidden">
-          <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-base">
+          <p className="px-6 pb-6 text-slate-600 dark:text-slate-400 leading-relaxed text-base">
             {answer}
           </p>
         </div>
@@ -50,18 +56,38 @@ const FAQ = () => {
     }
   ];
 
+  // SEO: Generate JSON-LD Schema for Google
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(faq => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer
+      }
+    }))
+  };
+
   return (
-    <section className="py-24 bg-white dark:bg-slate-900/50">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-24 bg-white dark:bg-slate-900 transition-colors duration-300 relative overflow-hidden">
+      {/* Inject JSON-LD Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 mb-6 shadow-sm">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 mb-6 shadow-sm ring-4 ring-indigo-50 dark:ring-indigo-900/10">
             <HelpCircle size={28} />
           </div>
           <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mb-4">Frequently Asked Questions</h2>
-          <p className="text-slate-600 dark:text-slate-400">Everything you need to know about our mobile services.</p>
+          <p className="text-slate-600 dark:text-slate-400 text-lg">Everything you need to know about our mobile services.</p>
         </div>
         
-        <div className="bg-slate-50 dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 px-8 hover:shadow-md transition-shadow">
+        <div className="bg-slate-50 dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-md transition-shadow duration-300">
           {faqs.map((faq, idx) => (
             <FAQItem key={idx} {...faq} />
           ))}

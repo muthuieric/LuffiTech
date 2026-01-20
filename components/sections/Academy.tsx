@@ -3,32 +3,42 @@
 import React from 'react';
 import { 
   BookOpen, Code, Users, Check, Laptop, Palette, 
-  Smartphone, Database, PenTool, Server, Bot 
+  Smartphone, Database, PenTool, Server, Bot, ArrowRight 
 } from 'lucide-react';
+import Link from 'next/link';
 
-const SkillCard = ({ title, description, features, icon: Icon, level, tags }: any) => (
-  <div className="flex flex-col p-6 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:border-indigo-500 dark:hover:border-indigo-500 transition-all duration-300 group h-full cursor-pointer" onClick={() => window.location.href = '/contact'}>
-    <div className="flex items-center gap-4 mb-6">
-      <div className="w-14 h-14 rounded-2xl bg-indigo-50 dark:bg-slate-700 flex items-center justify-center text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform">
+// Improved SkillCard with clearer interaction
+const SkillCard = ({ title, description, features, icon: Icon, level, tags, href = "/contact" }: any) => (
+  <Link 
+    href={href}
+    className="flex flex-col p-6 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:shadow-indigo-500/10 hover:border-indigo-500/50 dark:hover:border-indigo-500/50 transition-all duration-300 group h-full hover:-translate-y-1 relative overflow-hidden"
+  >
+    {/* Background Decoration */}
+    <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-900/10 rounded-bl-[100px] -mr-8 -mt-8 transition-transform duration-500 group-hover:scale-110" />
+
+    <div className="relative z-10 flex items-center gap-4 mb-6">
+      <div className="w-14 h-14 rounded-2xl bg-indigo-50 dark:bg-slate-700/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 group-hover:scale-110 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 shadow-sm">
         <Icon size={32} />
       </div>
       <div>
-        <h3 className="text-xl font-bold text-slate-900 dark:text-white leading-tight">{title}</h3>
+        <h3 className="text-xl font-bold text-slate-900 dark:text-white leading-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+          {title}
+        </h3>
         <div className="flex gap-2 mt-2">
-           <span className="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300">
+           <span className="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-600">
             {level}
           </span>
         </div>
       </div>
     </div>
     
-    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6">
+    <p className="relative z-10 text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6">
       {description}
     </p>
 
-    <div className="flex-grow">
-      <h4 className="font-semibold text-slate-900 dark:text-white mb-3 text-xs uppercase tracking-wide text-indigo-600 dark:text-indigo-400">
-        Key Skills & Tools:
+    <div className="flex-grow relative z-10">
+      <h4 className="font-semibold text-slate-900 dark:text-white mb-3 text-xs uppercase tracking-wide opacity-70">
+        What you'll learn:
       </h4>
       <ul className="space-y-2 mb-6">
         {features.map((feature: string, idx: number) => (
@@ -40,24 +50,30 @@ const SkillCard = ({ title, description, features, icon: Icon, level, tags }: an
       </ul>
     </div>
 
-    {/* Languages / Tags */}
+    {/* Tags */}
     {tags && (
-      <div className="flex flex-wrap gap-2 mb-4">
+      <div className="relative z-10 flex flex-wrap gap-2 mb-6">
         {tags.map((tag: string, idx: number) => (
-          <span key={idx} className="text-[10px] px-2 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded font-medium">
+          <span key={idx} className="text-[10px] px-2 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded font-medium border border-indigo-100 dark:border-indigo-800">
             {tag}
           </span>
         ))}
       </div>
     )}
 
-    {/* Availability Badge */}
-    <div className="pt-4 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs font-medium text-slate-500 dark:text-slate-400">
-      <span className="flex items-center gap-1"><Laptop size={12} /> Online</span>
-      <span className="w-1 h-1 bg-slate-300 rounded-full"></span>
-      <span className="flex items-center gap-1"><Users size={12} /> One-on-One</span>
+    {/* Bottom Action Bar */}
+    <div className="relative z-10 pt-4 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between mt-auto">
+      <div className="flex items-center gap-3 text-xs font-medium text-slate-500 dark:text-slate-400">
+         <span className="flex items-center gap-1"><Laptop size={12} /> Online</span>
+         <span className="w-1 h-1 bg-slate-300 rounded-full"></span>
+         <span className="flex items-center gap-1"><Users size={12} /> 1-on-1</span>
+      </div>
+      
+      <div className="flex items-center text-sm font-bold text-indigo-600 dark:text-indigo-400 group-hover:translate-x-1 transition-transform">
+        Start <ArrowRight size={16} className="ml-1" />
+      </div>
     </div>
-  </div>
+  </Link>
 );
 
 const Academy = () => {
@@ -86,7 +102,9 @@ const Academy = () => {
         "Web Design Basics (HTML/CSS)",
         "Robotics Concepts & Logic",
         "Digital Safety & AI Awareness"
-      ]
+      ],
+      // This ID matches the Navbar link /academy#cbc
+      id: "cbc" 
     }
   ];
 
@@ -102,7 +120,7 @@ const Academy = () => {
         "Tailwind CSS Styling",
         "Building Responsive Interfaces"
       ],
-      tags: ["JavaScript", "TypeScript", "React", "HTML/CSS"]
+      tags: ["JavaScript", "React", "HTML/CSS"]
     },
     {
       title: "Backend & APIs",
@@ -115,7 +133,7 @@ const Academy = () => {
         "API Development & Integration",
         "Authentication & Security"
       ],
-      tags: ["Python", "Django", "Node.js", "TypeScript"]
+      tags: ["Python", "Node.js", "API"]
     },
     {
       title: "Mobile App Dev",
@@ -128,7 +146,7 @@ const Academy = () => {
         "Navigation & Device Features",
         "Deploying to Play Store"
       ],
-      tags: ["React Native", "JavaScript", "TypeScript"]
+      tags: ["React Native", "Android", "iOS"]
     },
     {
       title: "Data Science & Analytics",
@@ -139,9 +157,9 @@ const Academy = () => {
         "Python for Data Science",
         "SQL Database Management",
         "Pandas & NumPy Data Cleaning",
-        "Data Visualization (PowerBI/Matplotlib)"
+        "Data Visualization (PowerBI)"
       ],
-      tags: ["Python", "SQL", "Pandas", "PowerBI"]
+      tags: ["Python", "SQL", "PowerBI"]
     },
     {
       title: "AI & Machine Learning",
@@ -154,7 +172,7 @@ const Academy = () => {
         "NLP & Chatbot Development",
         "Integrating AI APIs (OpenAI)"
       ],
-      tags: ["Python", "TensorFlow", "Scikit-learn", "AI"]
+      tags: ["Python", "TensorFlow", "AI"]
     },
     {
       title: "UI/UX Design",
@@ -167,7 +185,7 @@ const Academy = () => {
         "Prototyping & Interaction",
         "Mobile & Web Layouts"
       ],
-      tags: ["Figma", "Design Thinking", "Prototyping"]
+      tags: ["Figma", "Prototyping"]
     },
     {
       title: "Graphic Design",
@@ -180,17 +198,20 @@ const Academy = () => {
         "Brand Identity Creation",
         "Marketing Visuals"
       ],
-      tags: ["Canva", "Branding", "Typography"]
+      tags: ["Canva", "Branding"]
     }
   ];
 
   return (
     <section id="academy" className="py-24 bg-slate-50 dark:bg-slate-900/50 relative overflow-hidden">
+      {/* Decorative Gradient Line */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-300 dark:via-slate-700 to-transparent" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-base text-indigo-600 dark:text-indigo-400 font-semibold tracking-wide uppercase">eDS Academy</h2>
+          <h2 className="text-base text-indigo-600 dark:text-indigo-400 font-bold tracking-wide uppercase">
+            Luffi Tech Academy
+          </h2>
           <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
             Future-Proof Skills
           </p>
@@ -203,12 +224,14 @@ const Academy = () => {
         {/* Section 1: Foundations */}
         <div id="foundations" className="mb-20 scroll-mt-32">
           <div className="flex items-center gap-4 mb-8">
-             <div className="h-8 w-1.5 bg-green-500 rounded-full"></div>
+             <div className="h-8 w-1.5 bg-green-500 rounded-full shadow-lg shadow-green-500/50"></div>
              <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Essential Foundations</h3>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
-            {foundations.map((skill, idx) => (
-              <SkillCard key={idx} {...skill} />
+            {foundations.map((skill: any, idx) => (
+              <div key={idx} id={skill.id} className="scroll-mt-32">
+                <SkillCard {...skill} />
+              </div>
             ))}
           </div>
         </div>
@@ -216,7 +239,7 @@ const Academy = () => {
         {/* Section 2: Bootcamp */}
         <div id="bootcamp" className="scroll-mt-32">
           <div className="flex items-center gap-4 mb-8">
-             <div className="h-8 w-1.5 bg-indigo-600 rounded-full"></div>
+             <div className="h-8 w-1.5 bg-indigo-600 rounded-full shadow-lg shadow-indigo-600/50"></div>
              <div>
                <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Tech Mastery Bootcamp</h3>
                <p className="text-slate-500 dark:text-slate-400 text-sm">Comprehensive modules for specialized career paths.</p>
