@@ -44,7 +44,8 @@ const ServiceCard = ({ icon: Icon, title, description, href, className = "", fea
         </ul>
       )}
 
-      {/* Learn More Arrow (Only shows if it's a link) */}
+      {/* Learn More Arrow ls
+      (Only shows if it's a link) */}
       {href && (
         <div className="mt-4 flex items-center text-sm font-semibold text-indigo-600 dark:text-indigo-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
           Learn more <ArrowRight size={16} className="ml-1" />
