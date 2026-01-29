@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import ClientLayout from '../components/layout/ClientLayout';
+import ChatWidget from '@/components/ChatWidget';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -70,6 +71,7 @@ export default function RootLayout({
         
         <ClientLayout>
           {children}
+          <ChatWidget />  
         </ClientLayout>
       </body>
     </html>
