@@ -3,7 +3,9 @@
 import React, { useState, useEffect, useCallback, memo } from 'react';
 import Link from 'next/link'; // <--- THE KEY TO SPEED
 import { usePathname } from 'next/navigation'; // <--- Instant active state updates
-import { Moon, Sun, Menu, X, ChevronDown, MessageCircle } from 'lucide-react';
+import { Moon, Sun, Menu, X, ChevronDown} from 'lucide-react';
+import Image from 'next/image'
+import icononly2 from '@/public/icon_only2.png'
 
 // --- Optimized Sub-Components ---
 
@@ -115,7 +117,11 @@ const Navbar = ({ isDark, toggleTheme }: NavbarProps) => {
               className="group relative z-[101] gap-2 flex items-center transform transition-transform duration-300 hover:scale-105"
               onClick={() => setIsMenuOpen(false)}
             >
-              <img src="/icon_only2.png" alt="Luffi Tech" className="h-9 md:h-10 w-auto object-contain" />
+              <Image 
+                src={icononly2}
+                alt="Luffi Tech"
+                className="h-9 md:h-10 w-auto object-contain" 
+              />
               <span className="text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
                 Luffi <span className="text-purple-600">Tech</span>
               </span>
@@ -167,6 +173,12 @@ const Navbar = ({ isDark, toggleTheme }: NavbarProps) => {
                 className={`text-sm font-bold transition-colors ${pathname === '/about' ? 'text-purple-600 dark:text-purple-400' : 'text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400'}`}
               >
                 About
+              </Link>
+              <Link 
+                href="/process" 
+                className={`text-sm font-bold transition-colors ${pathname === '/process' ? 'text-purple-600 dark:text-purple-400' : 'text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400'}`}
+              >
+                Process
               </Link>
 
               <Link 
@@ -254,6 +266,12 @@ const Navbar = ({ isDark, toggleTheme }: NavbarProps) => {
                   className={`block text-2xl font-bold ${pathname === '/about' ? 'text-purple-600' : 'text-slate-900 dark:text-white'}`}
                 >
                   About
+                </Link>
+                <Link 
+                  href="/process" 
+                  className={`block text-2xl font-bold ${pathname === '/process' ? 'text-purple-600' : 'text-slate-900 dark:text-white'}`}
+                >
+                  Process
                 </Link>
                 <Link 
                   href="/contact" 
