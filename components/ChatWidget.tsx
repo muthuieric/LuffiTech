@@ -106,15 +106,24 @@ export default function ChatWidget() {
 
       setMessages(prev => [...prev, botResponse]);
       setIsTyping(false);
-    }, 1000); // 1 second artificial delay
+    }, 1000); 
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-[9999] font-sans">
+    <div className="font-sans z-[9999]"> 
       
-      {/* Chat Window */}
+      {/* Chat Window - RESPONSIVE FIXES APPLIED HERE */}
       {isOpen && (
-        <div className="bg-white dark:bg-slate-900 w-[340px] md:w-[380px] h-[500px] rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden animate-in slide-in-from-bottom-10 fade-in duration-300 origin-bottom-right mb-4">
+        <div className="
+            fixed bottom-24 right-4 z-[9999]
+            w-[calc(100vw-2rem)] sm:w-[380px] 
+            h-[60vh] sm:h-[500px]
+            bg-white dark:bg-slate-900 
+            rounded-3xl shadow-2xl 
+            border border-slate-200 dark:border-slate-800 
+            flex flex-col overflow-hidden 
+            animate-in slide-in-from-bottom-10 fade-in duration-300 origin-bottom-right
+        ">
           
           {/* Header */}
           <div className="bg-indigo-600 p-4 flex justify-between items-center shrink-0">
@@ -154,7 +163,7 @@ export default function ChatWidget() {
                       <button 
                         key={idx}
                         onClick={() => handleOptionClick(opt.action, opt.label)}
-                        className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-900/50 px-3 py-2 rounded-lg hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors"
+                        className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-900/50 px-3 py-2 rounded-lg hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors text-left"
                       >
                         {opt.label}
                       </button>
@@ -174,7 +183,7 @@ export default function ChatWidget() {
           </div>
 
           {/* Footer (Input placeholder - inactive in rule-based mode) */}
-          <div className="p-3 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800">
+          <div className="p-3 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 shrink-0">
             <div className="bg-slate-100 dark:bg-slate-800 rounded-full px-4 py-3 flex justify-between items-center text-slate-400 text-sm cursor-not-allowed">
               <span>Select an option above...</span>
               <Send size={16} />
@@ -183,10 +192,10 @@ export default function ChatWidget() {
         </div>
       )}
 
-      {/* Floating Toggle Button */}
+      {/* Floating Toggle Button - Fixed independently */}
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="group w-14 h-14 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full shadow-lg shadow-indigo-600/30 flex items-center justify-center transition-all hover:scale-110 active:scale-95"
+        className="fixed bottom-6 right-6 z-[9999] group w-14 h-14 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full shadow-lg shadow-indigo-600/30 flex items-center justify-center transition-all hover:scale-110 active:scale-95"
       >
         {isOpen ? (
             <X size={28} />
