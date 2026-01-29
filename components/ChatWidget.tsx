@@ -14,18 +14,21 @@ type Message = {
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      type: 'bot',
-      text: "Hi there! 👋 Welcome to Luffi Tech. I'm your virtual assistant. What brings you here today?",
-      options: [
-        { label: "I need a Project built", action: "project" },
-        { label: "I want to join the Academy", action: "academy" },
-        { label: "Just browsing / Other", action: "other" },
-      ]
-    }
-  ]);
+  
+  // Initial State
+  const initialMessage: Message = {
+    id: '1',
+    type: 'bot',
+    text: "Hi there! 👋 Welcome to Luffi Tech. I'm your virtual assistant. How can I help you today?",
+    options: [
+      { label: "🚀 Start a Project", action: "project" },
+      { label: "🔍 Explore Services", action: "services_list" }, // NEW
+      { label: "🎓 Luffi Academy", action: "academy" },
+      { label: "💬 Support & Other", action: "other_menu" },
+    ]
+  };
+
+  const [messages, setMessages] = useState<Message[]>([initialMessage]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to bottom
@@ -44,75 +47,208 @@ export default function ChatWidget() {
       let botResponse: Message;
 
       switch (action) {
+        // --- LEVEL 1: MAIN MENU ---
         case "project":
           botResponse = {
             id: Date.now().toString(),
             type: 'bot',
-            text: "Great! We build high-performance software. What kind of solution are you looking for?",
+            text: "Exciting! Let's build something great. Which category best describes your project?",
             options: [
-              { label: "Website / Web App", action: "web_dev" },
+              { label: "Web / Software", action: "web_dev" },
               { label: "Mobile App / USSD", action: "mobile_dev" },
-              { label: "M-Pesa / Payment Integration", action: "payments" },
+              { label: "M-Pesa / Payments", action: "payments" },
+              { label: "More Options...", action: "services_list" }
             ]
           };
           break;
+
         case "academy":
           botResponse = {
             id: Date.now().toString(),
             type: 'bot',
-            text: "Awesome! Our Academy offers flexible learning. Which mode fits you best?",
+            text: "Awesome! We offer flexible coding mentorships. Which mode fits you best?",
             options: [
               { label: "Remote (Online Classes)", action: "link_academy" },
               { label: "Physical (Home Tutor)", action: "link_academy" },
+              { label: "🔙 Main Menu", action: "restart" }
             ]
           };
           break;
+
+        case "other_menu":
+          botResponse = {
+            id: Date.now().toString(),
+            type: 'bot',
+            text: "No problem. Here are some other things I can help with:",
+            options: [
+              { label: "💰 Pricing Estimates", action: "pricing" },
+              { label: "💼 Careers / Jobs", action: "careers" },
+              { label: "🔧 Technical Support", action: "support" },
+              { label: "🔙 Main Menu", action: "restart" }
+            ]
+          };
+          break;
+
+        // --- NEW: SERVICES LIST ---
+        case "services_list":
+          botResponse = {
+            id: Date.now().toString(),
+            type: 'bot',
+            text: "We provide comprehensive tech solutions. Tap a service to learn more:",
+            options: [
+              { label: "🌐 Web Development", action: "web_dev" },
+              { label: "📱 Mobile & USSD", action: "mobile_dev" },
+              { label: "🤖 AI & Automation", action: "ai_service" },
+              { label: "🎨 Design & Branding", action: "design_service" },
+              { label: "💳 Payment Integration", action: "payments" },
+              { label: "🔙 Main Menu", action: "restart" }
+            ]
+          };
+          break;
+
+        // --- LEVEL 2: SPECIFIC SERVICE HANDLERS ---
         case "web_dev":
+          botResponse = {
+            id: Date.now().toString(),
+            type: 'bot',
+            text: "We build high-performance Websites, Web Apps, and Management Systems using Next.js and Python. \n\nReady to discuss your requirements?",
+            options: [
+              { label: "Chat on WhatsApp", action: "whatsapp_project" },
+              { label: "View Portfolio", action: "link_services" },
+              { label: "Back to Services", action: "services_list" }
+            ]
+          };
+          break;
+
         case "mobile_dev":
+          botResponse = {
+            id: Date.now().toString(),
+            type: 'bot',
+            text: "We develop native Android/iOS apps and USSD codes for feature phones. Perfect for reaching the mass market.",
+            options: [
+              { label: "Get a Quote", action: "whatsapp_project" },
+              { label: "Back to Services", action: "services_list" }
+            ]
+          };
+          break;
+
+        case "ai_service":
+          botResponse = {
+            id: Date.now().toString(),
+            type: 'bot',
+            text: "We build custom AI Chatbots, Agents, and Automation Workflows to cut costs and improve efficiency.",
+            options: [
+              { label: "Automate My Business", action: "whatsapp_project" },
+              { label: "Back to Services", action: "services_list" }
+            ]
+          };
+          break;
+
+        case "design_service":
+          botResponse = {
+            id: Date.now().toString(),
+            type: 'bot',
+            text: "From Logos to UI/UX prototypes, we ensure your brand looks world-class.",
+            options: [
+              { label: "See Design Packages", action: "whatsapp_project" },
+              { label: "Back to Services", action: "services_list" }
+            ]
+          };
+          break;
+
         case "payments":
           botResponse = {
             id: Date.now().toString(),
             type: 'bot',
-            text: "Understood. The fastest way to get a quote is to chat with an engineer directly on WhatsApp.",
+            text: "We are experts in Daraja API (M-Pesa), Stripe, and Visa integrations for secure, automated payments.",
             options: [
-              { label: "Chat on WhatsApp Now", action: "whatsapp_project" },
-              { label: "Send an Email instead", action: "link_contact" },
+              { label: "Integrate Payments", action: "whatsapp_project" },
+              { label: "Back to Services", action: "services_list" }
             ]
           };
           break;
+
+        // --- INFO & SUPPORT ---
+        case "pricing":
+          botResponse = {
+            id: Date.now().toString(),
+            type: 'bot',
+            text: "Pricing varies by scope:\n• Websites: From KSH 20k\n• Mobile Apps: From KSH 60k\n•\nWould you like a custom quote?",
+            options: [
+              { label: "Yes, Get Quote", action: "whatsapp_project" },
+              { label: "No, thanks", action: "restart" }
+            ]
+          };
+          break;
+
+        case "careers":
+          botResponse = {
+            id: Date.now().toString(),
+            type: 'bot',
+            text: "We currently don't have open positions, but we are always building our talent pool. Email your portfolio to contact.luffitech@gmail.com.",
+            options: [
+              { label: "Okay, thanks!", action: "restart" }
+            ]
+          };
+          break;
+
+        case "support":
+          botResponse = {
+            id: Date.now().toString(),
+            type: 'bot',
+            text: "For existing clients facing technical issues, please contact our emergency support line.",
+            options: [
+              { label: "Contact Support", action: "whatsapp_support" },
+              { label: "Back to Menu", action: "restart" }
+            ]
+          };
+          break;
+
+        // --- EXTERNAL ACTIONS ---
         case "whatsapp_project":
-            window.open('https://wa.me/254702104690?text=Hi Luffi Tech, I want to discuss a project.', '_blank');
+            window.open('https://wa.me/254702104690?text=Hi Luffi Tech, I am interested in a project.', '_blank');
             botResponse = { id: Date.now().toString(), type: 'bot', text: "I've opened WhatsApp for you! Check your other tab." };
+            break;
+        case "whatsapp_support":
+            window.open('https://wa.me/254702104690?text=URGENT: I need technical support.', '_blank');
+            botResponse = { id: Date.now().toString(), type: 'bot', text: "Support channel opened." };
             break;
         case "link_academy":
             window.location.href = "/academy";
             botResponse = { id: Date.now().toString(), type: 'bot', text: "Redirecting you to the Academy page..." };
             break;
+        case "link_services":
+            window.location.href = "/services";
+            botResponse = { id: Date.now().toString(), type: 'bot', text: "Redirecting you to the Services page..." };
+            break;
         case "link_contact":
             window.location.href = "/contact";
             botResponse = { id: Date.now().toString(), type: 'bot', text: "Redirecting you to the Contact page..." };
             break;
+        case "restart":
+            botResponse = { ...initialMessage, id: Date.now().toString() };
+            break;
+
         default:
           botResponse = {
             id: Date.now().toString(),
             type: 'bot',
-            text: "No problem! Feel free to explore our services or contact us if you need anything.",
+            text: "I didn't quite catch that. Let's start over.",
             options: [
-                { label: "See Services", action: "link_services" }
+                { label: "Restart", action: "restart" }
             ]
           };
-          if(action === "link_services") window.location.href = "/services";
       }
 
       setMessages(prev => [...prev, botResponse]);
       setIsTyping(false);
-    }, 1000); 
+    }, 800); 
   };
 
   return (
     <div className="font-sans z-[9999]"> 
       
-      {/* Chat Window - RESPONSIVE FIXES APPLIED HERE */}
+      {/* Chat Window */}
       {isOpen && (
         <div className="
             fixed bottom-24 right-4 z-[9999]
@@ -192,7 +328,7 @@ export default function ChatWidget() {
         </div>
       )}
 
-      {/* Floating Toggle Button - Fixed independently */}
+      {/* Floating Toggle Button */}
       <button 
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-6 right-6 z-[9999] group w-14 h-14 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full shadow-lg shadow-indigo-600/30 flex items-center justify-center transition-all hover:scale-110 active:scale-95"
