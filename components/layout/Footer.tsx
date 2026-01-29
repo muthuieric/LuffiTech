@@ -1,15 +1,104 @@
 "use client";
 
-import React from 'react';
+import React, { memo } from 'react';
+import Link from 'next/link';
 import { Twitter, Linkedin, Facebook, Instagram } from 'lucide-react';
 
-// --- Self-Contained Components to prevent build errors ---
+// --- Types for TypeScript Safety ---
 
-const Link = ({ href, children, className, ...props }: any) => (
-  <a href={href} className={className} {...props}>
+type FooterLinkItem = {
+  name: string;
+  href: string;
+  highlight?: string; // <--- The Fix: '?' makes this optional
+};
+
+type FooterSection = {
+  title: string;
+  links: FooterLinkItem[];
+};
+
+// --- Static Data Configuration ---
+
+const SOCIAL_LINKS = [
+  { 
+    name: 'Twitter', 
+    href: 'https://twitter.com', 
+    icon: Twitter, 
+    colorClass: 'hover:bg-blue-100 hover:text-blue-500 dark:hover:bg-blue-900/30 dark:hover:text-blue-400' 
+  },
+  { 
+    name: 'LinkedIn', 
+    href: 'https://linkedin.com', 
+    icon: Linkedin, 
+    colorClass: 'hover:bg-blue-100 hover:text-blue-700 dark:hover:bg-blue-900/30 dark:hover:text-blue-500' 
+  },
+  { 
+    name: 'Facebook', 
+    href: 'https://facebook.com', 
+    icon: Facebook, 
+    colorClass: 'hover:bg-blue-100 hover:text-blue-800 dark:hover:bg-blue-900/30 dark:hover:text-blue-600' 
+  },
+  { 
+    name: 'Instagram', 
+    href: 'https://instagram.com', 
+    icon: Instagram, 
+    colorClass: 'hover:bg-pink-100 hover:text-pink-600 dark:hover:bg-pink-900/30 dark:hover:text-pink-400' 
+  }
+];
+
+// Explicitly typed array to prevent build errors
+const FOOTER_SECTIONS: FooterSection[] = [
+  {
+    title: "Services",
+    links: [
+      { name: "Web & Software Development", href: "/services#web-dev" },
+      { name: "Graphic Design & Branding", href: "/services#graphic-design" },
+      { name: "AI & Automation", href: "/services#ai-automation" },
+      { name: "Payment Integrations", href: "/services#payments" }
+    ]
+  },
+  {
+    title: "Academy",
+    links: [
+      { name: "Digital Foundations", href: "/academy#foundations", highlight: "hover:text-orange-600 dark:hover:text-orange-400" },
+      { name: "CBC Tech (Ages 7-18)", href: "/academy#cbc", highlight: "hover:text-orange-600 dark:hover:text-orange-400" },
+      { name: "Tech Mastery Bootcamp", href: "/academy#bootcamp", highlight: "hover:text-orange-600 dark:hover:text-orange-400" }
+    ]
+  },
+  {
+    title: "Company",
+    links: [
+      { name: "About Us", href: "/about" },
+      { name: "Careers", href: "/careers" },
+      { name: "Contact", href: "/contact" }
+    ]
+  }
+];
+
+// --- Memoized Components ---
+
+const FooterLink = memo(({ href, children, className = "" }: any) => (
+  <Link 
+    href={href} 
+    className={`inline-block transition-all duration-200 hover:translate-x-1 ${className}`}
+  >
     {children}
+  </Link>
+));
+FooterLink.displayName = "FooterLink";
+
+const SocialButton = memo(({ href, icon: Icon, label, colorClass }: any) => (
+  <a 
+    href={href} 
+    target="_blank" 
+    rel="noopener noreferrer" 
+    aria-label={label}
+    className={`w-10 h-10 flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-400 rounded-full transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${colorClass}`}
+  >
+    <Icon size={18} />
   </a>
-);
+));
+SocialButton.displayName = "SocialButton";
 
 // --- Main Footer Component ---
 
@@ -23,14 +112,15 @@ const Footer = () => {
           
           {/* Brand & Description */}
           <div className="col-span-2 md:col-span-1 space-y-4">
-            <Link href="/" aria-label="Luffi Tech Home" className="inline-block">
-              <div className="flex items-center gap-1">
+            <Link href="/" aria-label="Luffi Tech Home" className="inline-block group">
+              <div className="flex items-center gap-2">
                 <img 
                   src="/icon_only2.png" 
-                  alt="Luffi Tech" 
-                  className="h-8 md:h-10 w-auto object-contain" 
+                  alt="Luffi Tech Logo" 
+                  loading="lazy"
+                  className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110" 
                 />
-                <span className="text-xl md:text:2xl font-bold tracking-tight text-slate-900 dark:text-white">
+                <span className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
                   Luffi <span className="text-purple-600">Tech</span>
                 </span>
               </div>
@@ -40,120 +130,43 @@ const Footer = () => {
             </p>
           </div>
           
-          {/* Services Column - Updated to match ServicesPage categories */}
-          <div>
-            <h4 className="font-bold text-slate-900 dark:text-white mb-4">Services</h4>
-            <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-               <li>
-                 <Link href="/services#web-dev" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 hover:translate-x-1 inline-block">
-                 Web & Software Development
-                 </Link>
-               </li>
-               <li>
-                 <Link href="/services#graphic-design" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 hover:translate-x-1 inline-block">
-                 Graphic Design & Branding
-                 </Link>
-               </li>
-               <li>
-                 <Link href="/services#ai-automation" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 hover:translate-x-1 inline-block">
-                 AI & Automation
-                 </Link>
-               </li>
-               <li>
-                 <Link href="/services#payments" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 hover:translate-x-1 inline-block">
-                 Payment Integrations
-                 </Link>
-               </li>
-            </ul>
-          </div>
-
-          {/* Academy Column */}
-          <div>
-            <h4 className="font-bold text-slate-900 dark:text-white mb-4">Academy</h4>
-            <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-               <li>
-                 <Link href="/academy#foundations" className="hover:text-orange-600 dark:hover:text-orange-400 transition-all duration-200 hover:translate-x-1 inline-block">
-                   Digital Foundations
-                 </Link>
-               </li>
-               <li>
-                 <Link href="/academy#cbc" className="hover:text-orange-600 dark:hover:text-orange-400 transition-all duration-200 hover:translate-x-1 inline-block">
-                   CBC Tech (Ages 7-18)
-                 </Link>
-               </li>
-               <li>
-                 <Link href="/academy#bootcamp" className="hover:text-orange-600 dark:hover:text-orange-400 transition-all duration-200 hover:translate-x-1 inline-block">
-                   Tech Mastery Bootcamp
-                 </Link>
-             </li>
-            </ul>
-          </div>
-
-          {/* Company Column */}
-          <div>
-            <h4 className="font-bold text-slate-900 dark:text-white mb-4">Company</h4>
-            <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-               <li>
-                 <Link href="/about" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 hover:translate-x-1 inline-block">
-                   About Us
-                 </Link>
-               </li>
-               <li>
-                 <Link href="/careers" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 hover:translate-x-1 inline-block">
-                   Careers
-                 </Link>
-               </li>
-               <li>
-                 <Link href="/contact" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 hover:translate-x-1 inline-block">
-                   Contact
-                 </Link>
-               </li>
-            </ul>
-          </div>
+          {/* Dynamic Link Sections */}
+          {FOOTER_SECTIONS.map((section) => (
+            <div key={section.title}>
+              <h4 className="font-bold text-slate-900 dark:text-white mb-6 text-lg">{section.title}</h4>
+              <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-400">
+                {section.links.map((link) => (
+                  <li key={link.name}>
+                    <FooterLink 
+                      href={link.href} 
+                      // TS now knows 'highlight' is optional string or undefined
+                      className={link.highlight || "hover:text-indigo-600 dark:hover:text-indigo-400"}
+                    >
+                      {link.name}
+                    </FooterLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
         
         {/* Bottom Bar: Copyright & Socials */}
-        <div className="border-t border-slate-200 dark:border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-slate-500 dark:text-slate-400">
+        <div className="border-t border-slate-200 dark:border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-sm text-slate-500 dark:text-slate-400 order-2 md:order-1">
             © {currentYear} Luffi Tech. All rights reserved.
           </p>
-          <div className="flex gap-4">
-             <a 
-               href="https://twitter.com" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               aria-label="Twitter"
-               className="w-8 h-8 flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-400 hover:bg-blue-100 hover:text-blue-600 dark:hover:bg-blue-900/30 rounded-full transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
-             >
-               <Twitter size={16} />
-             </a>
-             <a 
-               href="https://linkedin.com" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               aria-label="LinkedIn"
-               className="w-8 h-8 flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-400 hover:bg-blue-100 hover:text-blue-700 dark:hover:bg-blue-900/30 rounded-full transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
-             >
-               <Linkedin size={16} />
-             </a>
-             <a 
-               href="https://facebook.com" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               aria-label="Facebook"
-               className="w-8 h-8 flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-400 hover:bg-blue-100 hover:text-blue-800 dark:hover:bg-blue-900/30 rounded-full transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
-             >
-               <Facebook size={16} />
-             </a>
-             <a 
-               href="https://instagram.com" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               aria-label="Instagram"
-               className="w-8 h-8 flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-400 hover:bg-pink-100 hover:text-pink-600 dark:hover:bg-pink-900/30 rounded-full transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
-             >
-               <Instagram size={16} />
-             </a>
+          
+          <div className="flex gap-4 order-1 md:order-2">
+             {SOCIAL_LINKS.map((social) => (
+               <SocialButton 
+                 key={social.name}
+                 href={social.href}
+                 icon={social.icon}
+                 label={social.name}
+                 colorClass={social.colorClass}
+               />
+             ))}
           </div>
         </div>
       </div>
@@ -161,4 +174,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default memo(Footer);

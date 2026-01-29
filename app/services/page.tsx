@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, memo } from 'react';
 import { 
   Globe, Palette, Bot, Megaphone, 
   ChevronRight, Search, Zap, CreditCard, 
@@ -10,11 +10,8 @@ import {
   ArrowUp
 } from 'lucide-react';
 
-/**
- * SERVICE DATA SCHEMA - 2026 COMPREHENSIVE EDITION
- * Organized into 12 Specialized Production Units
- * Renumbered strictly sequentially 01-12
- */
+// --- Static Data (Moved outside component to prevent memory churn) ---
+
 const SERVICE_CATEGORIES = [
   {
     id: "web-dev",
@@ -22,8 +19,8 @@ const SERVICE_CATEGORIES = [
     number: "01",
     icon: Globe,
     color: "from-blue-600 to-cyan-500",
-    description: "High-performance web platforms focusing on SEO, responsiveness, and inclusive WCAG accessibility for businesses that want results — not just good looks..",
-    techStack: "Frontend: JavaScript, Typescript, React, Next.js, Vue, Angular, Tailwind, Bootstrap | Backend: Node.js, Django, Flask, FastAPI, Laravel | API: REST API, GraphQL | DB: PostgreSQL, MySQL, MongoDB",
+    description: "High-performance web platforms focusing on SEO, responsiveness, and inclusive WCAG accessibility.",
+    techStack: "Frontend: React, Next.js, Tailwind | Backend: Node.js, Django, FastAPI | DB: PostgreSQL, MongoDB",
     features: [
       "Responsive Design: Seamless across mobile and desktop.",
       "SEO Optimization: Search-engine-friendly structure.",
@@ -31,10 +28,10 @@ const SERVICE_CATEGORIES = [
       "Accessibility: WCAG-compliant inclusive design."
     ],
     subServices: [
-      "Website customization","Custom WordPress & Headless CMS", "Enterprise SaaS Architectures", "E-Commerce (WooCommerce/Shopify)",
+      "Custom WordPress & Headless CMS", "Enterprise SaaS Architectures", "E-Commerce (WooCommerce/Shopify)",
       "Progressive Web Apps (PWA)", "Corporate Web Portals", "API-First Web Platforms",
-      "Scalable architecture", "Admin Dashboards",
-      "Website Speed Optimization", "Technical SEO Audits", "Legacy System Migration"
+      "Scalable architecture", "Admin Dashboards", "Website Speed Optimization", 
+      "Technical SEO Audits", "Legacy System Migration"
     ]
   },
   {
@@ -44,18 +41,17 @@ const SERVICE_CATEGORIES = [
     icon: Smartphone,
     color: "from-indigo-600 to-blue-700",
     description: "Native applications and text-based USSD services for connectivity in any environment.",
-    techStack: "Native: Swift, Kotlin, Java | Cross-Platform: Flutter, React Native | Backend: Node.js, Python, Golang",
+    techStack: "Native: Swift, Kotlin | Cross-Platform: Flutter, React Native | USSD: Africa's Talking API",
     features: [
-      "Native Power: iOS (Swift) & Android (Kotlin) excellence.",
-      "USSD Logic: Interactive text-based service gateways.",
+      "Native Power: iOS & Android excellence.",
+      "USSD Logic: Text-based service gateways.",
       "Engagement: SMS & Push notification systems.",
-      "Hybrid Speed: React Native & Flutter cross-platform."
+      "Hybrid Speed: React Native & Flutter."
     ],
     subServices: [
-      "iOS App Development", "Android App Development", "Flutter Cross-Platform Apps",
-      "React Native Apps", "USSD Mobile Banking Platforms", "Bulk SMS Gateway Integration",
-      "Transactional SMS & OTPs", "Two-Way Messaging Systems", "App Maintenance & Support",
-      "ASO (App Store Optimization)", "Mobile UI Implementation", "USSD API Integration"
+      "iOS & Android Development", "Flutter Cross-Platform Apps", "USSD Mobile Banking Platforms", 
+      "Bulk SMS Gateway Integration", "Transactional SMS & OTPs", "App Maintenance & Support",
+      "ASO (App Store Optimization)", "Mobile UI Implementation"
     ]
   },
   {
@@ -64,19 +60,18 @@ const SERVICE_CATEGORIES = [
     number: "03",
     icon: CreditCard,
     color: "from-emerald-600 to-teal-500",
-    description: "We integrate secure, fast, and reliable payment solutions for websites, mobile apps, and custom software",
-    techStack: "APIs: Daraja, Stripe, Pesapal, Visa, PayPal",
+    description: "Secure, fast, and reliable payment solutions for websites, mobile apps, and custom software.",
+    techStack: "APIs: Daraja (M-Pesa), Stripe, PayPal, Visa | Security: PCI-DSS Compliance",
     features: [
-      "M-Pesa: Seamless STK Push, B2C/C2B automation.",
-      "Global Cards: Mastercard & Visa secure processing.",
-      "Fraud Detection: Advanced encryption & safety tools.",
-      "Scalability: Handling high transaction volumes."
+      "M-Pesa: Seamless STK Push & B2C.",
+      "Global Cards: Mastercard & Visa processing.",
+      "Fraud Detection: Advanced encryption tools.",
+      "Scalability: High transaction volume handling."
     ],
     subServices: [
-      "Daraja API Integration", "Stripe Checkout Setup", "Pesapal Gateway Implementation",
-      "Lipa Na M-Pesa Automation", "Recurring Subscription Billing", "Card Processing Solutions",
-      "Payment Reconcilliation Tools", "E-Wallet Development", "B2C Payment Portals",
-      "Fraud Prevention Systems", "POS Payment Bridging", "Custom Payment APIs"
+      "Daraja API Integration", "Stripe Checkout Setup", "Lipa Na M-Pesa Automation", 
+      "Recurring Subscription Billing", "Payment Reconcilliation Tools", "E-Wallet Development", 
+      "Fraud Prevention Systems", "POS Payment Bridging"
     ]
   },
   {
@@ -86,18 +81,17 @@ const SERVICE_CATEGORIES = [
     icon: Bot,
     color: "from-purple-600 to-fuchsia-600",
     description: "Advanced AI solutions including RAG, Vector Databases, and Process Automation.",
-    techStack: "LLMs: GPT-4, Llama 3, Claude 3.5 | Stack: LangChain, Pinecone, ChromaDB | Auto: n8n, Zapier, Make",
+    techStack: "LLMs: GPT-4, Llama 3, Claude | RAG: LangChain, Pinecone | Automation: n8n, Zapier",
     features: [
-      "RAG Systems: Chat with your own PDF/Database.",
+      "RAG Systems: Chat with your own Data.",
       "Local AI: Privacy-focused on-premise LLMs.",
       "Fine-Tuning: Customizing models for your niche.",
-      "Agents: Autonomous task execution workflows."
+      "Agents: Autonomous task workflows."
     ],
     subServices: [
-      "RAG (Retrieval-Augmented Gen) Systems", "Intelligent Customer Chatbots", "Custom LLM Fine-Tuning",
-      "Local LLM Deployment (Llama/Mistral)", "Vector Database Setup (Pinecone/Milvus)", "AI Agents & Autonomous Workers",
-      "WhatsApp Business Automation", "Natural Language Processing (NLP)", "Voice AI & Speech Synthesis",
-      "AI-Powered Search Engines", "Document Analysis Pipelines", "Sentiment Analysis & Insights"
+      "RAG Systems", "Intelligent Customer Chatbots", "Custom LLM Fine-Tuning",
+      "Vector Database Setup", "AI Agents & Autonomous Workers", "WhatsApp Business Automation", 
+      "Natural Language Processing (NLP)", "Sentiment Analysis"
     ]
   },
   {
@@ -107,18 +101,17 @@ const SERVICE_CATEGORIES = [
     icon: Bug,
     color: "from-violet-600 to-indigo-800",
     description: "Fixing AI-generated logic and productionizing 'Vibe Coding' outputs for stability.",
-    techStack: "Tools: Cursor AI, GitHub Copilot, Windsurf | Logic: Python, JS, Go | Testing: Jest, PyTest",
+    techStack: "Tools: Cursor, Copilot, Windsurf | Languages: Python, JS, Go",
     features: [
-      "Logic Repair: Fixing broken AI-generated code.",
-      "Refinement: Production-grade code cleanup.",
-      "Debugging: Solving complex logic bottlenecks.",
+      "Logic Repair: Fixing broken AI code.",
+      "Refinement: Production-grade cleanup.",
+      "Debugging: Solving logic bottlenecks.",
       "QA: Rigorous testing of AI outputs."
     ],
     subServices: [
       "Vibe Coding Cleanup", "AI Logic Debugging", "Legacy Code Modernization",
       "Security Patching AI Code", "Code Architecture Review", "API Refactoring",
-      "Performance Tuning", "Dependency Management", "CI/CD Setup for AI Apps",
-      "Environment Configuration", "Documentation Generation", "Database Schema Fixes"
+      "Performance Tuning", "CI/CD Setup for AI Apps"
     ]
   },
   {
@@ -128,18 +121,17 @@ const SERVICE_CATEGORIES = [
     icon: Palette,
     color: "from-orange-500 to-rose-600",
     description: "Iconic visual identities and marketing assets that define your brand voice.",
-    techStack: "Design: Figma, Adobe Illustrator, Photoshop, Adobe InDesign, Canva",
+    techStack: "Tools: Figma, Illustrator, Photoshop, InDesign, Canva",
     features: [
-      "Identity: Unique logos & brand style guides.",
-      "Marketing: Conversion-focused ad creatives.",
-      "Print: High-quality company profiles & brochures.",
-      "UI Design: High-fidelity product interfaces."
+      "Identity: Unique logos & style guides.",
+      "Marketing: Conversion-focused creatives.",
+      "Print: High-quality brochures.",
+      "UI Design: High-fidelity interfaces."
     ],
     subServices: [
       "Logo & Icon Design", "Brand Identity Packages", "Brochures & Company Profiles",
-      "Social Media Graphics", "Posters & Flyers", "Marketing & Promotional Graphics",
-      "Banners & Signage", "Packaging & Labels", "Business Cards",
-      "Event Branding", "Brand Style Manuals", "Vector Illustrations"
+      "Social Media Graphics", "Marketing & Promotional Graphics", "Packaging & Labels", 
+      "Brand Style Manuals", "Vector Illustrations"
     ]
   },
   {
@@ -149,18 +141,17 @@ const SERVICE_CATEGORIES = [
     icon: BarChart,
     color: "from-emerald-500 to-teal-600",
     description: "Transforming raw data into predictive insights and actionable intelligence.",
-    techStack: "Tools: Power BI, Tableau, Excel | Languages: Python, R, SQL",
+    techStack: "Tools: Power BI, Tableau, Excel | Lang: Python (Pandas), SQL",
     features: [
       "BI Dashboards: Real-time visual tracking.",
       "Predictive: AI-based trend forecasting.",
-      "Reporting: Automated business performance stats.",
-      "Scraping: Scalable data collection pipelines."
+      "Reporting: Automated performance stats.",
+      "Scraping: Scalable data pipelines."
     ],
     subServices: [
-      "Business Intelligence Dashboards", "Data Collection & Scraping", "Predictive Analytics",
+      "BI Dashboards", "Data Collection & Scraping", "Predictive Analytics",
       "Excel Automation", "KPI Tracking Systems", "Market Trend Analysis",
-      "Financial Forecasting Models", "User Behavior Analytics", "Data Cleaning Services",
-      "Big Data Architecture", "A/B Testing Analysis", "Custom SQL Reporting"
+      "Financial Forecasting Models", "Custom SQL Reporting"
     ]
   },
   {
@@ -170,18 +161,17 @@ const SERVICE_CATEGORIES = [
     icon: Headphones,
     color: "from-slate-600 to-slate-800",
     description: "Proactive technical service, server management, and application hardening.",
-    techStack: "Security: Penetration Testing, SSL | OS: Linux, Windows Server | Monitoring: Nagios, Zabbix",
+    techStack: "Security: Kali Linux, Metasploit | OS: Linux, Windows Server",
     features: [
-      "Security: Hardened industry-standard protection.",
-      "Support: 24/7 dedicated technical assistance.",
-      "Infrastructure: Managed server & cloud systems.",
-      "Recovery: Robust backup and disaster plans."
+      "Security: Hardened industry standards.",
+      "Support: 24/7 technical assistance.",
+      "Infrastructure: Managed server systems.",
+      "Recovery: Robust backup plans."
     ],
     subServices: [
       "Managed IT Support", "Server Administration", "Penetration Testing",
-      "SSL & Encryption Management", "Malware Removal", "Network Security Config",
-      "Backup & Recovery Plans", "IT Infrastructure Audit", "Remote Support Services",
-      "Hardware Maintenance", "System Performance Monitoring", "Cloud Cost Optimization"
+      "SSL & Encryption", "Malware Removal", "Network Security Config",
+      "Backup & Recovery Plans", "IT Infrastructure Audit"
     ]
   },
   {
@@ -190,19 +180,17 @@ const SERVICE_CATEGORIES = [
     number: "09",
     icon: Layout,
     color: "from-pink-500 to-rose-500",
-    description: "Designing intuitive digital experiences through research, wireframing, and interactive prototyping.",
-    techStack: "Tools: Figma, Adobe XD, Sketch, Framer | Handoff: Zeplin, Avocode",
+    description: "Designing intuitive digital experiences through research, wireframing, and prototyping.",
+    techStack: "Tools: Figma, Adobe XD, Sketch, Framer",
     features: [
-      "Research: User personas & journey mapping.",
-      "Wireframing: Low-fidelity structural layout.",
-      "Prototyping: Interactive clickable flows.",
-      "Systems: Scalable design component libraries."
+      "Research: User personas & mapping.",
+      "Wireframing: Structural layout.",
+      "Prototyping: Interactive flows.",
+      "Systems: Scalable component libraries."
     ],
     subServices: [
       "User Interface (UI) Design", "User Experience (UX) Strategy", "Wireframing & Prototyping",
-      "Mobile App Design", "Web Application Design", "Design Systems",
-      "Usability Testing", "User Journey Mapping", "Interactive Prototypes",
-      "Accessibility Audits", "Dashboard UI Design", "Landing Page Optimization"
+      "Mobile App Design", "Design Systems", "Usability Testing", "Dashboard UI Design"
     ]
   },
   {
@@ -211,19 +199,18 @@ const SERVICE_CATEGORIES = [
     number: "10",
     icon: Cloud,
     color: "from-sky-600 to-indigo-600",
-    description: "Scalable cloud architectures, automated CI/CD pipelines, and robust server management for 99.99% uptime.",
-    techStack: "Cloud: AWS, Azure, Google Cloud, DigitalOcean | DevOps: Docker, Kubernetes, Jenkins, GitHub Actions, Terraform",
+    description: "Scalable cloud architectures, automated CI/CD pipelines, and robust server management.",
+    techStack: "Cloud: AWS, Azure, GCP | DevOps: Docker, Kubernetes, Terraform",
     features: [
-      "CI/CD: Automated deployment pipelines.",
-      "Scalability: Auto-scaling server clusters.",
-      "Security: VPC, Firewalls, DDoS protection.",
-      "IaC: Infrastructure as Code (Terraform)."
+      "CI/CD: Automated pipelines.",
+      "Scalability: Auto-scaling clusters.",
+      "Security: VPC & DDoS protection.",
+      "IaC: Infrastructure as Code."
     ],
     subServices: [
       "Cloud Migration Strategy", "AWS/Azure/GCP Architecture", "CI/CD Pipeline Automation",
-      "Docker & Kubernetes Orchestration", "Serverless Computing", "Infrastructure as Code (IaC)",
-      "Cloud Security & Compliance", "Cost Optimization Audits", "Database Management & Sharding",
-      "Load Balancing Configuration", "Disaster Recovery Planning", "Microservices Architecture"
+      "Docker & Kubernetes", "Serverless Computing", "Cloud Security & Compliance", 
+      "Database Management", "Microservices Architecture"
     ]
   },
   {
@@ -233,18 +220,17 @@ const SERVICE_CATEGORIES = [
     icon: Megaphone,
     color: "from-amber-500 to-orange-600",
     description: "Data-driven growth strategies to dominate search results and social platforms.",
-    techStack: "Platforms: Google Ads, Meta Ads, HubSpot | Analytics: SEMrush, Ahrefs",
+    techStack: "Ads: Google, Meta | SEO: SEMrush, Ahrefs, GSC",
     features: [
-      "Growth: High-conversion marketing funnels.",
-      "SEO: Dominate organic search rankings.",
-      "SEM: Optimized Google & Meta ad spend.",
-      "Content: Strategy-led engagement plans."
+      "Growth: High-conversion funnels.",
+      "SEO: Organic search rankings.",
+      "SEM: Optimized ad spend.",
+      "Content: Strategy-led engagement."
     ],
     subServices: [
       "Search Engine Optimization (SEO)", "Google Ads Management", "Meta (FB/IG) Ads",
       "Content Marketing Strategy", "Email Automation Funnels", "Social Media Management",
-      "Conversion Optimization (CRO)", "Lead Generation Campaigns", "Marketing Audits",
-      "Influencer Strategy", "Local SEO (Google Maps)", "Brand Storytelling"
+      "Conversion Optimization (CRO)", "Local SEO (Google Maps)"
     ]
   },
    {
@@ -254,27 +240,28 @@ const SERVICE_CATEGORIES = [
     icon: Briefcase,
     color: "from-slate-700 to-slate-900",
     description: "Custom information systems for SACCOs, Schools, and Enterprise Resource Planning.",
-    techStack: "Frontend: React, Next.js, Vue, Angular| Backend: Node.js, Django, Flask, FastAPI, PHP/Laravel, Java Spring | Database: PostgreSQL, MySQL, Redis | Infra: AWS, Docker",
+    techStack: "Stack: React, Node.js, Python | DB: PostgreSQL, Redis",
     features: [
-      "SACCO Systems: Member loans & contributions.",
-      "School Management: Fees, admin, & student tracking.",
-      "POS Systems: Integrated inventory for shops.",
-      "Healthcare (HMIS): Patient records & billing."
+      "SACCO Systems: Loans & contributions.",
+      "School Management: Fees & student tracking.",
+      "POS Systems: Integrated inventory.",
+      "Healthcare (HMIS): Patient records."
     ],
     subServices: [
       "SACCO & Chama ERPs", "School Management Portals", "Hospital Management (HMIS)",
-      "POS for Shops & Businesses", "Inventory & Warehouse Systems", "HR & Payroll Software",
-      "Micro-finance Platforms", "Insurance Management Systems", "Member Self-Service Portals",
-      "Automated Financial Reporting", "Audit & Compliance Tools", "Multi-branch Management"
+      "POS for Shops", "Inventory & Warehouse Systems", "HR & Payroll Software",
+      "Micro-finance Platforms", "Automated Financial Reporting"
     ]
   },
 ];
 
-const ServiceCard = ({ category, onSelect }) => {
+// --- Memoized Components ---
+
+const ServiceCard = memo(({ category, onSelect }: any) => {
   const Icon = category.icon;
 
   return (
-    <div className="group relative bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 border border-slate-200 dark:border-slate-800 hover:border-indigo-500/50 transition-all duration-500 shadow-sm hover:shadow-2xl hover:shadow-indigo-500/10 flex flex-col h-full overflow-hidden">
+    <div className="group relative bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 border border-slate-200 dark:border-slate-800 hover:border-indigo-500/50 transition-all duration-500 shadow-sm hover:shadow-2xl hover:shadow-indigo-500/10 flex flex-col h-full overflow-hidden transform-gpu">
       <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${category.color} opacity-[0.03] rounded-bl-full group-hover:scale-150 transition-transform duration-700`} />
       
       <div className="flex justify-between items-start mb-6">
@@ -295,7 +282,7 @@ const ServiceCard = ({ category, onSelect }) => {
       </p>
 
       <div className="space-y-2 mb-8 flex-grow">
-        {category.subServices.slice(0, 4).map((service, idx) => (
+        {category.subServices.slice(0, 4).map((service: string, idx: number) => (
           <div 
             key={idx} 
             onClick={() => onSelect(category)}
@@ -312,7 +299,7 @@ const ServiceCard = ({ category, onSelect }) => {
             onClick={() => onSelect(category)}
             className="flex items-center gap-2 text-[10px] text-indigo-500 font-bold px-3 py-2 cursor-pointer hover:underline"
           >
-            <Plus size={10} /> View {category.subServices.length - 4} specialized solutions
+            <Plus size={10} /> View {category.subServices.length - 4} more
           </div>
         )}
       </div>
@@ -325,18 +312,34 @@ const ServiceCard = ({ category, onSelect }) => {
       </button>
     </div>
   );
-};
+});
+ServiceCard.displayName = "ServiceCard";
 
-const ServiceDetailView = ({ category, onClose }) => {
+const ServiceDetailView = memo(({ category, onClose }: any) => {
   const [showAll, setShowAll] = useState(false);
   
+  // UX: Lock body scroll when modal is open to prevent background scrolling
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = 'unset'; };
+  }, []);
+
+  // UX: Close on Escape key
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [onClose]);
+
   if (!category) return null;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xl animate-in fade-in duration-300">
       <div className="bg-white dark:bg-slate-900 w-full max-w-5xl rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/20 animate-in zoom-in-95 duration-300 max-h-[90vh] flex flex-col">
         
-        {/* Compact Modal Header */}
+        {/* Modal Header */}
         <div className={`p-6 md:p-8 bg-gradient-to-r ${category.color} relative shrink-0`}>
           <button 
             onClick={onClose}
@@ -352,20 +355,34 @@ const ServiceDetailView = ({ category, onClose }) => {
                  Solution Node {category.number}
                </span>
             </div>
-            <h2 className="text-3xl font-black text-white tracking-tight">{category.title}</h2>
+            <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">{category.title}</h2>
           </div>
         </div>
         
-        {/* Body Content */}
+        {/* Scrollable Content */}
         <div className="flex-grow overflow-y-auto p-6 md:p-10 custom-scrollbar">
           <div className="grid md:grid-cols-6 gap-8">
             
-            {/* Left: Features & Details */}
+            {/* Left Column: Details */}
             <div className="md:col-span-4">
+              {/* Optional: Visual Diagram for complex topics */}
+              {category.id === 'ai-automation' && (
+                 <div className="mb-6 p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700">
+                    
+                    <p className="text-[10px] text-slate-400 mt-2 text-center">Our RAG Architecture for Enterprise Data</p>
+                 </div>
+              )}
+               {category.id === 'cloud-devops' && (
+                 <div className="mb-6 p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700">
+                    
+                    <p className="text-[10px] text-slate-400 mt-2 text-center">Automated Deployment Pipeline</p>
+                 </div>
+              )}
+
               <div className="mb-8">
                 <h4 className="text-[10px] font-black text-indigo-600 uppercase tracking-widest mb-3">Service Standards</h4>
                 <div className="grid sm:grid-cols-2 gap-3">
-                   {category.features.map((feature, i) => (
+                   {category.features.map((feature: string, i: number) => (
                      <div key={i} className="flex items-start gap-3 p-3 rounded-xl bg-indigo-50/50 dark:bg-indigo-900/10 border border-indigo-100/30">
                         <CheckCircle2 size={16} className="text-indigo-600 shrink-0 mt-0.5" />
                         <span className="text-[12px] font-bold text-slate-800 dark:text-slate-200">{feature}</span>
@@ -377,7 +394,7 @@ const ServiceDetailView = ({ category, onClose }) => {
               <div className="mb-8">
                 <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Complete Service Directory ({category.subServices.length})</h4>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2">
-                  {(showAll ? category.subServices : category.subServices.slice(0, 15)).map((item, i) => (
+                  {(showAll ? category.subServices : category.subServices.slice(0, 15)).map((item: string, i: number) => (
                     <div key={i} className="flex items-center gap-2.5 p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50 text-[11px] font-medium text-slate-600 dark:text-slate-400">
                       <div className="w-1 h-1 rounded-full bg-indigo-500" />
                       {item}
@@ -392,18 +409,18 @@ const ServiceDetailView = ({ category, onClose }) => {
               </div>
             </div>
             
-            {/* Right: Tech Stack & CTA */}
+            {/* Right Column: Tech Stack & CTA */}
             <div className="md:col-span-2 space-y-6">
               <div className="bg-slate-950 rounded-3xl p-6 text-white border border-white/5">
                 <h4 className="text-sm font-bold mb-4 flex items-center gap-2">
                   <Terminal size={16} className="text-indigo-400" /> Full Tech Stack
                 </h4>
                 <div className="space-y-4">
-                   {category.techStack.split('|').map((part, i) => (
+                   {category.techStack.split('|').map((part: string, i: number) => (
                      <div key={i}>
                        <p className="text-[10px] font-black text-slate-500 mb-1.5 uppercase tracking-tighter">{part.split(':')[0]}</p>
                        <div className="flex flex-wrap gap-1.5">
-                         {part.split(':')[1]?.split(',').map((t, j) => (
+                         {part.split(':')[1]?.split(',').map((t: string, j: number) => (
                            <span key={j} className="text-[9px] font-black px-2 py-1 bg-white/5 rounded border border-white/5 text-slate-300 uppercase tracking-tighter">
                              {t.trim()}
                            </span>
@@ -430,7 +447,10 @@ const ServiceDetailView = ({ category, onClose }) => {
       </div>
     </div>
   );
-};
+});
+ServiceDetailView.displayName = "ServiceDetailView";
+
+// --- Main Page Component ---
 
 export default function ServicesPage() {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -438,13 +458,19 @@ export default function ServicesPage() {
   const [activeFilter, setActiveFilter] = useState("All");
   const [showScrollTop, setShowScrollTop] = useState(false);
 
-  // Toggle Scroll-to-top button visibility
+  // Performance: Throttle scroll event to avoid lag
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 400);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setShowScrollTop(window.scrollY > 400);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -452,51 +478,47 @@ export default function ServicesPage() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const filteredCategories = SERVICE_CATEGORIES.filter(cat => {
-    const matchesSearch = 
-      cat.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      cat.subServices.some(s => s.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      cat.techStack.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    const matchesFilter = activeFilter === "All" || cat.title === activeFilter;
+  // Performance: Memoize filter logic to prevent heavy calculation on every render
+  const filteredCategories = useMemo(() => {
+    return SERVICE_CATEGORIES.filter(cat => {
+      const q = searchQuery.toLowerCase();
+      const matchesSearch = 
+        cat.title.toLowerCase().includes(q) ||
+        cat.subServices.some(s => s.toLowerCase().includes(q)) ||
+        cat.techStack.toLowerCase().includes(q);
+      
+      const matchesFilter = activeFilter === "All" || cat.title === activeFilter;
 
-    return matchesSearch && matchesFilter;
-  });
+      return matchesSearch && matchesFilter;
+    });
+  }, [searchQuery, activeFilter]);
 
-  // Extract just titles for the nav, ensure unique values
-  const navCategories = ["All", ...SERVICE_CATEGORIES.map(c => c.title)];
+  // Extract navigation categories (unique)
+  const navCategories = useMemo(() => ["All", ...SERVICE_CATEGORIES.map(c => c.title)], []);
 
   return (
-    <div className="pt-24 pb-32 bg-[#F8FAFC] dark:bg-slate-950 min-h-screen font-sans">
+    <div className="pt-24 pb-32 bg-[#F8FAFC] dark:bg-slate-950 min-h-screen font-sans selection:bg-indigo-500 selection:text-white">
       
       {/* Hero Section */}
       <div className="relative overflow-hidden pt-16 pb-12">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/10 blur-[120px] rounded-full" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 blur-[120px] rounded-full" />
+        {/* GPU Accelerated Background Blobs */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/10 blur-[120px] rounded-full transform-gpu" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 blur-[120px] rounded-full transform-gpu" />
 
-        <div className="max-w-5xl mx-auto px-2 relative z-10 text-center">
-          {/* <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-[10px] font-black uppercase tracking-widest mb-8 border border-indigo-100 dark:border-indigo-800">
-            <Sparkles size={12} className="animate-pulse" /> Luffi Tech
-          </div>
-           */}
-          <h1 className="text-4xl md:text-7xl font-black text-slate-900 dark:text-white mb-3 tracking-tight leading-[1.1]">
-            {/* Luffi Tech Digital <br /> */}
+        <div className="max-w-5xl mx-auto px-4 relative z-10 text-center">
+          <h1 className="text-4xl md:text-7xl font-black text-slate-900 dark:text-white mb-8 tracking-tight leading-[1.1]">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Our Services</span>
           </h1>
           
-          {/* <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Luffi Tech delivers enterprise-grade engineering across <b>Web, Mobile, USSD, and AI Ecosystems</b>. Specializing in secure payments and management information systems.
-          </p> */}
-
-          {/* New Category Navigation Header - Wrapped & Center Aligned */}
-          <div className="max-w-6xl mx-auto mb-4">
-            <div className="flex flex-wrap items-center justify-center gap-3 px-4 pb-4">
+          {/* Category Navigation - Horizontal Scroll on Mobile */}
+          <div className="max-w-6xl mx-auto mb-6">
+            <div className="flex flex-nowrap md:flex-wrap items-center md:justify-center gap-3 px-4 pb-4 overflow-x-auto no-scrollbar mask-gradient">
               {navCategories.map((catTitle, idx) => (
                 <button
                   key={idx}
                   onClick={() => setActiveFilter(catTitle)}
                   className={`
-                    whitespace-nowrap px-4 py-2 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all border
+                    whitespace-nowrap px-4 py-2 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all border shrink-0
                     ${activeFilter === catTitle 
                       ? 'bg-indigo-600 text-white border-indigo-600 shadow-lg shadow-indigo-500/30 scale-105' 
                       : 'bg-white dark:bg-slate-900 text-slate-500 border-slate-200 dark:border-slate-800 hover:border-indigo-300 hover:text-indigo-600'}
@@ -508,14 +530,15 @@ export default function ServicesPage() {
             </div>
           </div>
 
-          <div className="max-w-2xl mx-auto relative group">
-            <div className="absolute inset-y-0 left-6 flex items-center text-slate-400 group-focus-within:text-indigo-600 transition-colors">
+          {/* Search Bar */}
+          <div className="max-w-2xl mx-auto relative group px-4">
+            <div className="absolute inset-y-0 left-8 flex items-center text-slate-400 group-focus-within:text-indigo-600 transition-colors pointer-events-none">
               <Search size={20} />
             </div>
             <input 
               type="text" 
-              placeholder="Search services (e.g. M-Pesa, Django, React, SACCO, Vibe...)" 
-              className="w-full pl-14 pr-6 py-5 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all shadow-xl shadow-slate-200/40 dark:shadow-none"
+              placeholder="Search services (e.g. M-Pesa, Django, React, SACCO...)" 
+              className="w-full pl-12 pr-6 py-4 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all shadow-xl shadow-slate-200/40 dark:shadow-none"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -524,21 +547,22 @@ export default function ServicesPage() {
       </div>
 
       {/* Services Grid */}
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredCategories.map((category) => (
             <ServiceCard 
               key={category.id} 
               category={category} 
-              onSelect={(cat) => setSelectedCategory(cat)}
+              onSelect={(cat: any) => setSelectedCategory(cat)}
             />
           ))}
         </div>
         
+        {/* Empty State */}
         {filteredCategories.length === 0 && (
-          <div className="text-center py-20">
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white">Solution Not Found</h3>
-            <p className="text-slate-500 mt-2">Try searching by technology stack (e.g. Django, Flutter, POS)</p>
+          <div className="text-center py-20 animate-in fade-in">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white">No solutions found</h3>
+            <p className="text-slate-500 mt-2">Try a different keyword or browse all categories.</p>
             <button 
               onClick={() => {setSearchQuery(""); setActiveFilter("All")}}
               className="mt-4 text-indigo-600 font-bold hover:underline"
@@ -549,41 +573,18 @@ export default function ServicesPage() {
         )}
       </div>
 
-      {/* Modal View */}
+      {/* Detail Modal */}
       {selectedCategory && (
         <ServiceDetailView 
           category={selectedCategory} 
           onClose={() => setSelectedCategory(null)} 
         />
       )}
-
-      {/* Footer CTA */}
-      <div className="max-w-7xl mx-auto px-4 mt-32">
-        <div className="bg-slate-900 dark:bg-indigo-950 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden">
-          <h2 className="text-3xl md:text-5xl font-black text-white mb-6 relative z-10">
-            Ready to Build Your System?
-          </h2>
-          <p className="text-slate-400 text-lg mb-10 max-w-2xl mx-auto relative z-10">
-            Whether it's a SACCO Management system or a custom M-Pesa checkout, we deliver with enterprise-grade quality.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">
-            <button 
-              onClick={() => window.open(`https://wa.me/254702104690`, '_blank')}
-              className="px-8 py-5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-black text-sm uppercase tracking-widest transition-all shadow-xl shadow-indigo-600/20 active:scale-95"
-            >
-              Contact Us: 254702104690
-            </button>
-            <button className="px-8 py-5 bg-white/10 hover:bg-white/20 text-white border border-white/10 rounded-2xl font-bold text-sm transition-all">
-              Schedule Architecture Call
-            </button>
-          </div>
-        </div>
-      </div>
-
+      
       {/* Scroll To Top Button */}
       <button
         onClick={scrollToTop}
-        className={`fixed bottom-8 right-8 z-50 p-4 bg-indigo-600 text-white rounded-full shadow-2xl shadow-indigo-600/30 transition-all duration-300 hover:bg-indigo-500 active:scale-90 ${showScrollTop ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0 pointer-events-none'}`}
+        className={`fixed bottom-20 right-8 z-50 p-4 bg-indigo-600 text-white rounded-full shadow-2xl shadow-indigo-600/30 transition-all duration-300 hover:bg-indigo-500 active:scale-90 ${showScrollTop ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0 pointer-events-none'}`}
         aria-label="Scroll to top"
       >
         <ArrowUp size={20} />
