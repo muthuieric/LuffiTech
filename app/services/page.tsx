@@ -1,21 +1,19 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
-  Globe, Palette, Bot, BarChart3, Megaphone, 
-  Video, Brain, ShieldCheck, MapPin,
-  ArrowRight, CheckCircle2, Search, ChevronRight,
-  Zap, Database, Lock, Cpu, Smartphone, Layout,
-  Layers, Code2, Bug, HardDrive, Terminal,
-  Sparkles, ZapOff, Workflow, Plus, X, 
-  CreditCard, MessageSquare, Briefcase, Activity, 
-  GraduationCap, Users, Shield, Rocket, BarChart, 
-  Monitor, Headphones, FileText, ShoppingCart
+  Globe, Palette, Bot, Megaphone, 
+  ChevronRight, Search, Zap, CreditCard, 
+  Briefcase, BarChart, Headphones, Layout, 
+  Cloud, Terminal, Smartphone, Sparkles, 
+  CheckCircle2, Plus, X, ArrowRight, Bug,
+  ArrowUp
 } from 'lucide-react';
 
 /**
  * SERVICE DATA SCHEMA - 2026 COMPREHENSIVE EDITION
  * Organized into 12 Specialized Production Units
+ * Renumbered strictly sequentially 01-12
  */
 const SERVICE_CATEGORIES = [
   {
@@ -24,8 +22,8 @@ const SERVICE_CATEGORIES = [
     number: "01",
     icon: Globe,
     color: "from-blue-600 to-cyan-500",
-    description: "High-performance web platforms focusing on SEO, responsiveness, and inclusive WCAG accessibility.",
-    techStack: "Frontend: JavaScript, React, Next.js, Vue, Angular, Tailwind | Backend: Node.js, Django, Flask, FastAPI, Laravel | API: REST API, GraphQL | DB: PostgreSQL, MySQL, MongoDB",
+    description: "High-performance web platforms focusing on SEO, responsiveness, and inclusive WCAG accessibility for businesses that want results — not just good looks..",
+    techStack: "Frontend: JavaScript, Typescript, React, Next.js, Vue, Angular, Tailwind, Bootstrap | Backend: Node.js, Django, Flask, FastAPI, Laravel | API: REST API, GraphQL | DB: PostgreSQL, MySQL, MongoDB",
     features: [
       "Responsive Design: Seamless across mobile and desktop.",
       "SEO Optimization: Search-engine-friendly structure.",
@@ -33,9 +31,9 @@ const SERVICE_CATEGORIES = [
       "Accessibility: WCAG-compliant inclusive design."
     ],
     subServices: [
-      "Custom WordPress & Headless CMS", "Enterprise SaaS Architectures", "E-Commerce (WooCommerce/Shopify)",
+      "Website customization","Custom WordPress & Headless CMS", "Enterprise SaaS Architectures", "E-Commerce (WooCommerce/Shopify)",
       "Progressive Web Apps (PWA)", "Corporate Web Portals", "API-First Web Platforms",
-      "LMS (Learning Management Systems)", "Real Estate & Listings Hubs", "Admin Dashboards",
+      "Scalable architecture", "Admin Dashboards",
       "Website Speed Optimization", "Technical SEO Audits", "Legacy System Migration"
     ]
   },
@@ -66,8 +64,8 @@ const SERVICE_CATEGORIES = [
     number: "03",
     icon: CreditCard,
     color: "from-emerald-600 to-teal-500",
-    description: "Secure PayEasy integration for M-Pesa, global card payments, and localized gateways.",
-    techStack: "APIs: Daraja 2.0, Stripe, Pesapal, Mastercard Gateway, Visa, PayPal | Security: 256-bit Encryption",
+    description: "We integrate secure, fast, and reliable payment solutions for websites, mobile apps, and custom software",
+    techStack: "APIs: Daraja, Stripe, Pesapal, Visa, PayPal",
     features: [
       "M-Pesa: Seamless STK Push, B2C/C2B automation.",
       "Global Cards: Mastercard & Visa secure processing.",
@@ -82,51 +80,30 @@ const SERVICE_CATEGORIES = [
     ]
   },
   {
-    id: "mis-erp",
-    title: "MIS & Management Systems",
-    number: "04",
-    icon: Briefcase,
-    color: "from-slate-700 to-slate-900",
-    description: "Custom information systems for SACCOs, Schools, and Enterprise Resource Planning.",
-    techStack: "Backend: PHP/Laravel, Django, Java Spring | Database: PostgreSQL, MySQL, Redis | Infra: AWS, Docker",
-    features: [
-      "SACCO Systems: Member loans & contributions.",
-      "School Management: Fees, admin, & student tracking.",
-      "POS Systems: Integrated inventory for shops.",
-      "Healthcare (HMIS): Patient records & billing."
-    ],
-    subServices: [
-      "SACCO & Chama ERPs", "School Management Portals", "Hospital Management (HMIS)",
-      "POS for Shops & Businesses", "Inventory & Warehouse Systems", "HR & Payroll Software",
-      "Micro-finance Platforms", "Insurance Management Systems", "Member Self-Service Portals",
-      "Automated Financial Reporting", "Audit & Compliance Tools", "Multi-branch Management"
-    ]
-  },
-  {
     id: "ai-automation",
     title: "AI & Smart Automation",
-    number: "05",
+    number: "04",
     icon: Bot,
     color: "from-purple-600 to-fuchsia-600",
-    description: "Intelligent automation for WhatsApp Business and autonomous agent workflows.",
-    techStack: "Models: OpenAI GPT-4, Claude 3.5 | Tools: LangChain, Zapier, Make.com | API: WhatsApp Business API",
+    description: "Advanced AI solutions including RAG, Vector Databases, and Process Automation.",
+    techStack: "LLMs: GPT-4, Llama 3, Claude 3.5 | Stack: LangChain, Pinecone, ChromaDB | Auto: n8n, Zapier, Make",
     features: [
-      "WhatsApp: Automated customer support & sales.",
-      "Agents: Autonomous business task workflows.",
-      "Workflows: Zapier & Make.com cross-app logic.",
-      "Chatbots: Intelligent multi-language response."
+      "RAG Systems: Chat with your own PDF/Database.",
+      "Local AI: Privacy-focused on-premise LLMs.",
+      "Fine-Tuning: Customizing models for your niche.",
+      "Agents: Autonomous task execution workflows."
     ],
     subServices: [
-      "WhatsApp Business Automation", "Customer Support Chatbots", "AI Workflow Engineering",
-      "Autonomous AI Agents", "Document AI Processing", "Sales Lead Automation",
-      "AI Personal Assistants", "Auto-Response Systems", "Natural Language Processing",
-      "Sentiment Analysis Tools", "Voice AI & IVR", "AI Data Entry Solutions"
+      "RAG (Retrieval-Augmented Gen) Systems", "Intelligent Customer Chatbots", "Custom LLM Fine-Tuning",
+      "Local LLM Deployment (Llama/Mistral)", "Vector Database Setup (Pinecone/Milvus)", "AI Agents & Autonomous Workers",
+      "WhatsApp Business Automation", "Natural Language Processing (NLP)", "Voice AI & Speech Synthesis",
+      "AI-Powered Search Engines", "Document Analysis Pipelines", "Sentiment Analysis & Insights"
     ]
   },
   {
     id: "vibe-coding",
     title: "Vibe Coding & AI Support",
-    number: "06",
+    number: "05",
     icon: Bug,
     color: "from-violet-600 to-indigo-800",
     description: "Fixing AI-generated logic and productionizing 'Vibe Coding' outputs for stability.",
@@ -147,11 +124,11 @@ const SERVICE_CATEGORIES = [
   {
     id: "graphic-design",
     title: "Graphic Design & Branding",
-    number: "07",
+    number: "06",
     icon: Palette,
     color: "from-orange-500 to-rose-600",
     description: "Iconic visual identities and marketing assets that define your brand voice.",
-    techStack: "Design: Figma, Adobe Illustrator, Photoshop | AI: Midjourney, Canva Pro",
+    techStack: "Design: Figma, Adobe Illustrator, Photoshop, Adobe InDesign, Canva",
     features: [
       "Identity: Unique logos & brand style guides.",
       "Marketing: Conversion-focused ad creatives.",
@@ -159,20 +136,20 @@ const SERVICE_CATEGORIES = [
       "UI Design: High-fidelity product interfaces."
     ],
     subServices: [
-      "Logo & Icon Design", "Brand Identity Packages", "Company Profiles",
-      "Social Media Graphics", "Marketing Ad Creatives", "Print & Stationery",
-      "Infographic Design", "Packaging & Labels", "YouTube/Thumbnail Design",
+      "Logo & Icon Design", "Brand Identity Packages", "Brochures & Company Profiles",
+      "Social Media Graphics", "Posters & Flyers", "Marketing & Promotional Graphics",
+      "Banners & Signage", "Packaging & Labels", "Business Cards",
       "Event Branding", "Brand Style Manuals", "Vector Illustrations"
     ]
   },
   {
     id: "data-analytics",
     title: "Data & Business Intelligence",
-    number: "08",
+    number: "07",
     icon: BarChart,
     color: "from-emerald-500 to-teal-600",
     description: "Transforming raw data into predictive insights and actionable intelligence.",
-    techStack: "Tools: Power BI, Tableau, Excel | Languages: Python (Pandas), R, SQL",
+    techStack: "Tools: Power BI, Tableau, Excel | Languages: Python, R, SQL",
     features: [
       "BI Dashboards: Real-time visual tracking.",
       "Predictive: AI-based trend forecasting.",
@@ -187,30 +164,9 @@ const SERVICE_CATEGORIES = [
     ]
   },
   {
-    id: "digital-marketing",
-    title: "Digital Marketing & Growth",
-    number: "09",
-    icon: Megaphone,
-    color: "from-amber-500 to-orange-600",
-    description: "Data-driven growth strategies to dominate search results and social platforms.",
-    techStack: "Platforms: Google Ads, Meta Ads, HubSpot | Analytics: SEMrush, Ahrefs",
-    features: [
-      "Growth: High-conversion marketing funnels.",
-      "SEO: Dominate organic search rankings.",
-      "SEM: Optimized Google & Meta ad spend.",
-      "Content: Strategy-led engagement plans."
-    ],
-    subServices: [
-      "Search Engine Optimization (SEO)", "Google Ads Management", "Meta (FB/IG) Ads",
-      "Content Marketing Strategy", "Email Automation Funnels", "Social Media Management",
-      "Conversion Optimization (CRO)", "Lead Generation Campaigns", "Marketing Audits",
-      "Influencer Strategy", "Local SEO (Google Maps)", "Brand Storytelling"
-    ]
-  },
-  {
     id: "it-support",
     title: "IT Support & Security",
-    number: "10",
+    number: "08",
     icon: Headphones,
     color: "from-slate-600 to-slate-800",
     description: "Proactive technical service, server management, and application hardening.",
@@ -229,47 +185,89 @@ const SERVICE_CATEGORIES = [
     ]
   },
   {
-    id: "compliance-tech",
-    title: "Government & Compliance Tech",
-    number: "11",
-    icon: Shield,
-    color: "from-green-700 to-emerald-900",
-    description: "Localized support for KRA, E-Citizen integration, and NGO compliance standards.",
-    techStack: "Tech: KRA APIs, E-Citizen Bridges, NGO Regulatory Portals",
+    id: "ui-ux",
+    title: "UI/UX & Product Design",
+    number: "09",
+    icon: Layout,
+    color: "from-pink-500 to-rose-500",
+    description: "Designing intuitive digital experiences through research, wireframing, and interactive prototyping.",
+    techStack: "Tools: Figma, Adobe XD, Sketch, Framer | Handoff: Zeplin, Avocode",
     features: [
-      "KRA: Automated tax compliance integration.",
-      "E-Citizen: Seamless government portal links.",
-      "NGO: Specialized reporting for non-profits.",
-      "Regulation: GDPR & Local data law compliance."
+      "Research: User personas & journey mapping.",
+      "Wireframing: Low-fidelity structural layout.",
+      "Prototyping: Interactive clickable flows.",
+      "Systems: Scalable design component libraries."
     ],
     subServices: [
-      "KRA System Integration", "E-Citizen Support", "NGO Management Systems",
-      "Data Compliance Audits", "Tax Automation Tools", "Regulatory Reporting",
-      "Digital Signature Setup", "Public Sector Tech Support", "Grant Tracking Systems",
-      "Legal Tech Portals", "KYC/AML Automation", "Ethical Tech Consulting"
+      "User Interface (UI) Design", "User Experience (UX) Strategy", "Wireframing & Prototyping",
+      "Mobile App Design", "Web Application Design", "Design Systems",
+      "Usability Testing", "User Journey Mapping", "Interactive Prototypes",
+      "Accessibility Audits", "Dashboard UI Design", "Landing Page Optimization"
     ]
   },
   {
-    id: "emerging-tech",
-    title: "Advanced Tech Solutions",
-    number: "12",
-    icon: Cpu,
-    color: "from-gray-900 to-slate-700",
-    description: "Exploring the frontier with Blockchain, IoT, and custom Web3 solutions.",
-    techStack: "Web3: Solidity, Ethereum | IoT: Arduino, MQTT, Raspberry Pi | Future: Smart Contracts",
+    id: "cloud-devops",
+    title: "Cloud Infrastructure & DevOps",
+    number: "10",
+    icon: Cloud,
+    color: "from-sky-600 to-indigo-600",
+    description: "Scalable cloud architectures, automated CI/CD pipelines, and robust server management for 99.99% uptime.",
+    techStack: "Cloud: AWS, Azure, Google Cloud, DigitalOcean | DevOps: Docker, Kubernetes, Jenkins, GitHub Actions, Terraform",
     features: [
-      "IoT: Smart device & sensor connectivity.",
-      "Web3: Blockchain & smart contract design.",
-      "Emerging: Tailored future-proof prototypes.",
-      "Connectivity: Edge computing solutions."
+      "CI/CD: Automated deployment pipelines.",
+      "Scalability: Auto-scaling server clusters.",
+      "Security: VPC, Firewalls, DDoS protection.",
+      "IaC: Infrastructure as Code (Terraform)."
     ],
     subServices: [
-      "IoT System Design", "Blockchain Development", "Smart Contract Audits",
-      "DApp Development", "Hardware-Software Bridging", "RFID/NFC Solutions",
-      "Real-time Asset Tracking", "Decentralized Storage", "Web3 Integration",
-      "Custom Firmware Design", "Smart City Prototyping", "Emerging Tech Research"
+      "Cloud Migration Strategy", "AWS/Azure/GCP Architecture", "CI/CD Pipeline Automation",
+      "Docker & Kubernetes Orchestration", "Serverless Computing", "Infrastructure as Code (IaC)",
+      "Cloud Security & Compliance", "Cost Optimization Audits", "Database Management & Sharding",
+      "Load Balancing Configuration", "Disaster Recovery Planning", "Microservices Architecture"
     ]
-  }
+  },
+  {
+    id: "digital-marketing",
+    title: "Digital Marketing & Growth",
+    number: "11",
+    icon: Megaphone,
+    color: "from-amber-500 to-orange-600",
+    description: "Data-driven growth strategies to dominate search results and social platforms.",
+    techStack: "Platforms: Google Ads, Meta Ads, HubSpot | Analytics: SEMrush, Ahrefs",
+    features: [
+      "Growth: High-conversion marketing funnels.",
+      "SEO: Dominate organic search rankings.",
+      "SEM: Optimized Google & Meta ad spend.",
+      "Content: Strategy-led engagement plans."
+    ],
+    subServices: [
+      "Search Engine Optimization (SEO)", "Google Ads Management", "Meta (FB/IG) Ads",
+      "Content Marketing Strategy", "Email Automation Funnels", "Social Media Management",
+      "Conversion Optimization (CRO)", "Lead Generation Campaigns", "Marketing Audits",
+      "Influencer Strategy", "Local SEO (Google Maps)", "Brand Storytelling"
+    ]
+  },
+   {
+    id: "mis-erp",
+    title: "MIS & Management Systems",
+    number: "12",
+    icon: Briefcase,
+    color: "from-slate-700 to-slate-900",
+    description: "Custom information systems for SACCOs, Schools, and Enterprise Resource Planning.",
+    techStack: "Frontend: React, Next.js, Vue, Angular| Backend: Node.js, Django, Flask, FastAPI, PHP/Laravel, Java Spring | Database: PostgreSQL, MySQL, Redis | Infra: AWS, Docker",
+    features: [
+      "SACCO Systems: Member loans & contributions.",
+      "School Management: Fees, admin, & student tracking.",
+      "POS Systems: Integrated inventory for shops.",
+      "Healthcare (HMIS): Patient records & billing."
+    ],
+    subServices: [
+      "SACCO & Chama ERPs", "School Management Portals", "Hospital Management (HMIS)",
+      "POS for Shops & Businesses", "Inventory & Warehouse Systems", "HR & Payroll Software",
+      "Micro-finance Platforms", "Insurance Management Systems", "Member Self-Service Portals",
+      "Automated Financial Reporting", "Audit & Compliance Tools", "Multi-branch Management"
+    ]
+  },
 ];
 
 const ServiceCard = ({ category, onSelect }) => {
@@ -403,14 +401,14 @@ const ServiceDetailView = ({ category, onClose }) => {
                 <div className="space-y-4">
                    {category.techStack.split('|').map((part, i) => (
                      <div key={i}>
-                        <p className="text-[10px] font-black text-slate-500 mb-1.5 uppercase tracking-tighter">{part.split(':')[0]}</p>
-                        <div className="flex flex-wrap gap-1.5">
-                          {part.split(':')[1]?.split(',').map((t, j) => (
-                            <span key={j} className="text-[9px] font-black px-2 py-1 bg-white/5 rounded border border-white/5 text-slate-300 uppercase tracking-tighter">
-                              {t.trim()}
-                            </span>
-                          ))}
-                        </div>
+                       <p className="text-[10px] font-black text-slate-500 mb-1.5 uppercase tracking-tighter">{part.split(':')[0]}</p>
+                       <div className="flex flex-wrap gap-1.5">
+                         {part.split(':')[1]?.split(',').map((t, j) => (
+                           <span key={j} className="text-[9px] font-black px-2 py-1 bg-white/5 rounded border border-white/5 text-slate-300 uppercase tracking-tighter">
+                             {t.trim()}
+                           </span>
+                         ))}
+                       </div>
                      </div>
                    ))}
                 </div>
@@ -437,34 +435,78 @@ const ServiceDetailView = ({ category, onClose }) => {
 export default function ServicesPage() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeFilter, setActiveFilter] = useState("All");
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
-  const filteredCategories = SERVICE_CATEGORIES.filter(cat => 
-    cat.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    cat.subServices.some(s => s.toLowerCase().includes(searchQuery.toLowerCase())) ||
-    cat.techStack.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Toggle Scroll-to-top button visibility
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 400);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const filteredCategories = SERVICE_CATEGORIES.filter(cat => {
+    const matchesSearch = 
+      cat.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      cat.subServices.some(s => s.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      cat.techStack.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    const matchesFilter = activeFilter === "All" || cat.title === activeFilter;
+
+    return matchesSearch && matchesFilter;
+  });
+
+  // Extract just titles for the nav, ensure unique values
+  const navCategories = ["All", ...SERVICE_CATEGORIES.map(c => c.title)];
 
   return (
-    <div className="pt-24 pb-32 bg-[#F8FAFC] dark:bg-slate-950 min-h-screen">
+    <div className="pt-24 pb-32 bg-[#F8FAFC] dark:bg-slate-950 min-h-screen font-sans">
       
       {/* Hero Section */}
-      <div className="relative overflow-hidden pt-16 pb-20">
+      <div className="relative overflow-hidden pt-16 pb-12">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/10 blur-[120px] rounded-full" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 blur-[120px] rounded-full" />
 
-        <div className="max-w-7xl mx-auto px-4 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-[10px] font-black uppercase tracking-widest mb-8 border border-indigo-100 dark:border-indigo-800">
-            <Sparkles size={12} className="animate-pulse" /> Production Engineering Hub
+        <div className="max-w-5xl mx-auto px-2 relative z-10 text-center">
+          {/* <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-[10px] font-black uppercase tracking-widest mb-8 border border-indigo-100 dark:border-indigo-800">
+            <Sparkles size={12} className="animate-pulse" /> Luffi Tech
           </div>
-          
-          <h1 className="text-4xl md:text-7xl font-black text-slate-900 dark:text-white mb-6 tracking-tight leading-[1.1]">
-            Digital Production <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Built for Scale</span>
+           */}
+          <h1 className="text-4xl md:text-7xl font-black text-slate-900 dark:text-white mb-3 tracking-tight leading-[1.1]">
+            {/* Luffi Tech Digital <br /> */}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Our Services</span>
           </h1>
           
-          <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Enterprise-grade engineering across <b>Web, Mobile, USSD, and AI Ecosystems</b>. Specializing in secure payments and management information systems.
-          </p>
+          {/* <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+            Luffi Tech delivers enterprise-grade engineering across <b>Web, Mobile, USSD, and AI Ecosystems</b>. Specializing in secure payments and management information systems.
+          </p> */}
+
+          {/* New Category Navigation Header - Wrapped & Center Aligned */}
+          <div className="max-w-6xl mx-auto mb-4">
+            <div className="flex flex-wrap items-center justify-center gap-3 px-4 pb-4">
+              {navCategories.map((catTitle, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setActiveFilter(catTitle)}
+                  className={`
+                    whitespace-nowrap px-4 py-2 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all border
+                    ${activeFilter === catTitle 
+                      ? 'bg-indigo-600 text-white border-indigo-600 shadow-lg shadow-indigo-500/30 scale-105' 
+                      : 'bg-white dark:bg-slate-900 text-slate-500 border-slate-200 dark:border-slate-800 hover:border-indigo-300 hover:text-indigo-600'}
+                  `}
+                >
+                  {catTitle === "All" ? "View All" : catTitle.split('&')[0]}
+                </button>
+              ))}
+            </div>
+          </div>
 
           <div className="max-w-2xl mx-auto relative group">
             <div className="absolute inset-y-0 left-6 flex items-center text-slate-400 group-focus-within:text-indigo-600 transition-colors">
@@ -497,6 +539,12 @@ export default function ServicesPage() {
           <div className="text-center py-20">
             <h3 className="text-xl font-bold text-slate-900 dark:text-white">Solution Not Found</h3>
             <p className="text-slate-500 mt-2">Try searching by technology stack (e.g. Django, Flutter, POS)</p>
+            <button 
+              onClick={() => {setSearchQuery(""); setActiveFilter("All")}}
+              className="mt-4 text-indigo-600 font-bold hover:underline"
+            >
+              Clear filters
+            </button>
           </div>
         )}
       </div>
@@ -531,6 +579,16 @@ export default function ServicesPage() {
           </div>
         </div>
       </div>
+
+      {/* Scroll To Top Button */}
+      <button
+        onClick={scrollToTop}
+        className={`fixed bottom-8 right-8 z-50 p-4 bg-indigo-600 text-white rounded-full shadow-2xl shadow-indigo-600/30 transition-all duration-300 hover:bg-indigo-500 active:scale-90 ${showScrollTop ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0 pointer-events-none'}`}
+        aria-label="Scroll to top"
+      >
+        <ArrowUp size={20} />
+      </button>
+
     </div>
   );
 }

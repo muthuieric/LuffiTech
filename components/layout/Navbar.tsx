@@ -1,11 +1,26 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { Moon, Sun, Menu, X, ChevronDown, MessageCircle } from 'lucide-react';
-import Logo from '../ui/Logo';
-import Button from '../ui/Button';
+
+// --- Self-Contained Components to prevent build errors ---
+
+const Link = ({ href, children, className, ...props }: any) => (
+  <a href={href} className={className} {...props}>
+    {children}
+  </a>
+);
+
+const Button = ({ children, onClick, className = "" }: any) => (
+  <button 
+    onClick={onClick} 
+    className={`flex items-center justify-center gap-2 py-2 px-4 rounded-xl font-bold transition-all active:scale-95 shadow-lg ${className}`}
+  >
+    {children}
+  </button>
+);
+
+// --- Main Navbar Component ---
 
 interface NavbarProps {
   isDark: boolean;
@@ -15,24 +30,27 @@ interface NavbarProps {
 const Navbar = ({ isDark, toggleTheme }: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const pathname = usePathname();
-
-  // Check if we are on the homepage
-  const isHomePage = pathname === '/';
+  const [pathname, setPathname] = useState('/');
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    // Safe check for window availability
+    if (typeof window !== 'undefined') {
+      setPathname(window.location.pathname);
+      const handleScroll = () => setScrolled(window.scrollY > 20);
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }
   }, []);
 
-  // Close mobile menu when route changes
+  const isHomePage = pathname === '/';
+
+  // Close mobile menu when route changes (mocked by pathname change)
   useEffect(() => {
     setIsMenuOpen(false);
   }, [pathname]);
 
   const handleWhatsAppClick = () => {
-    const phoneNumber = '254700000000'; // Replace with Luffi Tech's number
+    const phoneNumber = '254702104690'; 
     const message = encodeURIComponent('Hello Luffi Tech, I would like to inquire about your services.');
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
   };
@@ -41,11 +59,7 @@ const Navbar = ({ isDark, toggleTheme }: NavbarProps) => {
     { 
       name: 'Services', 
       href: '/services',
-      dropdown: [
-        { name: 'Software & AI Solutions', href: '/services#engineering' },
-        { name: 'On-Site IT Support', href: '/services#infrastructure' },
-        { name: 'Product Design & Branding', href: '/services#strategy' }
-      ]
+      // Dropdown removed
     },
     { 
       name: 'Academy', 
@@ -58,7 +72,6 @@ const Navbar = ({ isDark, toggleTheme }: NavbarProps) => {
     }
   ];
 
-  // Logic: Background transparency + blur transitions
   const navbarClasses = scrolled || !isHomePage
     ? 'bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm py-2'
     : 'bg-transparent py-4';
@@ -70,13 +83,20 @@ const Navbar = ({ isDark, toggleTheme }: NavbarProps) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           
-          {/* Logo - Added Hover Scale Animation */}
+          {/* LOGO / BANNER SECTION */}
           <Link 
             href="/" 
             aria-label="Luffi Tech Home" 
-            className="group relative z-50 flex items-center gap-2 transform transition-transform duration-300 hover:scale-105"
+            className="group relative z-50 gap-1 flex items-center transform transition-transform duration-300 hover:scale-105"
           >
-            <Logo />
+            <img 
+              src="/icon_only2.png" 
+              alt="Luffi Tech" 
+              className="h-8 md:h-10 w-auto object-contain" 
+            />
+            <span className="text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+              Luffi <span className="text-purple-600">Tech</span>
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -92,23 +112,27 @@ const Navbar = ({ isDark, toggleTheme }: NavbarProps) => {
                     }`}
                 >
                   {item.name}
-                  <ChevronDown size={14} className="group-hover:rotate-180 transition-transform duration-300 ease-out" />
+                  {item.dropdown && (
+                    <ChevronDown size={14} className="group-hover:rotate-180 transition-transform duration-300 ease-out" />
+                  )}
                 </Link>
 
-                {/* Dropdown Menu - Smooth Fade & Slide Up Animation */}
-                <div className="absolute left-0 top-full pt-4 w-60 opacity-0 translate-y-4 invisible group-hover:opacity-100 group-hover:translate-y-0 group-hover:visible transition-all duration-300 ease-out">
-                  <div className="bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700 overflow-hidden ring-1 ring-black ring-opacity-5">
-                    {item.dropdown.map((subItem) => (
-                      <Link 
-                        key={subItem.name}
-                        href={subItem.href}
-                        className="block px-4 py-3 text-sm text-slate-600 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-slate-700/50 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors border-b border-slate-50 dark:border-slate-700/50 last:border-0"
-                      >
-                        {subItem.name}
-                      </Link>
-                    ))}
+                {/* Dropdown Menu */}
+                {item.dropdown && (
+                  <div className="absolute left-0 top-full pt-4 w-60 opacity-0 translate-y-4 invisible group-hover:opacity-100 group-hover:translate-y-0 group-hover:visible transition-all duration-300 ease-out">
+                    <div className="bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700 overflow-hidden ring-1 ring-black ring-opacity-5">
+                      {item.dropdown.map((subItem) => (
+                        <Link 
+                          key={subItem.name}
+                          href={subItem.href}
+                          className="block px-4 py-3 text-sm text-slate-600 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-slate-700/50 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors border-b border-slate-50 dark:border-slate-700/50 last:border-0"
+                        >
+                          {subItem.name}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             ))}
 
@@ -136,11 +160,11 @@ const Navbar = ({ isDark, toggleTheme }: NavbarProps) => {
               </button>
               
               <Button 
-                size="sm" 
-                className="bg-green-600 hover:bg-green-700 border-green-600 text-white shadow-lg hover:shadow-green-500/30 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
+                size = "sm"
+                className="bg-purple-600 hover:bg-purple-700 border-purple-600 text-white shadow-lg hover:shadow-green-500/30 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
                 onClick={handleWhatsAppClick}
               >
-                <div className="mr-2 animate-pulse" /> WhatsApp Us
+                <div className="animate-pulse" /> WhatsApp Us
               </Button>
             </div>
           </div>
@@ -159,7 +183,6 @@ const Navbar = ({ isDark, toggleTheme }: NavbarProps) => {
               aria-label="Open Menu"
             >
               <div className="relative w-6 h-6 flex items-center justify-center">
-                 {/* Simple cross-fade animation for icon */}
                  <span className={`absolute transition-all duration-300 ${isMenuOpen ? 'rotate-90 opacity-0 scale-50' : 'rotate-0 opacity-100 scale-100'}`}>
                     <Menu size={24} />
                  </span>
@@ -172,7 +195,7 @@ const Navbar = ({ isDark, toggleTheme }: NavbarProps) => {
         </div>
       </div>
 
-      {/* Mobile Menu with slide-down animation */}
+      {/* Mobile Menu */}
       <div 
         className={`md:hidden overflow-hidden transition-all duration-500 ease-in-out ${
           isMenuOpen ? 'max-h-screen opacity-100 translate-y-0' : 'max-h-0 opacity-0 -translate-y-4'
@@ -182,20 +205,26 @@ const Navbar = ({ isDark, toggleTheme }: NavbarProps) => {
           <div className="px-4 py-6 space-y-6">
             {navItems.map((item) => (
               <div key={item.name} className="space-y-3">
-                <span className="block font-bold text-lg text-slate-900 dark:text-white">
+                <Link 
+                  href={item.href}
+                  className="block font-bold text-lg text-slate-900 dark:text-white hover:text-indigo-600 transition-colors"
+                >
                   {item.name}
-                </span>
-                <div className="pl-4 space-y-3 border-l-2 border-indigo-100 dark:border-indigo-900/50">
-                  {item.dropdown.map((subItem) => (
-                    <Link
-                      key={subItem.name}
-                      href={subItem.href}
-                      className="block text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
-                    >
-                      {subItem.name}
-                    </Link>
-                  ))}
-                </div>
+                </Link>
+                
+                {item.dropdown && (
+                  <div className="pl-4 space-y-3 border-l-2 border-indigo-100 dark:border-indigo-900/50">
+                    {item.dropdown.map((subItem) => (
+                      <Link
+                        key={subItem.name}
+                        href={subItem.href}
+                        className="block text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                      >
+                        {subItem.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
             
@@ -203,7 +232,6 @@ const Navbar = ({ isDark, toggleTheme }: NavbarProps) => {
                 <Link href="/about" className="block font-bold text-lg text-slate-900 dark:text-white hover:text-indigo-600 transition-colors">
                     About
                 </Link>
-                
                 <Link href="/contact" className="block font-bold text-lg text-slate-900 dark:text-white hover:text-indigo-600 transition-colors">
                     Contact
                 </Link>
@@ -211,7 +239,7 @@ const Navbar = ({ isDark, toggleTheme }: NavbarProps) => {
             
             <div className="pt-2 pb-4">
               <Button 
-                className="w-full bg-green-600 hover:bg-green-700 border-green-600 text-white shadow-lg active:scale-95 transition-transform" 
+                className="w-full bg-purple-600 hover:bg-purple-700 border-purple-600 text-white shadow-lg active:scale-95 transition-transform" 
                 onClick={handleWhatsAppClick}
               >
                 <MessageCircle size={18} className="mr-2" /> WhatsApp Us

@@ -1,80 +1,122 @@
 "use client";
 
 import React, { useState } from 'react';
-import Link from 'next/link';
 import { 
-  Code2, Network, PenTool,
+  Code2, Bot, Palette, ShieldCheck,
   Laptop, MapPin, 
-  ArrowRight, CheckCircle2
+  ArrowRight, CheckCircle2, Sparkles, Zap
 } from 'lucide-react';
-import Button from '../ui/Button'; // Reusing your standardized Button component
+
+// --- Self-Contained Components to prevent build errors ---
+
+const Link = ({ href, children, className, ...props }: any) => (
+  <a href={href} className={className} {...props}>
+    {children}
+  </a>
+);
+
+const Button = ({ children, className = "", ...props }: any) => (
+  <button 
+    className={`flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-bold transition-all active:scale-95 ${className}`} 
+    {...props}
+  >
+    {children}
+  </button>
+);
+
+// --- Main Expertise Component ---
 
 const Expertise = () => {
   const [activeTab, setActiveTab] = useState<'services' | 'academy'>('services');
 
-  // --- 1. DATA: Service Categories Summary ---
+  // --- 1. DATA: Service Categories with Color Themes ---
   const serviceCategories = [
     {
       id: "engineering",
-      title: "Software & AI Solutions",
-      description: "Custom digital tools to automate and grow your business.",
-      icon: <Code2 className="w-8 h-8" />,
-      subServices: ["Web Applications", "Mobile App Development", "Chatbots & Automation", "Data Science"]
+      title: "Software Engineering",
+      description: "Enterprise applications built for scale. Payment systems, user platforms, and secure data architectures.",
+      icon: <Code2 className="w-6 h-6" />,
+      subServices: ["Web & Mobile Apps", "M-Pesa Integrations", "Cloud & DevOps", "SaaS Platforms"],
+      theme: "indigo", // color theme
+      bg: "bg-indigo-50 dark:bg-indigo-900/10",
+      text: "text-indigo-600 dark:text-indigo-400",
+      border: "group-hover:border-indigo-200 dark:group-hover:border-indigo-800"
     },
     {
-      id: "infrastructure",
-      title: "On-Site IT Support",
-      description: "We come to you to fix your tech problems.",
-      icon: <Network className="w-8 h-8" />,
-      subServices: ["On-Site Computer Repair", "Home & Office Networking", "Virtual Digital Bureau"]
+      id: "ai-data",
+      title: "AI & Intelligence",
+      description: "Future-proof businesses with custom AI agents, automation workflows, and actionable insights.",
+      icon: <Bot className="w-6 h-6" />,
+      subServices: ["AI Agents & Chatbots", "Data Analytics & BI", "RAG Automation", "Vibe Coding"],
+      theme: "purple",
+      bg: "bg-purple-50 dark:bg-purple-900/10",
+      text: "text-purple-600 dark:text-purple-400",
+      border: "group-hover:border-purple-200 dark:group-hover:border-purple-800"
     },
     {
-      id: "strategy",
-      title: "Product Design & Branding",
-      description: "World-class design to elevate your brand identity.",
-      icon: <PenTool className="w-8 h-8" />,
-      subServices: ["UI/UX Product Design", "Graphic Design & Branding", "Cloud Hosting & Domain"]
+      id: "it-support",
+      title: "IT Support & Security",
+      description: "Proactive technical support, managed server infrastructure, and rigorous cybersecurity protocols.",
+      icon: <ShieldCheck className="w-6 h-6" />,
+      subServices: ["Managed IT Support", "Penetration Testing", "Server Admin", "Network Security"],
+      theme: "emerald",
+      bg: "bg-emerald-50 dark:bg-emerald-900/10",
+      text: "text-emerald-600 dark:text-emerald-400",
+      border: "group-hover:border-emerald-200 dark:group-hover:border-emerald-800"
+    },
+    {
+      id: "design",
+      title: "Design & Growth",
+      description: "Captivate audiences with world-class design identity and data-driven marketing strategies.",
+      icon: <Palette className="w-6 h-6" />,
+      subServices: ["UI/UX Design", "Brand Identity", "Digital Marketing", "Content Strategy"],
+      theme: "rose",
+      bg: "bg-rose-50 dark:bg-rose-900/10",
+      text: "text-rose-600 dark:text-rose-400",
+      border: "group-hover:border-rose-200 dark:group-hover:border-rose-800"
     }
   ];
 
   return (
-    <section className="py-24 bg-white dark:bg-slate-900 transition-colors duration-300 scroll-mt-20" id="expertise">
+    <section className="py-24 bg-slate-50 dark:bg-slate-950 transition-colors duration-300 scroll-mt-20" id="expertise">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-in-up">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-bold uppercase tracking-widest mb-4">
+             <Sparkles size={12} /> Our Core Pillars
+          </div>
+          <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white mb-6 tracking-tight">
             We Build & We Teach
           </h2>
-          <p className="text-xl text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
-            Expert technical solutions delivered to your doorstep or remotely. 
-            From coding and design to hardware repair, we've got you covered.
+          <p className="text-xl text-slate-600 dark:text-slate-400 mb-10 leading-relaxed">
+            Your end-to-end technology partner. We build complex <b>Software Systems</b> for businesses and train the next generation of <b>Engineers</b>.
           </p>
 
-          {/* Custom Toggle Switch */}
-          <div className="inline-flex bg-slate-100 dark:bg-slate-800 p-1.5 rounded-full relative shadow-inner">
+          {/* Improved Toggle Switch */}
+          <div className="inline-flex bg-white dark:bg-slate-900 p-2 rounded-full relative shadow-lg shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800">
             {/* Sliding Background */}
             <div 
-              className={`absolute top-1.5 bottom-1.5 rounded-full bg-white dark:bg-slate-700 shadow-sm transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
-                activeTab === 'services' ? 'left-1.5 w-[140px]' : 'left-[148px] w-[140px]'
+              className={`absolute top-2 bottom-2 rounded-full bg-slate-900 dark:bg-indigo-600 shadow-md transition-all duration-300 ease-out ${
+                activeTab === 'services' ? 'left-2 w-[160px]' : 'left-[172px] w-[160px]'
               }`}
             ></div>
             
             <button
               onClick={() => setActiveTab('services')}
-              className={`relative z-10 w-[140px] py-2.5 text-sm font-bold rounded-full transition-colors duration-300 ${
-                activeTab === 'services' ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+              className={`relative z-10 w-[160px] py-3 text-sm font-bold rounded-full transition-colors duration-300 flex items-center justify-center gap-2 ${
+                activeTab === 'services' ? 'text-white' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
-              For Clients
+              <Zap size={16} /> For Clients
             </button>
             <button
               onClick={() => setActiveTab('academy')}
-              className={`relative z-10 w-[140px] py-2.5 text-sm font-bold rounded-full transition-colors duration-300 ${
-                activeTab === 'academy' ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+              className={`relative z-10 w-[160px] py-3 text-sm font-bold rounded-full transition-colors duration-300 flex items-center justify-center gap-2 ${
+                activeTab === 'academy' ? 'text-white' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
-              For Students
+              <Laptop size={16} /> For Students
             </button>
           </div>
         </div>
@@ -82,38 +124,39 @@ const Expertise = () => {
         {/* Content Area */}
         <div className="min-h-[400px]">
           
-          {/* --- SERVICES VIEW (Summary Categories) --- */}
+          {/* --- SERVICES VIEW --- */}
           {activeTab === 'services' && (
-            <div className="grid md:grid-cols-3 gap-8 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-forwards">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 animate-in fade-in slide-in-from-bottom-8 duration-500 fill-mode-forwards">
               {serviceCategories.map((category) => (
-                <div key={category.id} className="group flex flex-col p-8 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 hover:shadow-xl hover:shadow-indigo-500/10 hover:-translate-y-1 transition-all duration-300 h-full">
-                  <div className="w-16 h-16 bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-6 group-hover:bg-indigo-600 group-hover:text-white group-hover:scale-110 transition-all duration-300">
+                <div key={category.id} className={`group flex flex-col p-6 bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-200 dark:border-slate-800 hover:shadow-2xl hover:shadow-slate-200/50 dark:hover:shadow-none hover:-translate-y-1 transition-all duration-300 h-full ${category.border}`}>
+                  {/* Icon Header */}
+                  <div className={`w-14 h-14 ${category.bg} rounded-2xl flex items-center justify-center ${category.text} mb-6 group-hover:scale-110 transition-transform duration-300`}>
                     {category.icon}
                   </div>
                   
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-3 tracking-tight">
                     {category.title}
                   </h3>
                   
-                  <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-grow">
+                  <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-grow text-sm font-medium">
                     {category.description}
                   </p>
                   
                   <div className="mt-auto">
-                    <div className="w-full h-px bg-slate-100 dark:bg-slate-700 mb-4"></div>
+                    <div className="w-full h-px bg-slate-100 dark:bg-slate-800 mb-4"></div>
                     <ul className="space-y-3 mb-6">
                       {category.subServices.map((service, idx) => (
-                        <li key={idx} className="flex items-start gap-2 text-sm text-slate-500 dark:text-slate-400">
-                          <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
+                        <li key={idx} className="flex items-start gap-2 text-xs font-semibold text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors">
+                          <CheckCircle2 className={`w-3.5 h-3.5 ${category.text} opacity-70 shrink-0 mt-0.5`} />
                           <span>{service}</span>
                         </li>
                       ))}
                     </ul>
                     <Link 
                       href="/services" 
-                      className="inline-flex items-center text-indigo-600 dark:text-indigo-400 font-bold text-sm hover:underline decoration-2 underline-offset-4 transition-all"
+                      className={`inline-flex items-center ${category.text} font-bold text-xs uppercase tracking-wider hover:opacity-80 transition-all`}
                     >
-                      View All Services <ArrowRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      View Solutions <ArrowRight className="ml-1 w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </div>
                 </div>
@@ -121,96 +164,99 @@ const Expertise = () => {
             </div>
           )}
 
-          {/* --- ACADEMY VIEW (Summary: How We Teach) --- */}
+          {/* --- ACADEMY VIEW --- */}
           {activeTab === 'academy' && (
-            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-forwards">
-              <div className="text-center mb-12">
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">How We Teach</h3>
-                <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                   We offer two flexible learning modes designed to fit your schedule and learning style.
-                </p>
+            <div className="animate-in fade-in slide-in-from-bottom-8 duration-500 fill-mode-forwards">
+              <div className="text-center mb-10">
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Flexible Learning Modes</h3>
+                <p className="text-slate-500 dark:text-slate-400">Choose how you want to learn.</p>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+              <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                 {/* Online Option */}
-                <div className="group p-8 rounded-3xl bg-indigo-50 dark:bg-indigo-900/10 border border-indigo-100 dark:border-indigo-800/50 relative overflow-hidden flex flex-col hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 hover:-translate-y-1">
-                  <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:scale-110 transition-transform duration-500">
-                    <Laptop size={140} className="text-indigo-600 dark:text-indigo-400" />
+                <div className="group p-8 rounded-[2.5rem] bg-indigo-50 dark:bg-slate-900 border border-indigo-100 dark:border-indigo-900/30 relative overflow-hidden flex flex-col hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300 hover:-translate-y-1">
+                  <div className="absolute -top-10 -right-10 opacity-[0.03] dark:opacity-[0.05] group-hover:scale-110 transition-transform duration-500 rotate-12">
+                    <Laptop size={200} className="text-indigo-600 dark:text-indigo-400" />
                   </div>
                   
-                  <h3 className="text-2xl font-bold text-indigo-900 dark:text-white mb-4 flex items-center gap-3">
-                    <div className="p-2 bg-indigo-100 dark:bg-indigo-900/50 rounded-lg text-indigo-600 dark:text-indigo-400">
-                        <Laptop size={24} /> 
+                  <div className="relative z-10 flex items-center gap-4 mb-6">
+                    <div className="p-3 bg-white dark:bg-indigo-900/20 rounded-xl text-indigo-600 dark:text-indigo-400 shadow-sm border border-indigo-50 dark:border-indigo-800">
+                        <Laptop size={28} /> 
                     </div>
-                    Remote Learning
-                  </h3>
+                    <h3 className="text-2xl font-black text-indigo-950 dark:text-white tracking-tight">
+                      Remote Learning
+                    </h3>
+                  </div>
                   
-                  <p className="text-slate-700 dark:text-slate-300 mb-6 leading-relaxed flex-grow relative z-10">
-                    Ideal for busy students or professionals. Join live mentorship sessions via Google Meet or Zoom. 
-                    We provide screen recordings of every session, digital resources, and code reviews online.
+                  <p className="text-slate-700 dark:text-slate-400 mb-8 leading-relaxed flex-grow relative z-10 font-medium">
+                    Ideal for busy students or professionals. Join live mentorship sessions via Google Meet. 
+                    Includes <b>screen recordings</b>, digital resources, and code reviews.
                   </p>
                   
                   <ul className="space-y-3 mb-8 relative z-10">
-                     <li className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-400">
-                       <div className="w-2 h-2 rounded-full bg-indigo-500 shrink-0"/>
+                     <li className="flex items-center gap-3 text-sm font-semibold text-slate-600 dark:text-slate-400">
+                       <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0"/>
                        Learn from the comfort of your home
                      </li>
-                     <li className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-400">
-                       <div className="w-2 h-2 rounded-full bg-indigo-500 shrink-0"/>
+                     <li className="flex items-center gap-3 text-sm font-semibold text-slate-600 dark:text-slate-400">
+                       <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0"/>
                        Flexible evening & weekend slots
                      </li>
-                     <li className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-400">
-                       <div className="w-2 h-2 rounded-full bg-indigo-500 shrink-0"/>
-                       Budget-friendly option
+                     <li className="flex items-center gap-3 text-sm font-semibold text-slate-600 dark:text-slate-400">
+                       <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0"/>
+                       Budget-friendly pricing
                      </li>
                   </ul>
                   
                   <div className="mt-auto relative z-10">
                     <Link href="/academy" className="block w-full">
-                        <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-200 dark:shadow-none border-transparent">
-                            Explore Online Courses
+                        <Button className="w-full bg-indigo-600 hover:bg-indigo-500 text-white shadow-xl shadow-indigo-600/20 dark:shadow-none border-transparent py-4 text-sm uppercase tracking-widest">
+                            Explore Courses
                         </Button>
                     </Link>
                   </div>
                 </div>
 
                 {/* Physical Option */}
-                <div className="group p-8 rounded-3xl bg-orange-50 dark:bg-orange-900/10 border border-orange-100 dark:border-orange-800/50 relative overflow-hidden flex flex-col hover:shadow-xl hover:shadow-orange-500/10 transition-all duration-300 hover:-translate-y-1">
-                  <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:scale-110 transition-transform duration-500">
-                    <MapPin size={140} className="text-orange-600 dark:text-orange-400" />
+                <div className="group p-8 rounded-[2.5rem] bg-orange-50 dark:bg-slate-900 border border-orange-100 dark:border-orange-900/30 relative overflow-hidden flex flex-col hover:shadow-2xl hover:shadow-orange-500/10 transition-all duration-300 hover:-translate-y-1">
+                  <div className="absolute -top-10 -right-10 opacity-[0.03] dark:opacity-[0.05] group-hover:scale-110 transition-transform duration-500 rotate-12">
+                    <MapPin size={200} className="text-orange-600 dark:text-orange-400" />
                   </div>
                   
-                  <h3 className="text-2xl font-bold text-orange-900 dark:text-white mb-4 flex items-center gap-3">
-                    <div className="p-2 bg-orange-100 dark:bg-orange-900/50 rounded-lg text-orange-600 dark:text-orange-400">
-                        <MapPin size={24} /> 
+                  <div className="relative z-10 flex items-center gap-4 mb-6">
+                    <div className="p-3 bg-white dark:bg-orange-900/20 rounded-xl text-orange-600 dark:text-orange-400 shadow-sm border border-orange-50 dark:border-orange-800">
+                        <MapPin size={28} /> 
                     </div>
-                    Private One-on-One
-                  </h3>
+                    <h3 className="text-2xl font-black text-orange-950 dark:text-white tracking-tight">
+                      Private One-on-One
+                    </h3>
+                  </div>
                   
-                  <p className="text-slate-700 dark:text-slate-300 mb-6 leading-relaxed flex-grow relative z-10">
-                    Premium personalized training where we come to you. Perfect for beginners who need hands-on guidance 
-                    or parents who want a dedicated tutor for their kids at home.
+                  <p className="text-slate-700 dark:text-slate-400 mb-8 leading-relaxed flex-grow relative z-10 font-medium">
+                    Premium personalized training where we come to you. Perfect for beginners who need <b>hands-on guidance</b>, 
+                    or parents who want a dedicated tutor for their kids.
                   </p>
                   
                   <ul className="space-y-3 mb-8 relative z-10">
-                     <li className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-400">
-                       <div className="w-2 h-2 rounded-full bg-orange-500 shrink-0"/>
+                     <li className="flex items-center gap-3 text-sm font-semibold text-slate-600 dark:text-slate-400">
+                       <div className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0"/>
                        We come to your location
                      </li>
-                     <li className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-400">
-                       <div className="w-2 h-2 rounded-full bg-orange-500 shrink-0"/>
+                     <li className="flex items-center gap-3 text-sm font-semibold text-slate-600 dark:text-slate-400">
+                       <div className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0"/>
                        100% focused attention
                      </li>
-                     <li className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-400">
-                       <div className="w-2 h-2 rounded-full bg-orange-500 shrink-0"/>
-                       Hands-on hardware & typing help
+                     <li className="flex items-center gap-3 text-sm font-semibold text-slate-600 dark:text-slate-400">
+                       <div className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0"/>
+                       Physical hardware & typing training
                      </li>
                   </ul>
                   
                   <div className="mt-auto relative z-10">
                     <Link href="/academy" className="block w-full">
-                        <Button className="w-full bg-orange-600 hover:bg-orange-700 text-white shadow-lg shadow-orange-200 dark:shadow-none border-transparent">
-                            Explore Private Tutoring
+                        <Button className="w-full bg-orange-600 hover:bg-orange-500 text-white shadow-xl shadow-orange-600/20 dark:shadow-none border-transparent py-4 text-sm uppercase tracking-widest">
+                        Explore Courses
+
                         </Button>
                     </Link>
                   </div>

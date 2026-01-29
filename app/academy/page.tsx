@@ -10,7 +10,7 @@ export default function AcademyPage() {
   
   const handleWhatsAppInquiry = (mode: string) => {
     const message = encodeURIComponent(`Hello Luffi Tech, I am interested in the ${mode} learning option.`);
-    window.open(`https://wa.me/254700000000?text=${message}`, '_blank');
+    window.open(`https://wa.me/254702104690?text=${message}`, '_blank');
   };
 
   return (

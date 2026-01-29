@@ -1,7 +1,17 @@
+"use client";
+
 import React from 'react';
-import { Globe, Twitter, Linkedin, Facebook, Instagram } from 'lucide-react';
-import Link from 'next/link';
-import Logo from '../ui/Logo';
+import { Twitter, Linkedin, Facebook, Instagram } from 'lucide-react';
+
+// --- Self-Contained Components to prevent build errors ---
+
+const Link = ({ href, children, className, ...props }: any) => (
+  <a href={href} className={className} {...props}>
+    {children}
+  </a>
+);
+
+// --- Main Footer Component ---
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -14,30 +24,44 @@ const Footer = () => {
           {/* Brand & Description */}
           <div className="col-span-2 md:col-span-1 space-y-4">
             <Link href="/" aria-label="Luffi Tech Home" className="inline-block">
-                <Logo />
+              <div className="flex items-center gap-1">
+                <img 
+                  src="/icon_only2.png" 
+                  alt="Luffi Tech" 
+                  className="h-8 md:h-10 w-auto object-contain" 
+                />
+                <span className="text-xl md:text:2xl font-bold tracking-tight text-slate-900 dark:text-white">
+                  Luffi <span className="text-purple-600">Tech</span>
+                </span>
+              </div>
             </Link>
             <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed max-w-xs">
               Empowering businesses through digital innovation and nurturing the next generation of tech talent.
             </p>
           </div>
           
-          {/* Services Column */}
+          {/* Services Column - Updated to match ServicesPage categories */}
           <div>
             <h4 className="font-bold text-slate-900 dark:text-white mb-4">Services</h4>
             <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
                <li>
-                 <Link href="/services#engineering" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 hover:translate-x-1 inline-block">
-                 Software, Mobile & AI Solutions
+                 <Link href="/services#web-dev" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 hover:translate-x-1 inline-block">
+                 Web & Software Development
                  </Link>
                </li>
                <li>
-                 <Link href="/services#infrastructure" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 hover:translate-x-1 inline-block">
-                 On-Site IT Support & Hardware
+                 <Link href="/services#graphic-design" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 hover:translate-x-1 inline-block">
+                 Graphic Design & Branding
                  </Link>
                </li>
                <li>
-                 <Link href="/services#strategy" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 hover:translate-x-1 inline-block">
-                 Product Design & Branding
+                 <Link href="/services#ai-automation" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 hover:translate-x-1 inline-block">
+                 AI & Automation
+                 </Link>
+               </li>
+               <li>
+                 <Link href="/services#payments" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 hover:translate-x-1 inline-block">
+                 Payment Integrations
                  </Link>
                </li>
             </ul>
