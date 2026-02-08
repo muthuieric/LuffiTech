@@ -2,14 +2,34 @@
 
 import React, { memo } from 'react';
 import Link from 'next/link';
-import { Twitter, Linkedin, Facebook, Instagram } from 'lucide-react';
+import Image from 'next/image'; 
+import { Linkedin, Facebook, Instagram, X } from 'lucide-react'; // <--- Removed 'Tiktok'
+
+// --- Custom Icon Component for TikTok ---
+// Since Lucide doesn't have TikTok, we create a matching SVG component
+const TikTokIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    className={className}
+  >
+    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+  </svg>
+);
 
 // --- Types for TypeScript Safety ---
 
 type FooterLinkItem = {
   name: string;
   href: string;
-  highlight?: string; // <--- The Fix: '?' makes this optional
+  highlight?: string;
 };
 
 type FooterSection = {
@@ -17,36 +37,49 @@ type FooterSection = {
   links: FooterLinkItem[];
 };
 
+type SocialLinkItem = {
+  name: string;
+  href: string;
+  icon: React.ElementType; // Allows both Lucide icons and our custom component
+  colorClass: string;
+};
+
 // --- Static Data Configuration ---
 
-const SOCIAL_LINKS = [
+const SOCIAL_LINKS: SocialLinkItem[] = [
   { 
-    name: 'Twitter', 
-    href: 'https://twitter.com', 
-    icon: Twitter, 
-    colorClass: 'hover:bg-blue-100 hover:text-blue-500 dark:hover:bg-blue-900/30 dark:hover:text-blue-400' 
+    name: 'TikTok', 
+    href: 'https://www.tiktok.com/@luffi.tech', 
+    icon: TikTokIcon, // <--- Using the custom component here
+    colorClass: 'hover:bg-slate-100 hover:text-[#ff0050] dark:hover:bg-slate-800 dark:hover:text-[#00f2ea]' 
+  },
+  { 
+    name: 'Instagram', 
+    href: 'https://instagram.com/luffitech', 
+    icon: Instagram, 
+    colorClass: 'hover:bg-pink-100 hover:text-pink-600 dark:hover:bg-pink-900/30 dark:hover:text-pink-400' 
   },
   { 
     name: 'LinkedIn', 
-    href: 'https://linkedin.com', 
+    href: 'https://www.linkedin.com/company/luffi-tech', 
     icon: Linkedin, 
     colorClass: 'hover:bg-blue-100 hover:text-blue-700 dark:hover:bg-blue-900/30 dark:hover:text-blue-500' 
   },
   { 
+    name: 'X', 
+    href: 'https://x.com/luffitech', 
+    icon: X, 
+    colorClass: 'hover:bg-slate-200 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-white' 
+  },
+
+  { 
     name: 'Facebook', 
-    href: 'https://facebook.com', 
+    href: 'https://facebook.com/luffitech', 
     icon: Facebook, 
     colorClass: 'hover:bg-blue-100 hover:text-blue-800 dark:hover:bg-blue-900/30 dark:hover:text-blue-600' 
-  },
-  { 
-    name: 'Instagram', 
-    href: 'https://instagram.com', 
-    icon: Instagram, 
-    colorClass: 'hover:bg-pink-100 hover:text-pink-600 dark:hover:bg-pink-900/30 dark:hover:text-pink-400' 
   }
 ];
 
-// Explicitly typed array to prevent build errors
 const FOOTER_SECTIONS: FooterSection[] = [
   {
     title: "Services",
@@ -70,7 +103,9 @@ const FOOTER_SECTIONS: FooterSection[] = [
     links: [
       { name: "About Us", href: "/about" },
       { name: "Careers", href: "/careers" },
-      { name: "Contact", href: "/contact" }
+      { name: "Contact", href: "/contact" },
+      { name: "Privacy Policy", href: "/privacy" },
+      { name: "Terms & Conditions", href: "/terms" }
     ]
   }
 ];
@@ -114,11 +149,12 @@ const Footer = () => {
           <div className="col-span-2 md:col-span-1 space-y-4">
             <Link href="/" aria-label="Luffi Tech Home" className="inline-block group">
               <div className="flex items-center gap-2">
-                <img 
+                <Image
                   src="/icon_only2.png" 
-                  alt="Luffi Tech Logo" 
-                  loading="lazy"
-                  className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110" 
+                  alt="Luffi Tech Logo"
+                  width={40} 
+                  height={40} 
+                  className="w-auto h-10 object-contain transition-transform duration-300 group-hover:scale-110" 
                 />
                 <span className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
                   Luffi <span className="text-purple-600">Tech</span>
@@ -139,7 +175,6 @@ const Footer = () => {
                   <li key={link.name}>
                     <FooterLink 
                       href={link.href} 
-                      // TS now knows 'highlight' is optional string or undefined
                       className={link.highlight || "hover:text-indigo-600 dark:hover:text-indigo-400"}
                     >
                       {link.name}
