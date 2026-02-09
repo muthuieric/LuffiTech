@@ -64,9 +64,9 @@ export const metadata: Metadata = {
 
   // 5. ICONS
   icons: {
-    icon: '/icon_only2.png',
-    shortcut: '/icon_only2.png',
-    apple: '/icon_only2.png',
+    icon: '/icon.png',
+    shortcut: '/icon.png',
+    apple: '/icon.png',
   },
 
   // 6. VERIFICATION (Backup if DNS fails)
