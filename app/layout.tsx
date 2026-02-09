@@ -4,6 +4,8 @@ import './globals.css';
 import ClientLayout from '../components/layout/ClientLayout';
 import ChatWidget from '@/components/ChatWidget';
 import { Analytics } from "@vercel/analytics/next";
+// 1. FIXED: Added the missing import
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,17 +19,13 @@ export const viewport: Viewport = {
   ],
 };
 
-// 1. DEFINE YOUR BASE URL
 const baseUrl = 'https://www.luffitech.com';
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
-  
-  // 2. CANONICAL URL (Prevents duplicate content issues)
   alternates: {
     canonical: '/',
   },
-
   title: {
     default: 'Luffi Tech | Leading Software Engineering & AI Solutions Agency',
     template: '%s | Luffi Tech Kenya'
@@ -35,7 +33,6 @@ export const metadata: Metadata = {
   description: 'Luffi Tech is a premier global tech agency specializing in custom software development, AI automation, and cloud infrastructure.',
   keywords: ['Software Agency', 'AI Automation', 'Web Development', 'Kenya Tech', 'M-Pesa Integration', 'Coding Academy'],
   
-  // 3. SOCIAL MEDIA PREVIEWS (WhatsApp, LinkedIn, etc.)
   openGraph: {
     title: 'Luffi Tech | Elite Tech Solutions.',
     description: 'Building world-class software and training the next generation in Nairobi.',
@@ -43,7 +40,7 @@ export const metadata: Metadata = {
     siteName: 'Luffi Tech',
     images: [
       {
-        url: '/og-image.png', // Ensure you have this image in your public folder!
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Luffi Tech Preview',
@@ -53,7 +50,6 @@ export const metadata: Metadata = {
     type: 'website',
   },
 
-  // 4. TWITTER CARD
   twitter: {
     card: 'summary_large_image',
     title: 'Luffi Tech',
@@ -62,16 +58,17 @@ export const metadata: Metadata = {
     images: ['/og-image.png'],
   },
 
-  // 5. ICONS
+  // Note: Since you have icon.png in the app folder, you can actually delete this entire icons block
+  // But keeping it is fine too.
   icons: {
     icon: '/icon.png',
     shortcut: '/icon.png',
     apple: '/icon.png',
   },
 
-  // 6. VERIFICATION (Backup if DNS fails)
   verification: {
-    google: 'PASTE_YOUR_GOOGLE_CODE_HERE', 
+    // ⚠️ DON'T FORGET: Replace this placeholder with your actual code if you have it!
+    google: 'G-1PV5DEFSJJ', 
   },
 
   robots: {
@@ -92,12 +89,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // 7. STRUCTURED DATA (Updated with your EXACT Social Links)
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
     'name': 'Luffi Tech',
-    'image': `${baseUrl}/icon_only2.png`,
+    'image': `${baseUrl}/icon.png`, // Updated to match your new icon
     'description': 'Global software engineering and AI automation agency.',
     'url': baseUrl,
     'telephone': '+254702104690',
@@ -109,11 +105,10 @@ export default function RootLayout({
     'priceRange': '$$',
     'openingHoursSpecification': {
       '@type': 'OpeningHoursSpecification',
-      'dayOfWeek': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      'dayOfWeek': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday','Saturday','Sunday'],
       'opens': '08:00',
-      'closes': '18:00'
+      'closes': '22:00'
     },
-    // This connects your site to your social profiles in Google Knowledge Graph
     'sameAs': [
       'https://x.com/luffitech',
       'https://www.linkedin.com/company/luffi-tech',
@@ -136,6 +131,9 @@ export default function RootLayout({
           <Analytics />
           <ChatWidget />  
         </ClientLayout>
+
+        {/* 2. FIXED: Placed the tag correctly at the bottom */}
+        <GoogleAnalytics gaId="G-1PV5DEFSJJ" />
       </body>
     </html>
   );
