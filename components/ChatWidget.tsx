@@ -1,7 +1,10 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageSquare, X, Send, User, Bot, ChevronRight, Loader2 } from 'lucide-react';
+import Image from 'next/image';
+import { MessageSquare, X, Send, Bot, Loader2 } from 'lucide-react';
+import icononly2 from '@/public/icon_only2.png';
+
 
 // --- Types ---
 type Message = {
@@ -15,6 +18,9 @@ export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   
+  // NEW: State for the welcome popup bubble
+  const [showTooltip, setShowTooltip] = useState(false);
+  
   // Initial State
   const initialMessage: Message = {
     id: '1',
@@ -22,7 +28,7 @@ export default function ChatWidget() {
     text: "Hi there! 👋 Welcome to Luffi Tech. I'm your virtual assistant. How can I help you today?",
     options: [
       { label: "🚀 Start a Project", action: "project" },
-      { label: "🔍 Explore Services", action: "services_list" }, // NEW
+      { label: "🔍 Explore Services", action: "services_list" },
       { label: "🎓 Luffi Academy", action: "academy" },
       { label: "💬 Support & Other", action: "other_menu" },
     ]
@@ -36,6 +42,16 @@ export default function ChatWidget() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
+  // NEW: Trigger the welcome popup 3 seconds after load
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!isOpen) {
+        setShowTooltip(true);
+      }
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [isOpen]);
+
   const handleOptionClick = (action: string, label: string) => {
     // 1. Add User Selection
     const userMsg: Message = { id: Date.now().toString(), type: 'user', text: label };
@@ -47,7 +63,6 @@ export default function ChatWidget() {
       let botResponse: Message;
 
       switch (action) {
-        // --- LEVEL 1: MAIN MENU ---
         case "project":
           botResponse = {
             id: Date.now().toString(),
@@ -89,7 +104,6 @@ export default function ChatWidget() {
           };
           break;
 
-        // --- NEW: SERVICES LIST ---
         case "services_list":
           botResponse = {
             id: Date.now().toString(),
@@ -106,7 +120,6 @@ export default function ChatWidget() {
           };
           break;
 
-        // --- LEVEL 2: SPECIFIC SERVICE HANDLERS ---
         case "web_dev":
           botResponse = {
             id: Date.now().toString(),
@@ -168,12 +181,11 @@ export default function ChatWidget() {
           };
           break;
 
-        // --- INFO & SUPPORT ---
         case "pricing":
           botResponse = {
             id: Date.now().toString(),
             type: 'bot',
-            text: "Pricing varies by scope:\n• Websites: From KSH 20k\n• Mobile Apps: From KSH 60k\n•\nWould you like a custom quote?",
+            text: "Pricing varies by scope:\n• Websites: From KSH 20k\n• Mobile Apps: From KSH 60k\n\nWould you like a custom quote?",
             options: [
               { label: "Yes, Get Quote", action: "whatsapp_project" },
               { label: "No, thanks", action: "restart" }
@@ -204,7 +216,6 @@ export default function ChatWidget() {
           };
           break;
 
-        // --- EXTERNAL ACTIONS ---
         case "whatsapp_project":
             window.open('https://wa.me/254702104690?text=Hi Luffi Tech, I am interested in a project.', '_blank');
             botResponse = { id: Date.now().toString(), type: 'bot', text: "I've opened WhatsApp for you! Check your other tab." };
@@ -264,8 +275,8 @@ export default function ChatWidget() {
           {/* Header */}
           <div className="bg-indigo-600 p-4 flex justify-between items-center shrink-0">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white backdrop-blur-sm relative">
-                <Bot size={24} />
+              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white backdrop-blur-sm relative overflow-hidden">
+                <Image src="/icon.png" alt="Luffi Tech" width={40} height={40} className="object-cover" />
                 <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-400 border-2 border-indigo-600 rounded-full"></div>
               </div>
               <div>
@@ -287,7 +298,7 @@ export default function ChatWidget() {
                 <div className={`max-w-[85%] px-4 py-3 rounded-2xl text-sm leading-relaxed ${
                   msg.type === 'user' 
                     ? 'bg-indigo-600 text-white rounded-br-sm' 
-                    : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-bl-sm shadow-sm'
+                    : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-bl-sm shadow-sm whitespace-pre-line'
                 }`}>
                   {msg.text}
                 </div>
@@ -318,7 +329,7 @@ export default function ChatWidget() {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Footer (Input placeholder - inactive in rule-based mode) */}
+          {/* Footer (Input placeholder) */}
           <div className="p-3 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 shrink-0">
             <div className="bg-slate-100 dark:bg-slate-800 rounded-full px-4 py-3 flex justify-between items-center text-slate-400 text-sm cursor-not-allowed">
               <span>Select an option above...</span>
@@ -328,21 +339,47 @@ export default function ChatWidget() {
         </div>
       )}
 
-      {/* Floating Toggle Button */}
+      {/* NEW: Welcome Tooltip Popup */}
+      {!isOpen && showTooltip && (
+        <div className="fixed bottom-24 right-6 z-[9999] animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 px-5 py-4 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 w-[240px] relative">
+            <button 
+              onClick={(e) => { e.stopPropagation(); setShowTooltip(false); }}
+              className="absolute -top-2 -right-2 bg-slate-100 dark:bg-slate-700 rounded-full p-1 text-slate-500 hover:text-slate-800 dark:text-slate-300 dark:hover:text-white shadow-sm transition-colors"
+            >
+              <X size={14} />
+            </button>
+            <p className="text-sm font-medium leading-relaxed">
+              Hi! 👋 Need help digitizing your business or exploring our Academy?
+            </p>
+            {/* The little pointer triangle */}
+            <div className="absolute -bottom-2 right-6 w-4 h-4 bg-white dark:bg-slate-800 border-b border-r border-slate-200 dark:border-slate-700 transform rotate-45"></div>
+          </div>
+        </div>
+      )}
+
+      {/* Floating Toggle Button (Updated with Image) */}
       <button 
-        onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-[9999] group w-14 h-14 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full shadow-lg shadow-indigo-600/30 flex items-center justify-center transition-all hover:scale-110 active:scale-95"
+        onClick={() => {
+          setIsOpen(!isOpen);
+          setShowTooltip(false); // Hides tooltip when they open the chat
+        }}
+        className="fixed bottom-6 right-6 z-[9999] group w-14 h-14 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full shadow-lg shadow-indigo-600/10 flex items-center justify-center transition-all hover:scale-105 active:scale-95 overflow-hidden"
       >
         {isOpen ? (
-            <X size={28} />
+            <X size={28} className="text-slate-800 dark:text-slate-200" />
         ) : (
             <>
-                <MessageSquare size={28} className="absolute transition-all group-hover:scale-0 opacity-100 group-hover:opacity-0" />
-                <div className="absolute opacity-0 group-hover:opacity-100 transition-all scale-50 group-hover:scale-100 font-bold text-xs">
-                    Chat
-                </div>
+                {/* Your Custom Logo */}
+                <Image 
+                  src={icononly2}
+                  alt="Chat with Luffi Tech" 
+                  width={38} 
+                  height={38} 
+                  className="object-contain"
+                />
                 {/* Notification Badge */}
-                <span className="absolute top-0 right-0 w-3.5 h-3.5 bg-red-500 border-2 border-white dark:border-slate-900 rounded-full animate-pulse"></span>
+                <span className="absolute top-0 right-0 w-3.5 h-3.5 bg-red-500 border-2 border-white dark:border-slate-800 rounded-full animate-pulse"></span>
             </>
         )}
       </button>

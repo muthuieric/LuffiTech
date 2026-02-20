@@ -58,6 +58,14 @@ export const metadata: Metadata = {
     images: ['/og-image.png'],
   },
 
+  // ADD THIS FOR iPHONES:
+  appleWebApp: {
+    title: 'Luffi Tech',
+    statusBarStyle: 'black-translucent',
+    startupImage: [
+      '/icon.png',
+    ],
+  },
   // Note: Since you have icon.png in the app folder, you can actually delete this entire icons block
   // But keeping it is fine too.
   icons: {
