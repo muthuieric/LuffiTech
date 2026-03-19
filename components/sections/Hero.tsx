@@ -3,6 +3,7 @@
 import React, { memo } from 'react';
 import Link from 'next/link'; // Native Next.js Link for performance
 import { ArrowRight, Laptop, Globe, CheckCircle2, Heart } from 'lucide-react';
+import Image from 'next/image';
 
 // --- Assets: Base64 Noise Texture (Zero Network Request) ---
 // Loads instantly, no external server dependency.
@@ -63,12 +64,12 @@ const Hero = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         
         {/* 2. Floating Badge */}
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border border-indigo-100 dark:border-indigo-500/30 shadow-sm mb-8 hover:scale-105 transition-transform cursor-default">
+        {/* <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border border-indigo-100 dark:border-indigo-500/30 shadow-sm mb-8 hover:scale-105 transition-transform cursor-default">
           <Globe size={12} className="text-indigo-600 dark:text-indigo-400" />
           <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-900 dark:text-indigo-200">
             Borderless & Global Technology
           </span>
-        </div>
+        </div> */}
         
         {/* 3. Main Heading */}
         <h1 
@@ -122,3 +123,15 @@ const Hero = () => {
 };
 
 export default memo(Hero);
+
+
+  {/* FORCED EDGE-TO-EDGE IMAGE */}
+//   <div className="relative h-[300px] sm:h-[400px] lg:h-[500px] mb-12 z-10 w-[100vw] left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
+//   <Image 
+//     src="/j.png" 
+//     alt="Hero visual description" 
+//     fill 
+//     className="object-cover" 
+//     priority 
+//   />
+// </div>
