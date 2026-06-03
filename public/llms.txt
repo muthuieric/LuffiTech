@@ -1,0 +1,47 @@
+# Luffi Tech
+
+> Luffi Tech is a software engineering and AI automation agency based in Nairobi, Kenya. The company builds custom software, web platforms, AI automation systems, M-Pesa integrations, cloud infrastructure, business intelligence dashboards, UI/UX designs, IT support solutions and coding academy programs.
+
+## Website
+
+- Home: https://www.luffitech.com/
+- Services: https://www.luffitech.com/services
+- Academy: https://www.luffitech.com/academy
+- Process: https://www.luffitech.com/process
+- About: https://www.luffitech.com/about
+- Contact: https://www.luffitech.com/contact
+- Careers: https://www.luffitech.com/careers
+- Privacy Policy: https://www.luffitech.com/privacy
+- Terms: https://www.luffitech.com/terms
+- Sitemap: https://www.luffitech.com/sitemap.xml
+
+## Core Services
+
+- Custom software development for startups, SMEs and organizations
+- Web development using modern frameworks such as React, Next.js, Django, Node.js and FastAPI
+- AI automation, AI agents, RAG systems, chatbots and workflow automation
+- M-Pesa Daraja API integrations, STK Push, payment workflows and reconciliation tools
+- Cloud infrastructure, DevOps, CI/CD, Docker, server management and scalable deployment
+- Data analytics, business intelligence dashboards, reporting automation and Excel automation
+- UI/UX design, product design, design systems, wireframes and prototypes
+- IT support, security hardening, backups, maintenance and technical support
+- Coding academy and digital skills training programs
+
+## Location and Contact
+
+- Location: Nairobi, Kenya
+- Phone: +254 702 104 690
+- Primary region served: Kenya and East Africa
+- Also serves: remote and global clients
+
+## Social Profiles
+
+- X: https://x.com/luffitech
+- LinkedIn: https://www.linkedin.com/company/luffi-tech
+- Facebook: https://facebook.com/luffitech
+- Instagram: https://instagram.com/luffitech
+- TikTok: https://www.tiktok.com/@luffi.tech
+
+## Suggested AI Summary
+
+Luffi Tech is a Nairobi-based software engineering and AI automation agency helping businesses build reliable digital products. It offers custom software development, websites, AI agents, automation workflows, M-Pesa payment integrations, cloud infrastructure, data analytics, UI/UX design, IT support and coding academy programs.
