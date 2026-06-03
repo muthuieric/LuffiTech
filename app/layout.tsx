@@ -4,7 +4,6 @@ import './globals.css';
 import ClientLayout from '../components/layout/ClientLayout';
 import ChatWidget from '@/components/ChatWidget';
 import { Analytics } from "@vercel/analytics/next";
-// 1. FIXED: Added the missing import
 import { GoogleAnalytics } from '@next/third-parties/google';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -20,22 +19,44 @@ export const viewport: Viewport = {
 };
 
 const baseUrl = 'https://www.luffitech.com';
+const businessPhone = '+254 702 104 690';
+const businessPhoneSchema = '+254702104690';
+const businessAddress = 'Nairobi, Kenya';
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   alternates: {
     canonical: '/',
+    languages: {
+      'en-KE': '/',
+      en: '/',
+    },
   },
   title: {
-    default: 'Luffi Tech | Leading Software Engineering & AI Solutions Agency',
-    template: '%s | Luffi Tech Kenya'
+    default: 'Luffi Tech | Software & AI Agency in Kenya',
+    template: '%s | Luffi Tech'
   },
-  description: 'Luffi Tech is a premier global tech agency specializing in custom software development, AI automation, and cloud infrastructure.',
-  keywords: ['Software Agency', 'AI Automation', 'Web Development', 'Kenya Tech', 'M-Pesa Integration', 'Coding Academy'],
-  
+  description: 'Luffi Tech builds custom software, AI automation, websites, M-Pesa integrations, cloud systems and coding academy programs in Kenya.',
+  applicationName: 'Luffi Tech',
+  authors: [{ name: 'Luffi Tech', url: baseUrl }],
+  creator: 'Luffi Tech',
+  publisher: 'Luffi Tech',
+  category: 'Technology services',
+  keywords: [
+    'Luffi Tech',
+    'software development Kenya',
+    'AI automation Kenya',
+    'custom software development',
+    'web development Nairobi',
+    'M-Pesa integration',
+    'cloud infrastructure',
+    'coding academy Kenya',
+    'business automation',
+    'Next.js Django development',
+  ],
   openGraph: {
-    title: 'Luffi Tech | Elite Tech Solutions.',
-    description: 'Building world-class software and training the next generation in Nairobi.',
+    title: 'Luffi Tech | Software & AI Agency in Kenya',
+    description: 'Custom software, AI automation, web platforms, M-Pesa integrations, cloud infrastructure and digital skills training from Nairobi, Kenya.',
     url: baseUrl,
     siteName: 'Luffi Tech',
     images: [
@@ -43,42 +64,32 @@ export const metadata: Metadata = {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Luffi Tech Preview',
+        alt: 'Luffi Tech software engineering and AI automation agency in Kenya',
       },
     ],
-    locale: 'en_US',
+    locale: 'en_KE',
     type: 'website',
   },
-
   twitter: {
     card: 'summary_large_image',
-    title: 'Luffi Tech',
-    description: 'Elite Tech Solutions. Human Prices.',
+    title: 'Luffi Tech | Software & AI Agency in Kenya',
+    description: 'Custom software, AI automation, web platforms, M-Pesa integrations and coding academy programs in Kenya.',
     creator: '@luffitech',
     images: ['/og-image.png'],
   },
-
-  // ADD THIS FOR iPHONES:
   appleWebApp: {
     title: 'Luffi Tech',
     statusBarStyle: 'black-translucent',
-    startupImage: [
-      '/icon.png',
-    ],
+    startupImage: ['/icon.png'],
   },
-  // Note: Since you have icon.png in the app folder, you can actually delete this entire icons block
-  // But keeping it is fine too.
   icons: {
     icon: '/icon.png',
     shortcut: '/icon.png',
     apple: '/icon.png',
   },
-
   verification: {
-    // ⚠️ DON'T FORGET: Replace this placeholder with your actual code if you have it!
-    google: 'G-1PV5DEFSJJ', 
+    google: 'G-1PV5DEFSJJ',
   },
-
   robots: {
     index: true,
     follow: true,
@@ -90,6 +101,15 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  other: {
+    'geo.region': 'KE-30',
+    'geo.placename': 'Nairobi, Kenya',
+    'geo.position': '-1.286389;36.817223',
+    ICBM: '-1.286389, 36.817223',
+    'contact:phone_number': businessPhone,
+    'business:contact_data:locality': 'Nairobi',
+    'business:contact_data:country_name': 'Kenya',
+  },
 };
 
 export default function RootLayout({
@@ -97,27 +117,62 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const jsonLd = {
+  const organizationJsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'ProfessionalService',
-    'name': 'Luffi Tech',
-    'image': `${baseUrl}/icon.png`, // Updated to match your new icon
-    'description': 'Global software engineering and AI automation agency.',
-    'url': baseUrl,
-    'telephone': '+254702104690',
-    'address': {
+    '@type': ['Organization', 'LocalBusiness', 'ProfessionalService'],
+    '@id': `${baseUrl}/#organization`,
+    name: 'Luffi Tech',
+    legalName: 'Luffi Tech',
+    url: baseUrl,
+    logo: `${baseUrl}/icon.png`,
+    image: `${baseUrl}/og-image.png`,
+    description: 'Luffi Tech is a software engineering and AI automation agency in Nairobi, Kenya, building custom web platforms, business systems, M-Pesa integrations, cloud infrastructure, automation workflows and coding academy programs.',
+    telephone: businessPhoneSchema,
+    priceRange: '$$',
+    address: {
       '@type': 'PostalAddress',
-      'addressCountry': 'KE',
-      'addressLocality': 'Nairobi',
+      addressLocality: 'Nairobi',
+      addressRegion: 'Nairobi County',
+      addressCountry: 'KE',
     },
-    'priceRange': '$$',
-    'openingHoursSpecification': {
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: -1.286389,
+      longitude: 36.817223,
+    },
+    areaServed: [
+      { '@type': 'Country', name: 'Kenya' },
+      { '@type': 'AdministrativeArea', name: 'Nairobi County' },
+      { '@type': 'City', name: 'Nairobi' },
+      { '@type': 'Place', name: 'East Africa' },
+      { '@type': 'Place', name: 'Global clients' },
+    ],
+    knowsAbout: [
+      'Custom software development',
+      'AI automation',
+      'Web development',
+      'M-Pesa integration',
+      'Cloud infrastructure',
+      'Business intelligence',
+      'Data analytics',
+      'UI/UX design',
+      'IT support',
+      'Coding academy programs',
+    ],
+    makesOffer: [
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Custom software development' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'AI automation and AI agents' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'M-Pesa and payment gateway integration' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Cloud infrastructure and DevOps' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'EducationalOccupationalProgram', name: 'Luffi Tech coding academy' } },
+    ],
+    openingHoursSpecification: {
       '@type': 'OpeningHoursSpecification',
-      'dayOfWeek': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday','Saturday','Sunday'],
-      'opens': '08:00',
-      'closes': '22:00'
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      opens: '08:00',
+      closes: '22:00'
     },
-    'sameAs': [
+    sameAs: [
       'https://x.com/luffitech',
       'https://www.linkedin.com/company/luffi-tech',
       'https://facebook.com/luffitech',
@@ -126,21 +181,41 @@ export default function RootLayout({
     ]
   };
 
+  const websiteJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${baseUrl}/#website`,
+    url: baseUrl,
+    name: 'Luffi Tech',
+    description: 'Software development, AI automation, web development, M-Pesa integrations, cloud systems and coding academy programs in Kenya.',
+    publisher: { '@id': `${baseUrl}/#organization` },
+    inLanguage: 'en-KE',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: `${baseUrl}/services?search={search_term_string}`,
+      'query-input': 'required name=search_term_string',
+    },
+  };
+
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en-KE" className="scroll-smooth">
       <body className={`${inter.className} antialiased selection:bg-indigo-500 selection:text-white bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100`}>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
-        
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+        <address className="sr-only">
+          Luffi Tech is a software engineering and AI automation agency based in {businessAddress}. Call {businessPhone} for custom software development, AI automation, websites, M-Pesa integrations, cloud systems, business automation, data analytics, UI/UX design, IT support and coding academy programs in Kenya.
+        </address>
         <ClientLayout>
           {children}
           <Analytics />
-          <ChatWidget />  
+          <ChatWidget />
         </ClientLayout>
-
-        {/* 2. FIXED: Placed the tag correctly at the bottom */}
         <GoogleAnalytics gaId="G-1PV5DEFSJJ" />
       </body>
     </html>
