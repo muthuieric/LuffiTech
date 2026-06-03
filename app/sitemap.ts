@@ -1,46 +1,69 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // 1. FIXED: Added 'www' to match your primary domain
   const baseUrl = 'https://www.luffitech.com';
+  const lastModified = new Date();
 
   return [
     {
       url: baseUrl,
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: 'weekly',
-      priority: 1, // Homepage
+      priority: 1,
     },
     {
       url: `${baseUrl}/services`,
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: 'weekly',
-      priority: 0.9, // Core Business
+      priority: 0.95,
     },
     {
       url: `${baseUrl}/academy`,
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: 'weekly',
-      priority: 0.9, // Core Business
+      priority: 0.9,
     },
     {
-      // 2. ADDED: Your Process page was missing
       url: `${baseUrl}/process`,
-      lastModified: new Date(),
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/about`,
+      lastModified,
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/about`,
-      lastModified: new Date(),
+      url: `${baseUrl}/contact`,
+      lastModified,
       changeFrequency: 'monthly',
-      priority: 0.7,
+      priority: 0.75,
     },
     {
-      url: `${baseUrl}/contact`,
-      lastModified: new Date(),
+      url: `${baseUrl}/careers`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.55,
+    },
+    {
+      url: `${baseUrl}/privacy`,
+      lastModified,
       changeFrequency: 'yearly',
-      priority: 0.6, // Least important for ranking, humans find it easily
+      priority: 0.3,
+    },
+    {
+      url: `${baseUrl}/terms`,
+      lastModified,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
+    {
+      url: `${baseUrl}/llms.txt`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.2,
     },
   ];
 }
