@@ -1,5 +1,3 @@
-"use client";
-
 import React from 'react';
 import Hero from '../components/sections/Hero';
 import Expertise from '@/components/sections/Expertise';
@@ -13,10 +11,4 @@ export default function Home() {
     <>
       <Hero />
       {/* <Brands /> */}
-      <Expertise    />
-      <Testimonials />
-      <FAQ />
-      <CTA />
-    </>
-  );
-}
+      <Expert
