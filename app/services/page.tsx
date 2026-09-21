@@ -5,7 +5,7 @@ import {
   Globe, Palette, Bot, Megaphone, 
   ChevronRight, Search, Zap, CreditCard, 
   Briefcase, BarChart, Headphones, Layout, 
-  Cloud, Terminal, Smartphone, Sparkles, 
+  Cloud, Terminal, Smartphone, 
   CheckCircle2, Plus, X, ArrowRight, Bug,
   ArrowUp
 } from 'lucide-react';
@@ -350,7 +350,7 @@ const ServiceDetailView = memo(({ category, onClose }: any) => {
           
           <div className="relative z-0">
             <div className="flex items-center gap-3 mb-2">
-               <Sparkles className="text-white/70 animate-pulse" size={20} />
+               <span className="w-2 h-2 rounded-full bg-white/80" />
                <span className="px-3 py-0.5 bg-white/20 rounded-md text-[10px] font-black text-white uppercase tracking-tighter backdrop-blur-sm">
                  Solution Node {category.number}
                </span>
@@ -438,7 +438,7 @@ const ServiceDetailView = memo(({ category, onClose }: any) => {
                   onClick={() => window.open(`https://wa.me/254702104690?text=I'm interested in ${category.title} solutions`, '_blank')}
                   className="w-full py-4 bg-white text-indigo-600 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-50 transition-all active:scale-95 flex items-center justify-center gap-2 shadow-lg"
                 >
-                  WhatsApp Support <Zap size={14} />
+                  WhatsApp Support 
                 </button>
               </div>
             </div>
@@ -558,17 +558,32 @@ export default function ServicesPage() {
           ))}
         </div>
         
-        {/* Empty State */}
+        {/* Empty State - Conversational & Helpful */}
         {filteredCategories.length === 0 && (
-          <div className="text-center py-20 animate-in fade-in">
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white">No solutions found</h3>
-            <p className="text-slate-500 mt-2">Try a different keyword or browse all categories.</p>
-            <button 
-              onClick={() => {setSearchQuery(""); setActiveFilter("All")}}
-              className="mt-4 text-indigo-600 font-bold hover:underline"
-            >
-              Clear filters
-            </button>
+          <div className="text-center py-24 max-w-md mx-auto animate-in fade-in">
+            <div className="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 mx-auto flex items-center justify-center mb-4">
+              <Search size={22} />
+            </div>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+              We couldn't find an exact match
+            </h3>
+            <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6">
+              Don't worry—we build custom architectures and integrations beyond what's listed here! Reach out to us directly or clear your filters to explore our core stacks.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <button 
+                onClick={() => {setSearchQuery(""); setActiveFilter("All")}}
+                className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-95 cursor-pointer"
+              >
+                Clear Filters
+              </button>
+              <button 
+                onClick={() => window.open('https://wa.me/254702104690?text=Hi, I searched for a service on your site and wanted to ask if you offer it.', '_blank')}
+                className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold text-xs uppercase tracking-wider transition-all cursor-pointer"
+              >
+                Ask on WhatsApp
+              </button>
+            </div>
           </div>
         )}
       </div>

@@ -4,7 +4,7 @@ import React, { useState, memo } from 'react';
 import Link from 'next/link';
 import { 
   Code2, Bot, Palette, ShieldCheck,
-  Laptop, MapPin, ArrowRight, CheckCircle2, Sparkles, Zap
+  Laptop, MapPin, ArrowRight, CheckCircle2, Zap
 } from 'lucide-react';
 
 // --- Static Data (Moved outside to prevent re-renders) ---
@@ -59,17 +59,17 @@ const SERVICE_CATEGORIES = [
 // --- Memoized Sub-Components ---
 
 const ServiceCard = memo(({ category }: { category: typeof SERVICE_CATEGORIES[0] }) => (
-  <div className={`group flex flex-col p-6 bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-200 dark:border-slate-800 hover:shadow-2xl hover:shadow-slate-200/50 dark:hover:shadow-none hover:-translate-y-1 transition-all duration-300 h-full ${category.border}`}>
+  <div className={`group flex flex-col p-7 sm:p-8 bg-white dark:bg-slate-900 rounded-[2.2rem] border border-slate-200/90 dark:border-slate-800 hover:shadow-2xl hover:shadow-indigo-500/10 dark:hover:shadow-none hover:-translate-y-1.5 transition-all duration-300 ease-out h-full ${category.border} transform-gpu`}>
     {/* Icon Header */}
-    <div className={`w-14 h-14 ${category.bg} rounded-2xl flex items-center justify-center ${category.text} mb-6 group-hover:scale-110 transition-transform duration-300`}>
+    <div className={`w-14 h-14 ${category.bg} rounded-2xl flex items-center justify-center ${category.text} mb-6 group-hover:scale-110 transition-transform duration-300 shadow-sm`}>
       <category.icon className="w-6 h-6" />
     </div>
     
-    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-3 tracking-tight">
+    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 tracking-tight">
       {category.title}
     </h3>
     
-    <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-grow text-sm font-medium">
+    <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-grow text-sm font-normal">
       {category.description}
     </p>
     
@@ -100,19 +100,17 @@ const Expertise = () => {
   const [activeTab, setActiveTab] = useState<'services' | 'academy'>('services');
 
   return (
-    <section className="py-24 bg-slate-50 dark:bg-slate-950 transition-colors duration-300 scroll-mt-20" id="expertise">
+    <section className="py-4 lg:py-4 bg-slate-50 dark:bg-slate-950 transition-colors duration-300 scroll-mt-20" id="expertise">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-bold uppercase tracking-widest mb-4">
-             <Sparkles size={12} /> Our Core Pillars
-          </div>
-          <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white mb-6 tracking-tight">
-            We Build & We Teach
+        <div className="text-center max-w-3xl mx-auto mb-8 lg:mb-12">
+        
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white mb-2 tracking-tight leading-tight">
+            We Build Digital Products & We Mentor Future Engineers
           </h2>
-          <p className="text-xl text-slate-600 dark:text-slate-400 mb-10 leading-relaxed">
-            Your end-to-end technology partner. We build complex <b>Software Systems</b> for businesses and train the next generation of <b>Engineers</b>.
+          <p className="text-lg sm:text-xl text-slate-600 dark:text-slate-400 mb-10 leading-relaxed font-normal">
+            Your end-to-end technology partner. We engineer reliable <strong className="text-slate-900 dark:text-white font-semibold">Software Systems</strong> for growing businesses and guide the next generation of <strong className="text-slate-900 dark:text-white font-semibold">Builders</strong>.
           </p>
 
           {/* Toggle Switch */}

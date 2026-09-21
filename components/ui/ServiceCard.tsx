@@ -16,10 +16,10 @@ const ServiceCard = ({ icon: Icon, title, description, href, className = "", fea
   // 1. Define the inner content of the card
   const CardContent = (
     <div 
-      className={`group relative p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-lg hover:shadow-indigo-500/10 hover:border-indigo-500/30 transition-all duration-300 h-full flex flex-col hover:-translate-y-1 ${className}`}
+      className={`group relative p-7 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80 shadow-md hover:shadow-xl hover:shadow-indigo-500/15 hover:border-indigo-500/30 transition-all duration-300 ease-out h-full flex flex-col hover:-translate-y-1.5 active:scale-[0.99] transform-gpu ${className}`}
     >
       {/* Icon */}
-      <div className="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center mb-5 text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white group-hover:scale-110 transition-all duration-300 shadow-sm">
+      <div className="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center mb-5 text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300 ease-out shadow-sm">
         <Icon size={24} strokeWidth={2.5} />
       </div>
 

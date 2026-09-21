@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { 
   BookOpen, Code, Users, Check, Laptop, Palette, 
   Smartphone, Database, PenTool, Server, Bot, ArrowRight, 
-  Sparkles, MonitorPlay, GraduationCap 
+  MonitorPlay, GraduationCap, Terminal 
 } from 'lucide-react';
 
 // --- Static Data ---
@@ -21,13 +21,13 @@ const FOUNDATIONS = [
     features: ["Microsoft Office (Word, Excel, PPT)", "Google Workspace Cloud", "Internet Research & Security", "Touch Typing Mastery"]
   },
   {
-    id: "cbc-kids",
-    title: "CBC Tech for Kids (7-18)",
-    icon: Sparkles,
+    id: "kids-tech",
+    title: "Practical Tech for Kids (Ages 7-18)",
+    icon: Terminal,
     level: "Beginner",
     color: "from-orange-400 to-pink-500",
-    description: "Spark creativity early. We teach logic, coding, and digital safety in a fun, gamified way suitable for children and teenagers.",
-    features: ["Scratch & Visual Coding", "Intro to Python", "Robotics Concepts", "Digital Safety Awareness"]
+    description: "Build creative problem-solving and foundational logic early. Hands-on coding, computational thinking, and digital safety tailored for kids and teenagers.",
+    features: ["Scratch & Visual Coding", "Intro to Python & Games", "Logical Problem Solving", "Hands-on Guided Projects"]
   }
 ];
 

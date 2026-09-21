@@ -94,7 +94,7 @@ const FOOTER_SECTIONS: FooterSection[] = [
     title: "Academy",
     links: [
       { name: "Digital Foundations", href: "/academy#foundations", highlight: "hover:text-orange-600 dark:hover:text-orange-400" },
-      { name: "CBC Tech (Ages 7-18)", href: "/academy#cbc", highlight: "hover:text-orange-600 dark:hover:text-orange-400" },
+      { name: "Tech for Kids (Ages 7-18)", href: "/academy#kids-tech", highlight: "hover:text-orange-600 dark:hover:text-orange-400" },
       { name: "Tech Mastery Bootcamp", href: "/academy#bootcamp", highlight: "hover:text-orange-600 dark:hover:text-orange-400" }
     ]
   },
@@ -102,6 +102,7 @@ const FOOTER_SECTIONS: FooterSection[] = [
     title: "Company",
     links: [
       { name: "About Us", href: "/about" },
+      { name: "Featured Projects", href: "/projects" },
       { name: "Careers", href: "/careers" },
       { name: "Contact", href: "/contact" },
       { name: "Privacy Policy", href: "/privacy" },
@@ -141,14 +142,14 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 pt-16 pb-8 transition-colors duration-300">
+    <footer className="bg-white dark:bg-slate-900 border-t border-slate-200/90 dark:border-slate-800 pt-20 pb-12 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
           
           {/* Brand & Description */}
           <div className="col-span-2 md:col-span-1 space-y-4">
             <Link href="/" aria-label="Luffi Tech Home" className="inline-block group">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <Image
                   src="/icon_only2.png" 
                   alt="Luffi Tech Logo"
@@ -156,20 +157,20 @@ const Footer = () => {
                   height={40} 
                   className="w-auto h-10 object-contain transition-transform duration-300 group-hover:scale-110" 
                 />
-                <span className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+                <span className="text-2xl font-black tracking-tight text-slate-900 dark:text-white">
                   Luffi <span className="text-purple-600">Tech</span>
                 </span>
               </div>
             </Link>
-            <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed max-w-xs">
-              Empowering businesses through digital innovation and nurturing the next generation of tech talent.
+            <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed max-w-xs font-normal">
+              Empowering businesses through thoughtful digital innovation and mentoring the next generation of engineers.
             </p>
           </div>
           
           {/* Dynamic Link Sections */}
           {FOOTER_SECTIONS.map((section) => (
             <div key={section.title}>
-              <h4 className="font-bold text-slate-900 dark:text-white mb-6 text-lg">{section.title}</h4>
+              <h4 className="font-bold text-slate-900 dark:text-white mb-5 text-xs uppercase tracking-wider">{section.title}</h4>
               <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-400">
                 {section.links.map((link) => (
                   <li key={link.name}>

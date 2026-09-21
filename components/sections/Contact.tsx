@@ -4,40 +4,14 @@ import React, { useState, memo } from 'react';
 import { Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 
-// --- Service Options Data ---
-const SERVICE_GROUPS = [
-  {
-    label: "Engineering & Mobile",
-    options: [
-      { value: "web", label: "Web Development" },
-      { value: "mobile", label: "Mobile Apps (iOS/Android)" },
-      { value: "payments", label: "M-Pesa Integrations" },
-      { value: "mis", label: "Management Systems (MIS)" }
-    ]
-  },
-  {
-    label: "AI & Data",
-    options: [
-      { value: "ai", label: "AI Agents & Automation" },
-      { value: "data", label: "Data Analytics & BI" },
-      { value: "vibe", label: "Vibe Coding Support" }
-    ]
-  },
-  {
-    label: "Design & Growth",
-    options: [
-      { value: "design", label: "Graphic Design & Branding" },
-      { value: "uiux", label: "UI/UX Design" },
-      { value: "marketing", label: "Digital Marketing" }
-    ]
-  },
-  {
-    label: "Infrastructure & Academy",
-    options: [
-      { value: "cloud", label: "Cloud & DevOps" },
-      { value: "academy", label: "Luffi Tech Academy (Training)" }
-    ]
-  }
+// --- Service Quick-Select Categories ---
+const SERVICE_PILLS = [
+  "Web Application",
+  "Mobile App & USSD",
+  "M-Pesa Integration",
+  "AI & Automation",
+  "Tech Academy",
+  "Other Inquiry"
 ];
 
 const ContactForm = () => {
@@ -47,12 +21,17 @@ const ContactForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    service: "",
+    phone: "",
+    service: "Web Application",
     message: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handlePillSelect = (serviceName: string) => {
+    setFormData(prev => ({ ...prev, service: serviceName }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -68,9 +47,9 @@ const ContactForm = () => {
       await emailjs.send(serviceId, templateId, formData, publicKey);
 
       setStatus('success');
-      setFormData({ name: "", email: "", service: "", message: "" });
+      setFormData({ name: "", email: "", phone: "", service: "Web Application", message: "" });
       
-      setTimeout(() => setStatus('idle'), 5000);
+      setTimeout(() => setStatus('idle'), 6000);
 
     } catch (error) {
       console.error("EmailJS Error:", error);
@@ -81,18 +60,49 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="relative bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-2xl">
-      <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Send us a Message</h3>
-      <p className="text-slate-500 dark:text-slate-400 text-sm mb-6">
-        Fill out the form below and we'll get back to you within 24 hours.
-      </p>
+    <div className="relative bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-[2rem] border border-slate-200/90 dark:border-slate-800 shadow-xl transition-all duration-300">
+      
+      {/* Console Header */}
+      <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4 mb-6">
+        <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+          Send an Inquiry
+        </h3>
+      </div>
 
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={handleSubmit} className="space-y-6">
         
+        {/* Quick Service Category Selector */}
+        <div className="space-y-2.5">
+          <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 block">
+            What are you looking to build or solve?
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {SERVICE_PILLS.map((pill) => {
+              const isSelected = formData.service === pill;
+              return (
+                <button
+                  type="button"
+                  key={pill}
+                  onClick={() => handlePillSelect(pill)}
+                  className={`px-3.5 py-2 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200 cursor-pointer border
+                    ${isSelected 
+                      ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm shadow-indigo-600/20' 
+                      : 'bg-slate-50 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-indigo-400 hover:text-indigo-600 dark:hover:text-indigo-400'
+                    }`}
+                >
+                  {pill}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         {/* Name & Email Row */}
         <div className="grid sm:grid-cols-2 gap-5">
           <div className="space-y-2">
-            <label htmlFor="name" className="text-xs font-bold uppercase tracking-wider text-slate-500">Full Name</label>
+            <label htmlFor="name" className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+              Your Name <span className="text-rose-500">*</span>
+            </label>
             <input 
               required 
               type="text" 
@@ -100,12 +110,15 @@ const ContactForm = () => {
               id="name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all placeholder:text-slate-400" 
-              placeholder="" 
+              className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:bg-white dark:focus:bg-slate-800 outline-none transition-all placeholder:text-slate-400 text-sm font-normal" 
+              placeholder="e.g. Joe Doe" 
             />
           </div>
+
           <div className="space-y-2">
-            <label htmlFor="email" className="text-xs font-bold uppercase tracking-wider text-slate-500">Email Address</label>
+            <label htmlFor="email" className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+              Email Address <span className="text-rose-500">*</span>
+            </label>
             <input 
               required 
               type="email" 
@@ -113,54 +126,34 @@ const ContactForm = () => {
               id="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all placeholder:text-slate-400" 
-              placeholder="eric@example.com" 
+              className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:bg-white dark:focus:bg-slate-800 outline-none transition-all placeholder:text-slate-400 text-sm font-normal" 
+              placeholder="e.g. you@company.com" 
             />
           </div>
         </div>
-        
-        {/* Service Selection - FIXED COLOR CLASSES */}
+
+        {/* Phone / WhatsApp Field */}
         <div className="space-y-2">
-          <label htmlFor="service" className="text-xs font-bold uppercase tracking-wider text-slate-500">Interest</label>
-          <div className="relative">
-            <select 
-                name="service"
-                id="service"
-                required
-                value={formData.service}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all appearance-none cursor-pointer"
-            >
-                <option value="" disabled className="text-slate-400 dark:text-slate-500">Select a Service...</option>
-                {SERVICE_GROUPS.map((group) => (
-                  <optgroup 
-                    key={group.label} 
-                    label={group.label} 
-                    className="text-slate-900 dark:text-slate-200 dark:bg-slate-900 font-bold"
-                  >
-                      {group.options.map((opt) => (
-                        <option 
-                          key={opt.value} 
-                          value={opt.label}
-                          className="text-slate-700 dark:text-white bg-white dark:bg-slate-800 py-1"
-                        >
-                          {opt.label}
-                        </option>
-                      ))}
-                  </optgroup>
-                ))}
-                <option value="Other" className="text-slate-700 dark:text-white dark:bg-slate-800">Other Inquiry</option>
-            </select>
-            {/* Custom Arrow */}
-            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-            </div>
-          </div>
+          <label htmlFor="phone" className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 flex items-center justify-between">
+            <span>Phone or WhatsApp Number</span>
+            <span className="text-[11px] text-slate-400 font-normal lowercase tracking-normal">optional</span>
+          </label>
+          <input 
+            type="tel" 
+            name="phone"
+            id="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:bg-white dark:focus:bg-slate-800 outline-none transition-all placeholder:text-slate-400 text-sm font-normal" 
+            placeholder="e.g. +254 700 000 000" 
+          />
         </div>
 
         {/* Message Area */}
         <div className="space-y-2">
-          <label htmlFor="message" className="text-xs font-bold uppercase tracking-wider text-slate-500">Message</label>
+          <label htmlFor="message" className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+            Tell us about your goals or requirements <span className="text-rose-500">*</span>
+          </label>
           <textarea 
             required 
             name="message"
@@ -168,47 +161,47 @@ const ContactForm = () => {
             value={formData.message}
             onChange={handleChange}
             rows={4} 
-            className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all resize-none placeholder:text-slate-400" 
-            placeholder="Tell us about your project requirements..."
+            className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:bg-white dark:focus:bg-slate-800 outline-none transition-all resize-none placeholder:text-slate-400 text-sm leading-relaxed font-normal" 
+            placeholder="Share your goals, current challenges, target launch timeframe, or questions. Even a high-level overview is plenty."
           ></textarea>
         </div>
 
-        {/* Submit Button & Status */}
+        {/* Submit Button with Tactile Physics */}
         <div>
           <button 
             type="submit" 
             disabled={isSubmitting || status === 'success'}
-            className={`w-full py-4 rounded-xl font-bold text-lg transition-all active:scale-95 flex items-center justify-center gap-2 shadow-lg
+            className={`w-full py-4 px-6 rounded-xl font-bold text-base transition-all duration-300 ease-out flex items-center justify-center gap-2.5 shadow-md cursor-pointer hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] disabled:hover:translate-y-0 disabled:active:scale-100 disabled:cursor-not-allowed
               ${status === 'success' 
-                ? 'bg-green-600 text-white cursor-default' 
+                ? 'bg-emerald-600 text-white shadow-emerald-500/20' 
                 : status === 'error'
                 ? 'bg-rose-600 text-white'
-                : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-indigo-500/25'
+                : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-indigo-600/25 hover:shadow-xl hover:shadow-indigo-600/35'
               }
             `}
           >
             {isSubmitting ? (
               <>
-                <Loader2 className="animate-spin" size={20} /> Sending...
+                <Loader2 className="animate-spin" size={18} /> Delivering your inquiry...
               </>
             ) : status === 'success' ? (
               <>
-                <CheckCircle size={20} /> Message Sent Successfully!
+                <CheckCircle size={18} /> Inquiry Received. We will reach out shortly.
               </>
             ) : status === 'error' ? (
               <>
-                <AlertCircle size={20} /> Failed. Try Again.
+                <AlertCircle size={18} /> Delivery failed. Please try again or use WhatsApp.
               </>
             ) : (
               <>
-                Send Message <Send size={18} />
+                <span>Submit Inquiry</span> <Send size={16} />
               </>
             )}
           </button>
-          
+
           {status === 'error' && (
             <p className="text-center text-rose-500 text-sm mt-3 font-medium animate-in fade-in">
-              Something went wrong. Please email us directly at contact.luffitech@gmail.com
+              Please email us directly at contact.luffitech@gmail.com or message us on WhatsApp.
             </p>
           )}
         </div>

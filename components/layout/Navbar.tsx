@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { 
   Moon, Sun, Menu, X, ChevronDown, MessageCircle, 
-  Home, Layers, Zap, GraduationCap, Users, Phone 
+  Home, Layers, Zap, GraduationCap, Users, Phone, Briefcase 
 } from 'lucide-react';
 import Image from 'next/image';
 import icononly2 from '@/public/icon_only2.png';
@@ -15,7 +15,7 @@ import icononly2 from '@/public/icon_only2.png';
 const NavButton = memo(({ children, onClick, className = "" }: any) => (
   <button 
     onClick={onClick} 
-    className={`flex items-center justify-center gap-2 py-2.5 px-5 rounded-xl font-bold transition-all active:scale-95 shadow-md hover:shadow-lg ${className}`}
+    className={`flex items-center justify-center gap-2 py-2.5 px-5 rounded-xl font-bold transition-all duration-300 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] shadow-md hover:shadow-lg cursor-pointer ${className}`}
   >
     {children}
   </button>
@@ -67,13 +67,14 @@ const Navbar = ({ isDark, toggleTheme }: NavbarProps) => {
   const navItems = [
     { name: 'Home', href: '/', icon: <Home size={20} /> }, // Added Home for mobile clarity
     { name: 'Services', href: '/services', icon: <Zap size={20} /> },
+    { name: 'Projects', href: '/projects', icon: <Briefcase size={20} /> },
     { 
       name: 'Academy', 
       href: '/academy',
       icon: <GraduationCap size={20} />,
       dropdown: [
         { name: 'Digital Foundations', href: '/academy#foundations' },
-        { name: 'CBC Tech (Ages 7-18)', href: '/academy#foundations' },
+        { name: 'Tech for Kids (Ages 7-18)', href: '/academy#kids-tech' },
         { name: 'Tech Mastery Bootcamp', href: '/academy#bootcamp' }
       ]
     },
