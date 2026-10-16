@@ -1,8 +1,16 @@
 import { MetadataRoute } from 'next';
+import { getAllBlogPosts } from '@/lib/blog';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://www.luffitech.com';
   const lastModified = new Date();
+
+  const blogRoutes = getAllBlogPosts().map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: new Date(post.date),
+    changeFrequency: 'monthly' as const,
+    priority: 0.6,
+  }));
 
   return [
     {
@@ -71,5 +79,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.2,
     },
+    ...blogRoutes,
   ];
 }

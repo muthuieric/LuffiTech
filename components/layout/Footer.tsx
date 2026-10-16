@@ -99,6 +99,12 @@ const FOOTER_SECTIONS: FooterSection[] = [
     ]
   },
   {
+    title: "Resources",
+    links: [
+      { name: "Blog", href: "/blog", highlight: "hover:text-indigo-600 dark:hover:text-indigo-400" }
+    ]
+  },
+  {
     title: "Company",
     links: [
       { name: "About Us", href: "/about" },

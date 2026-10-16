@@ -1,0 +1,980 @@
+import os, sys, subprocess
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PUB_DIR = os.path.join(BASE_DIR, "public")
+LOGO_PATH = os.path.join(PUB_DIR, "icon_only2.png")
+
+html = f"""<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Luffi Tech - Corporate Business Profile</title>
+<style>
+@page {{
+    size: 612pt 792pt;
+    margin: 0;
+}}
+body {{
+    font-family: Arial, 'Liberation Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #1e293b;
+    background-color: #f8fafc;
+}}
+
+/* Inside page standard container */
+.page {{
+    padding: 24pt 30pt 16pt 30pt;
+    background-color: #ffffff;
+}}
+
+/* Top Header */
+table.p-header {{
+    width: 100%;
+    border-collapse: collapse;
+    border-bottom: 2pt solid #0284c7;
+    margin-bottom: 10pt;
+    padding-bottom: 4pt;
+}}
+
+.sec-tag {{
+    font-size: 7.2pt;
+    font-weight: bold;
+    color: #0284c7;
+    letter-spacing: 1.2pt;
+    text-transform: uppercase;
+}}
+
+.sec-title {{
+    font-size: 14pt;
+    font-weight: bold;
+    color: #0f172a;
+    letter-spacing: -0.3pt;
+    margin-top: 1pt;
+}}
+
+/* Bottom Footer */
+table.p-footer {{
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1pt solid #e2e8f0;
+    margin-top: 10pt;
+    padding-top: 4pt;
+}}
+
+.ft-text {{
+    font-size: 6.8pt;
+    color: #64748b;
+}}
+
+/* Typography */
+.lead {{
+    font-size: 8.5pt;
+    line-height: 1.42;
+    color: #334155;
+    margin-top: 0;
+    margin-bottom: 10pt;
+}}
+
+.badge-cyan {{
+    display: inline-block;
+    background-color: #e0f2fe;
+    color: #0369a1;
+    font-size: 6.5pt;
+    font-weight: bold;
+    padding: 2pt 5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5pt;
+}}
+
+.badge-purple {{
+    display: inline-block;
+    background-color: #f3e8ff;
+    color: #7e22ce;
+    font-size: 6.5pt;
+    font-weight: bold;
+    padding: 2pt 5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5pt;
+}}
+
+.badge-green {{
+    display: inline-block;
+    background-color: #dcfce7;
+    color: #15803d;
+    font-size: 6.5pt;
+    font-weight: bold;
+    padding: 2pt 5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5pt;
+}}
+
+.badge-dark {{
+    display: inline-block;
+    background-color: #1e293b;
+    color: #38bdf8;
+    font-size: 6.5pt;
+    font-weight: bold;
+    padding: 2pt 5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5pt;
+}}
+</style>
+</head>
+<body>
+
+<!-- =========================================================================
+     PAGE 1: HIGH-TECH EXECUTIVE DOSSIER COVER (TYPOGRAPHICAL & BENTO CHASSIS)
+     ========================================================================= -->
+<table width="100%" cellpadding="0" cellspacing="0" bgcolor="#070a13" style="border: 2pt solid #0284c7;">
+  <tr>
+    <td align="center" valign="middle" style="padding: 26pt 26pt 22pt 26pt;">
+
+      <!-- Top HUD metadata row -->
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 14pt;">
+        <tr>
+          <td align="left" style="font-size: 7pt; color: #38bdf8; letter-spacing: 1.5pt; font-weight: bold;">
+            [ LUFFI TECH CORPORATE PROFILE ]
+          </td>
+          <td align="right" style="font-size: 7pt; color: #c084fc; letter-spacing: 1.5pt; font-weight: bold;">
+            [ VERIFIED SYSTEMS &bull; 2026 EDITION ]
+          </td>
+        </tr>
+      </table>
+
+      <!-- Brand Mark & Title Group -->
+      <img src="{LOGO_PATH}" width="70" height="62" style="margin-bottom: 6pt;" /><br/>
+      <span style="font-size: 27pt; font-weight: bold; color: #38bdf8; letter-spacing: 2.2pt;">LUFFI TECH</span><br/>
+      <span style="font-size: 9.5pt; font-weight: bold; color: #c084fc; letter-spacing: 2.5pt;">AI AUTOMATION &amp; SOFTWARE STUDIO</span><br/>
+
+      <div style="height: 10pt;"></div>
+      <hr style="width: 120pt; border: none; height: 1.5pt; background-color: #0284c7; margin: 0 auto;" />
+      <div style="height: 10pt;"></div>
+
+      <!-- Document Title -->
+      <span style="font-size: 19pt; font-weight: bold; color: #ffffff; letter-spacing: 0.8pt;">CORPORATE BUSINESS PROFILE</span><br/>
+      <span style="font-size: 9pt; color: #94a3b8; letter-spacing: 0.8pt;">Capabilities Statement &bull; Solutions Architecture &bull; Tech Academy</span><br/>
+
+      <div style="height: 14pt;"></div>
+
+      <!-- Core Capabilities Bento Chassis (Clean Executive 2x2 Showcase) -->
+      <table width="100%" cellpadding="0" cellspacing="6" style="margin-bottom: 14pt;">
+        <tr>
+          <!-- Box 1: Custom Software -->
+          <td width="50%" bgcolor="#0f172a" style="border: 1pt solid #1e293b; border-left: 2.5pt solid #0284c7; padding: 10pt 12pt; text-align: left;">
+            <span style="font-size: 6.8pt; color: #38bdf8; font-weight: bold; letter-spacing: 1pt;">[ 01 &bull; CORE ENGINEERING ]</span><br/>
+            <span style="font-size: 9.5pt; font-weight: bold; color: #ffffff;">Custom Software &amp; SaaS Platforms</span><br/>
+            <span style="font-size: 7.2pt; color: #94a3b8; line-height: 1.35;">
+              Scalable Next.js, React, Node.js &amp; Python architectures with high-concurrency PostgreSQL databases and SSR edge performance.
+            </span>
+          </td>
+          <!-- Box 2: FinTech -->
+          <td width="50%" bgcolor="#0f172a" style="border: 1pt solid #1e293b; border-left: 2.5pt solid #10b981; padding: 10pt 12pt; text-align: left;">
+            <span style="font-size: 6.8pt; color: #4ade80; font-weight: bold; letter-spacing: 1pt;">[ 02 &bull; FINTECH RAILS ]</span><br/>
+            <span style="font-size: 9.5pt; font-weight: bold; color: #ffffff;">M-Pesa Daraja 2.0 &amp; Global Payments</span><br/>
+            <span style="font-size: 7.2pt; color: #94a3b8; line-height: 1.35;">
+              Automated STK Push prompts, C2B webhooks, B2C supplier disbursements, Stripe rails, and Africa's Talking USSD/SMS services.
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <!-- Box 3: AI Automation -->
+          <td width="50%" bgcolor="#0f172a" style="border: 1pt solid #1e293b; border-left: 2.5pt solid #a855f7; padding: 10pt 12pt; text-align: left;">
+            <span style="font-size: 6.8pt; color: #c084fc; font-weight: bold; letter-spacing: 1pt;">[ 03 &bull; ARTIFICIAL INTELLIGENCE ]</span><br/>
+            <span style="font-size: 9.5pt; font-weight: bold; color: #ffffff;">Autonomous AI Agents &amp; Workflows</span><br/>
+            <span style="font-size: 7.2pt; color: #94a3b8; line-height: 1.35;">
+              Private RAG document intelligence, 24/7 intelligent WhatsApp conversational bots, and n8n background task workers.
+            </span>
+          </td>
+          <!-- Box 4: Academy -->
+          <td width="50%" bgcolor="#0f172a" style="border: 1pt solid #1e293b; border-left: 2.5pt solid #38bdf8; padding: 10pt 12pt; text-align: left;">
+            <span style="font-size: 6.8pt; color: #38bdf8; font-weight: bold; letter-spacing: 1pt;">[ 04 &bull; WORKFORCE ACADEMY ]</span><br/>
+            <span style="font-size: 9.5pt; font-weight: bold; color: #ffffff;">Luffi Tech Academy &amp; Mentorship</span><br/>
+            <span style="font-size: 7.2pt; color: #94a3b8; line-height: 1.35;">
+              Outcome-based practical coding for youth (ages 7&ndash;18), digital workplace literacy, and intensive fullstack bootcamps.
+            </span>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Core Value Motto -->
+      <span style="font-size: 10pt; font-style: italic; color: #38bdf8; font-weight: bold;">
+        &ldquo;Elite Tech. Human Prices. Where Technology Meets Humanity.&rdquo;
+      </span><br/>
+
+      <div style="height: 14pt;"></div>
+
+      <!-- Executive Specifications Ribbon -->
+      <table width="94%" cellpadding="6" cellspacing="0" bgcolor="#0f172a" style="border: 1pt solid #1e293b; margin: 0 auto;">
+        <tr>
+          <td width="25%" align="center" style="border-right: 1pt solid #1e293b;">
+            <span style="color: #38bdf8; font-size: 6.8pt; font-weight: bold;">HEADQUARTERS</span><br/>
+            <span style="color: #ffffff; font-size: 7.5pt;">Nairobi, Kenya</span>
+          </td>
+          <td width="25%" align="center" style="border-right: 1pt solid #1e293b;">
+            <span style="color: #c084fc; font-size: 6.8pt; font-weight: bold;">IP OWNERSHIP</span><br/>
+            <span style="color: #ffffff; font-size: 7.5pt;">100% Client Retained</span>
+          </td>
+          <td width="25%" align="center" style="border-right: 1pt solid #1e293b;">
+            <span style="color: #38bdf8; font-size: 6.8pt; font-weight: bold;">CORE RAILS</span><br/>
+            <span style="color: #ffffff; font-size: 7.5pt;">M-Pesa &bull; Web &bull; AI</span>
+          </td>
+          <td width="25%" align="center">
+            <span style="color: #4ade80; font-size: 6.8pt; font-weight: bold;">PRIORITY LINE</span><br/>
+            <span style="color: #ffffff; font-size: 7.5pt;">+254 702 104 690</span>
+          </td>
+        </tr>
+      </table>
+
+      <div style="height: 14pt;"></div>
+
+      <p style="font-size: 6.8pt; color: #64748b; margin: 0;">
+        Official Corporate Capabilities Document &bull; Confidential &amp; Proprietary &bull; &copy; 2026 Luffi Tech. All rights reserved.
+      </p>
+
+    </td>
+  </tr>
+</table>
+
+<!-- =========================================================================
+     PAGE 2: EXECUTIVE OVERVIEW, PHILOSOPHY & CORE PRINCIPLES
+     ========================================================================= -->
+<p style="page-break-before: always; margin: 0; padding: 0;">&nbsp;</p>
+<div class="page">
+  <table class="p-header">
+    <tr>
+      <td>
+        <div class="sec-tag">SECTION 01 &bull; CORPORATE FOUNDATION</div>
+        <div class="sec-title">Executive Overview &amp; Strategic Philosophy</div>
+      </td>
+      <td align="right" valign="middle">
+        <img src="{LOGO_PATH}" width="26" height="26" />
+      </td>
+    </tr>
+  </table>
+
+  <p class="lead">
+    <b>Luffi Tech</b> is an agile, multi-disciplinary technology studio and engineering academy headquartered in Nairobi, Kenya. We engineer high-performance custom web applications, financial technology gateways (M-Pesa Safaricom Daraja), autonomous AI workflows, and cloud architectures for scaling enterprises, startups, and institutions across East Africa and globally.
+  </p>
+
+  <!-- Mission & Vision Side-by-Side Bento Grid -->
+  <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 10pt;">
+    <tr>
+      <!-- Mission -->
+      <td width="48%" valign="top" bgcolor="#ffffff" style="border: 1pt solid #cbd5e1; border-top: 3pt solid #0284c7;">
+        <table width="100%" cellpadding="8" cellspacing="0">
+          <tr>
+            <td bgcolor="#f8fafc" style="border-bottom: 1pt solid #e2e8f0;">
+              <span class="badge-cyan">OUR MISSION</span>
+              <div style="font-size: 8.5pt; font-weight: bold; color: #0f172a; margin-top: 3pt;">Democratizing Access to Premium Engineering</div>
+            </td>
+          </tr>
+          <tr>
+            <td style="font-size: 7.5pt; color: #334155; line-height: 1.4;">
+              To empower ambitious businesses, startups, and learners with enterprise-grade digital systems, financial automations, and practical technical education without corporate markups, sales middlemen, or hidden consulting overhead.
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td width="4%"></td>
+      <!-- Vision -->
+      <td width="48%" valign="top" bgcolor="#ffffff" style="border: 1pt solid #cbd5e1; border-top: 3pt solid #7e22ce;">
+        <table width="100%" cellpadding="8" cellspacing="0">
+          <tr>
+            <td bgcolor="#faf5ff" style="border-bottom: 1pt solid #e9d5ff;">
+              <span class="badge-purple">OUR VISION</span>
+              <div style="font-size: 8.5pt; font-weight: bold; color: #0f172a; margin-top: 3pt;">A Borderless, Barrier-Free Digital Future</div>
+            </td>
+          </tr>
+          <tr>
+            <td style="font-size: 7.5pt; color: #334155; line-height: 1.4;">
+              We envision a commercial landscape where technical barriers cease to exist—where every enterprise operates automated, scalable software, and every aspiring builder has access to elite engineering skills.
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Four Uncompromising Commitments (4 Bento Cards) -->
+  <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 10pt; border: 1pt solid #cbd5e1; border-top: 2.5pt solid #0f172a;">
+    <tr>
+      <td bgcolor="#0f172a" style="padding: 5pt 10pt; color: #ffffff; font-weight: bold; font-size: 8pt;">
+        OUR 4 UNCOMPROMISING ARCHITECTURAL COMMITMENTS
+      </td>
+    </tr>
+    <tr>
+      <td bgcolor="#ffffff" style="padding: 8pt;">
+        <table width="100%" cellpadding="6" cellspacing="4">
+          <tr>
+            <td width="50%" bgcolor="#f8fafc" style="border: 1pt solid #e2e8f0; vertical-align: top;">
+              <b style="color: #0284c7; font-size: 7.5pt;">1. 100% IP &amp; Code Ownership</b><br/>
+              <span style="font-size: 7.2pt; color: #334155; line-height: 1.35;">
+                Clients retain full ownership of source code, repositories, database schemas, and IP from Day 1. Zero proprietary vendor lock-in.
+              </span>
+            </td>
+            <td width="50%" bgcolor="#f8fafc" style="border: 1pt solid #e2e8f0; vertical-align: top;">
+              <b style="color: #7e22ce; font-size: 7.5pt;">2. Transparent Milestone Billing</b><br/>
+              <span style="font-size: 7.2pt; color: #334155; line-height: 1.35;">
+                Invoices are strictly tied to verified working software milestones. Transparent sprint pricing with zero surprise fees.
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td width="50%" bgcolor="#f8fafc" style="border: 1pt solid #e2e8f0; vertical-align: top;">
+              <b style="color: #15803d; font-size: 7.5pt;">3. Direct Senior Architect Access</b><br/>
+              <span style="font-size: 7.2pt; color: #334155; line-height: 1.35;">
+                Clients collaborate directly with senior lead engineers. No non-technical account managers or distorted communication channels.
+              </span>
+            </td>
+            <td width="50%" bgcolor="#f8fafc" style="border: 1pt solid #e2e8f0; vertical-align: top;">
+              <b style="color: #0f172a; font-size: 7.5pt;">4. High-Velocity Agile Delivery</b><br/>
+              <span style="font-size: 7.2pt; color: #334155; line-height: 1.35;">
+                A borderless, lean framework that cuts bureaucratic drag, deploying production-tested software in weeks rather than quarters.
+              </span>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Four Strategic Pillars Grid -->
+  <table width="100%" cellpadding="6" cellspacing="4" style="margin-bottom: 10pt;">
+    <tr>
+      <td width="25%" bgcolor="#f0f9ff" style="border: 1pt solid #bae6fd; vertical-align: top;">
+        <span class="badge-cyan">PILLAR 01</span><br/>
+        <b style="font-size: 7.8pt; color: #0284c7;">Software Systems</b><br/>
+        <span style="font-size: 7pt; color: #334155; line-height: 1.3;">
+          Enterprise SaaS portals, Next.js web applications, and resilient cloud microservices.
+        </span>
+      </td>
+      <td width="25%" bgcolor="#f0fdf4" style="border: 1pt solid #bbf7d0; vertical-align: top;">
+        <span class="badge-green">PILLAR 02</span><br/>
+        <b style="font-size: 7.8pt; color: #15803d;">FinTech Rails</b><br/>
+        <span style="font-size: 7pt; color: #334155; line-height: 1.3;">
+          Safaricom M-Pesa STK Push, Paybill webhooks, automated B2C payouts, and bulk SMS.
+        </span>
+      </td>
+      <td width="25%" bgcolor="#faf5ff" style="border: 1pt solid #e9d5ff; vertical-align: top;">
+        <span class="badge-purple">PILLAR 03</span><br/>
+        <b style="font-size: 7.8pt; color: #7e22ce;">AI Automation</b><br/>
+        <span style="font-size: 7pt; color: #334155; line-height: 1.3;">
+          Autonomous agents, private RAG document intelligence, and WhatsApp business bots.
+        </span>
+      </td>
+      <td width="25%" bgcolor="#f8fafc" style="border: 1pt solid #cbd5e1; vertical-align: top;">
+        <span class="badge-dark">PILLAR 04</span><br/>
+        <b style="font-size: 7.8pt; color: #0f172a;">Tech Academy</b><br/>
+        <span style="font-size: 7pt; color: #334155; line-height: 1.3;">
+          Kids coding, digital literacy, and intensive professional fullstack bootcamps.
+        </span>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Stat Grid Strip -->
+  <table width="100%" cellpadding="6" cellspacing="4" style="margin-bottom: 0;">
+    <tr>
+      <td width="25%" align="center" bgcolor="#f8fafc" style="border: 1pt solid #cbd5e1;">
+        <span style="font-size: 13pt; font-weight: bold; color: #0284c7;">100%</span><br/>
+        <span style="font-size: 7.5pt; font-weight: bold; color: #0f172a;">IP Ownership</span><br/>
+        <span style="font-size: 6.5pt; color: #64748b;">Zero lock-in guarantee</span>
+      </td>
+      <td width="25%" align="center" bgcolor="#f8fafc" style="border: 1pt solid #cbd5e1;">
+        <span style="font-size: 13pt; font-weight: bold; color: #0284c7;">99.9%</span><br/>
+        <span style="font-size: 7.5pt; font-weight: bold; color: #0f172a;">Uptime SLA</span><br/>
+        <span style="font-size: 6.5pt; color: #64748b;">Cloud resilience</span>
+      </td>
+      <td width="25%" align="center" bgcolor="#f8fafc" style="border: 1pt solid #0284c7;">
+        <span style="font-size: 13pt; font-weight: bold; color: #0284c7;">12+ hrs</span><br/>
+        <span style="font-size: 7.5pt; font-weight: bold; color: #0f172a;">Saved Weekly</span><br/>
+        <span style="font-size: 6.5pt; color: #64748b;">Per client workflow</span>
+      </td>
+      <td width="25%" align="center" bgcolor="#f8fafc" style="border: 1pt solid #cbd5e1;">
+        <span style="font-size: 13pt; font-weight: bold; color: #0284c7;">&lt; 2 hrs</span><br/>
+        <span style="font-size: 7.5pt; font-weight: bold; color: #0f172a;">Response SLA</span><br/>
+        <span style="font-size: 6.5pt; color: #64748b;">Direct lead architect</span>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Footer -->
+  <table class="p-footer">
+    <tr>
+      <td class="ft-text">Luffi Tech Corporate Business Profile &bull; Nairobi, Kenya</td>
+      <td class="ft-text" align="right">Page 2 of 7</td>
+    </tr>
+  </table>
+</div>
+
+<!-- =========================================================================
+     PAGE 3: CORE ENGINEERING SOLUTIONS & FINTECH RAILS
+     ========================================================================= -->
+<p style="page-break-before: always; margin: 0; padding: 0;">&nbsp;</p>
+<div class="page">
+  <table class="p-header">
+    <tr>
+      <td>
+        <div class="sec-tag">SECTION 02 &bull; ENGINEERING EXCELLENCE</div>
+        <div class="sec-title">Enterprise Software &amp; FinTech Architecture</div>
+      </td>
+      <td align="right" valign="middle">
+        <img src="{LOGO_PATH}" width="26" height="26" />
+      </td>
+    </tr>
+  </table>
+
+  <p class="lead">
+    We engineer production-grade digital infrastructure across four specialized technological pillars, integrating modern architectural standards with East African telecommunications and financial rails.
+  </p>
+
+  <!-- Discipline 1: Custom Enterprise Software -->
+  <table width="100%" cellpadding="0" cellspacing="0" style="border: 1pt solid #cbd5e1; border-top: 2.5pt solid #0284c7; margin-bottom: 9pt;">
+    <tr>
+      <td bgcolor="#f8fafc" style="padding: 5pt 9pt; border-bottom: 1pt solid #e2e8f0;">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td><span style="font-size: 8pt; font-weight: bold; color: #0284c7;">1. CUSTOM ENTERPRISE SOFTWARE &amp; SAAS PLATFORMS</span></td>
+            <td align="right"><span class="badge-cyan">WEB &amp; CLOUD ARCHITECTURE</span></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td bgcolor="#ffffff" style="padding: 7pt 9pt; font-size: 7.2pt; color: #334155; line-height: 1.4;">
+        <b>Focus:</b> Enterprise SaaS systems, operational web platforms, administrative portals, and customer-facing apps.<br/>
+        <b>Technical Stack:</b> Next.js, React, TypeScript, Tailwind CSS, Python (Django &amp; FastAPI), Node.js, PostgreSQL, Redis, MongoDB.<br/>
+        <b>Deliverables:</b> Server-Side Rendered (SSR) web applications, progressive web apps (PWAs), high-concurrency database schemas, RESTful &amp; GraphQL APIs, role-based access control (RBAC), and technical SEO optimization.
+      </td>
+    </tr>
+  </table>
+
+  <!-- Discipline 2: FinTech & M-Pesa Daraja -->
+  <table width="100%" cellpadding="0" cellspacing="0" style="border: 1pt solid #cbd5e1; border-top: 2.5pt solid #059669; margin-bottom: 9pt;">
+    <tr>
+      <td bgcolor="#f0fdf4" style="padding: 5pt 9pt; border-bottom: 1pt solid #dcfce7;">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td><span style="font-size: 8pt; font-weight: bold; color: #15803d;">2. SAFARICOM M-PESA DARAJA 2.0 &amp; FINTECH GATEWAYS</span></td>
+            <td align="right"><span class="badge-green">MOBILE MONEY RAILS</span></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td bgcolor="#ffffff" style="padding: 7pt 9pt; font-size: 7.2pt; color: #334155; line-height: 1.4;">
+        <b>Focus:</b> Automated payment rails bridging regional mobile money channels and international banking processors.<br/>
+        <b>Integrations:</b> Safaricom Daraja API 2.0 (Automated STK Push, C2B Paybill &amp; Till confirmation webhooks, B2C automated disbursements, Transaction Status &amp; Reversal APIs), Stripe Checkout, Visa, Mastercard, and PayPal.<br/>
+        <b>Offline Rails:</b> Interactive USSD menus and Transactional Bulk SMS via Africa's Talking API for feature-phone users.
+      </td>
+    </tr>
+  </table>
+
+  <!-- Discipline 3: Cloud DevOps & Infrastructure -->
+  <table width="100%" cellpadding="0" cellspacing="0" style="border: 1pt solid #cbd5e1; border-top: 2.5pt solid #0f172a; margin-bottom: 9pt;">
+    <tr>
+      <td bgcolor="#f8fafc" style="padding: 5pt 9pt; border-bottom: 1pt solid #e2e8f0;">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td><span style="font-size: 8pt; font-weight: bold; color: #0f172a;">3. CLOUD INFRASTRUCTURE, DEVOPS &amp; MANAGED IT</span></td>
+            <td align="right"><span class="badge-dark">99.9% UPTIME SLA</span></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td bgcolor="#ffffff" style="padding: 7pt 9pt; font-size: 7.2pt; color: #334155; line-height: 1.4;">
+        <b>Focus:</b> Hardened production deployment, 99.9% uptime architectures, and continuous security monitoring.<br/>
+        <b>Capabilities:</b> AWS, DigitalOcean, Linux server administration, Docker containerization, automated CI/CD pipelines, SSL/TLS certificate management, firewall configuration, and automated multi-region backup topologies.
+      </td>
+    </tr>
+  </table>
+
+  <!-- Standards & Benchmarks 2-Column Table -->
+  <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 0;">
+    <tr>
+      <td width="48%" bgcolor="#ffffff" style="border: 1pt solid #bae6fd; border-left: 2.5pt solid #0284c7; padding: 7pt 9pt;">
+        <b style="font-size: 7.5pt; color: #0284c7;">SECURITY &amp; COMPLIANCE STANDARDS</b><br/>
+        <span style="font-size: 7pt; color: #334155; line-height: 1.35;">
+          &bull; Strict TLS 1.3 encryption for all web &amp; API traffic.<br/>
+          &bull; Isolated database vector storage for private data.<br/>
+          &bull; Non-Disclosure Agreements (NDAs) standard.<br/>
+          &bull; PCI-DSS compliant financial transaction handoffs.
+        </span>
+      </td>
+      <td width="4%"></td>
+      <td width="48%" bgcolor="#ffffff" style="border: 1pt solid #a7f3d0; border-left: 2.5pt solid #059669; padding: 7pt 9pt;">
+        <b style="font-size: 7.5pt; color: #15803d;">PERFORMANCE BENCHMARKS</b><br/>
+        <span style="font-size: 7pt; color: #334155; line-height: 1.35;">
+          &bull; Sub-1.0s page loads via SSR &amp; edge caching.<br/>
+          &bull; 99.9% cloud server uptime guarantee.<br/>
+          &bull; Automated multi-region database snapshot backups.<br/>
+          &bull; 100% compliant mobile-first responsiveness.
+        </span>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Footer -->
+  <table class="p-footer">
+    <tr>
+      <td class="ft-text">Luffi Tech Corporate Business Profile &bull; Nairobi, Kenya</td>
+      <td class="ft-text" align="right">Page 3 of 7</td>
+    </tr>
+  </table>
+</div>
+
+<!-- =========================================================================
+     PAGE 4: AUTONOMOUS AI AGENTS & WORKFLOW AUTOMATIONS
+     ========================================================================= -->
+<p style="page-break-before: always; margin: 0; padding: 0;">&nbsp;</p>
+<div class="page">
+  <table class="p-header">
+    <tr>
+      <td>
+        <div class="sec-tag">SECTION 03 &bull; ARTIFICIAL INTELLIGENCE</div>
+        <div class="sec-title">Autonomous AI Agents &amp; Workflow Automation</div>
+      </td>
+      <td align="right" valign="middle">
+        <img src="{LOGO_PATH}" width="26" height="26" />
+      </td>
+    </tr>
+  </table>
+
+  <p class="lead">
+    We deploy pragmatic, production-tested AI systems designed for measurable business impact. Our autonomous workflows eliminate repetitive administrative toil, accelerate customer interactions, and safeguard your proprietary company data.
+  </p>
+
+  <!-- 3 Key AI Solutions Grid -->
+  <table width="100%" cellpadding="6" cellspacing="4" style="margin-bottom: 10pt;">
+    <tr>
+      <td width="33%" bgcolor="#ffffff" style="border: 1pt solid #cbd5e1; border-top: 2.5pt solid #7e22ce; vertical-align: top;">
+        <span class="badge-purple">PRIVATE RAG</span><br/>
+        <b style="font-size: 8pt; color: #7e22ce;">Document Intelligence</b><br/>
+        <span style="font-size: 7pt; color: #334155; line-height: 1.35;">
+          Vector search over internal corporate PDFs, contracts, manuals, and databases. Fast, verifiable answers with zero public data leakage.
+        </span>
+      </td>
+      <td width="33%" bgcolor="#ffffff" style="border: 1pt solid #cbd5e1; border-top: 2.5pt solid #15803d; vertical-align: top;">
+        <span class="badge-green">WHATSAPP AGENTS</span><br/>
+        <b style="font-size: 8pt; color: #15803d;">24/7 Conversational AI</b><br/>
+        <span style="font-size: 7pt; color: #334155; line-height: 1.35;">
+          Intelligent customer assistants that handle multi-lingual inquiries, qualify leads, and issue instant M-Pesa checkout prompts inside WhatsApp.
+        </span>
+      </td>
+      <td width="33%" bgcolor="#ffffff" style="border: 1pt solid #cbd5e1; border-top: 2.5pt solid #0284c7; vertical-align: top;">
+        <span class="badge-cyan">ETL PIPELINES</span><br/>
+        <b style="font-size: 8pt; color: #0284c7;">Autonomous Task Workers</b><br/>
+        <span style="font-size: 7pt; color: #334155; line-height: 1.35;">
+          Scheduled n8n and Python background engines that automate invoice parsing, CRM synchronization, inventory alerts, and reconciliation.
+        </span>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Enterprise AI Governance & Security Card -->
+  <table width="100%" cellpadding="0" cellspacing="0" style="border: 1pt solid #cbd5e1; border-top: 2.5pt solid #0f172a; margin-bottom: 10pt;">
+    <tr>
+      <td bgcolor="#0f172a" style="padding: 5pt 9pt; color: #ffffff; font-weight: bold; font-size: 8pt;">
+        ENTERPRISE AI GOVERNANCE &amp; ZERO-DATA LEAK PROTOCOL
+      </td>
+    </tr>
+    <tr>
+      <td bgcolor="#ffffff" style="padding: 8pt 9pt;">
+        <table width="100%" cellpadding="4" cellspacing="3">
+          <tr>
+            <td width="50%" bgcolor="#f8fafc" style="border: 1pt solid #e2e8f0; vertical-align: top;">
+              <b style="color: #0284c7; font-size: 7.2pt;">Zero Public Foundation Training</b><br/>
+              <span style="font-size: 7pt; color: #334155; line-height: 1.35;">
+                Commercial API configurations with strict zero-data retention clauses. Your enterprise knowledge is never ingested into public models.
+              </span>
+            </td>
+            <td width="50%" bgcolor="#f8fafc" style="border: 1pt solid #e2e8f0; vertical-align: top;">
+              <b style="color: #7e22ce; font-size: 7.2pt;">Isolated Vector Databases</b><br/>
+              <span style="font-size: 7pt; color: #334155; line-height: 1.35;">
+                Self-hosted pgvector &amp; Qdrant databases with encryption-at-rest and strict tenant partition schemas.
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td width="50%" bgcolor="#f8fafc" style="border: 1pt solid #e2e8f0; vertical-align: top;">
+              <b style="color: #15803d; font-size: 7.2pt;">Deterministic Prompt Guardrails</b><br/>
+              <span style="font-size: 7pt; color: #334155; line-height: 1.35;">
+                Rigorous prompt routing, fallback mechanisms, and human-in-the-loop triggers for high-stakes decisions.
+              </span>
+            </td>
+            <td width="50%" bgcolor="#f8fafc" style="border: 1pt solid #e2e8f0; vertical-align: top;">
+              <b style="color: #0f172a; font-size: 7.2pt;">Transparent Audit Logging</b><br/>
+              <span style="font-size: 7pt; color: #334155; line-height: 1.35;">
+                Full transparent traceability of prompt inputs, token usage, and agent decision chains for corporate governance.
+              </span>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Measurable ROI Grid -->
+  <table width="100%" cellpadding="6" cellspacing="4" style="margin-bottom: 0;">
+    <tr>
+      <td width="33%" align="center" bgcolor="#f8fafc" style="border: 1pt solid #cbd5e1;">
+        <span style="font-size: 13pt; font-weight: bold; color: #7e22ce;">70%</span><br/>
+        <span style="font-size: 7.5pt; font-weight: bold; color: #0f172a;">Faster Resolution</span><br/>
+        <span style="font-size: 6.5pt; color: #64748b;">Instant WhatsApp customer replies</span>
+      </td>
+      <td width="33%" align="center" bgcolor="#f8fafc" style="border: 1pt solid #cbd5e1;">
+        <span style="font-size: 13pt; font-weight: bold; color: #0284c7;">15+ hrs</span><br/>
+        <span style="font-size: 7.5pt; font-weight: bold; color: #0f172a;">Weekly Labor Saved</span><br/>
+        <span style="font-size: 6.5pt; color: #64748b;">Per administrative department</span>
+      </td>
+      <td width="33%" align="center" bgcolor="#f8fafc" style="border: 1pt solid #059669;">
+        <span style="font-size: 13pt; font-weight: bold; color: #059669;">100%</span><br/>
+        <span style="font-size: 7.5pt; font-weight: bold; color: #0f172a;">Data Sovereignty</span><br/>
+        <span style="font-size: 6.5pt; color: #64748b;">Zero training on client data</span>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Footer -->
+  <table class="p-footer">
+    <tr>
+      <td class="ft-text">Luffi Tech Corporate Business Profile &bull; Nairobi, Kenya</td>
+      <td class="ft-text" align="right">Page 4 of 7</td>
+    </tr>
+  </table>
+</div>
+
+<!-- =========================================================================
+     PAGE 5: LUFFI TECH ACADEMY & MENTORSHIP
+     ========================================================================= -->
+<p style="page-break-before: always; margin: 0; padding: 0;">&nbsp;</p>
+<div class="page">
+  <table class="p-header">
+    <tr>
+      <td>
+        <div class="sec-tag">SECTION 04 &bull; WORKFORCE &amp; YOUTH DEVELOPMENT</div>
+        <div class="sec-title">Luffi Tech Academy &amp; Hands-on Mentorship</div>
+      </td>
+      <td align="right" valign="middle">
+        <img src="{LOGO_PATH}" width="26" height="26" />
+      </td>
+    </tr>
+  </table>
+
+  <p class="lead">
+    In addition to software engineering, Luffi Tech operates a dedicated educational academy committed to mentoring the next generation of engineers, builders, and digitally proficient professionals through hands-on project work.
+  </p>
+
+  <!-- 3 Distinct Specialization Tracks -->
+  <table width="100%" cellpadding="0" cellspacing="0" style="border: 1pt solid #cbd5e1; border-top: 2.5pt solid #7e22ce; margin-bottom: 10pt;">
+    <tr>
+      <td bgcolor="#0f172a" style="color: #ffffff; font-weight: bold; font-size: 8pt; padding: 5pt 9pt;">
+        ACADEMY CURRICULUM: 3 SPECIALIZATION PATHWAYS
+      </td>
+    </tr>
+    <tr>
+      <td bgcolor="#ffffff" style="padding: 8pt 10pt;">
+        
+        <!-- Track 1 -->
+        <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 7pt;">
+          <tr>
+            <td>
+              <span class="badge-purple">TRACK A</span> 
+              <b style="font-size: 8pt; color: #7e22ce;">PRACTICAL CODING FOR KIDS &amp; TEENS (AGES 7 &ndash; 18)</b><br/>
+              <span style="font-size: 7.2pt; color: #334155; line-height: 1.4;">
+                &bull; <b>Foundational Logic:</b> Scratch visual programming, computational algorithms, and logic puzzles.<br/>
+                &bull; <b>Real-World Syntax:</b> Introduction to Python, interactive 2D games, web basics, and digital safety.<br/>
+                &bull; <b>Outcome:</b> Transforms young minds from passive screen consumers into active creators and problem-solvers.
+              </span>
+            </td>
+          </tr>
+        </table>
+
+        <div style="border-top: 1pt solid #e2e8f0; margin-bottom: 7pt;"></div>
+
+        <!-- Track 2 -->
+        <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 7pt;">
+          <tr>
+            <td>
+              <span class="badge-cyan">TRACK B</span> 
+              <b style="font-size: 8pt; color: #0284c7;">DIGITAL LITERACY &amp; OFFICE COMPUTER FOUNDATIONS</b><br/>
+              <span style="font-size: 7.2pt; color: #334155; line-height: 1.4;">
+                &bull; <b>Workplace Productivity:</b> Microsoft Office (Word, advanced Excel modeling, PowerPoint) &amp; Google Workspace.<br/>
+                &bull; <b>Administrative Mastery:</b> Touch-typing, professional cloud file management, cyber hygiene, and business email.
+              </span>
+            </td>
+          </tr>
+        </table>
+
+        <div style="border-top: 1pt solid #e2e8f0; margin-bottom: 7pt;"></div>
+
+        <!-- Track 3 -->
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td>
+              <span class="badge-green">TRACK C</span> 
+              <b style="font-size: 8pt; color: #15803d;">PROFESSIONAL FULLSTACK SOFTWARE BOOTCAMPS (ADULTS &amp; PROS)</b><br/>
+              <span style="font-size: 7.2pt; color: #334155; line-height: 1.4;">
+                &bull; <b>Modern Web:</b> React 19, Next.js, TypeScript, Tailwind CSS, REST/GraphQL APIs, and PostgreSQL.<br/>
+                &bull; <b>Production Readiness:</b> Git/GitHub teamwork, CI/CD deployment, M-Pesa Daraja integration, and job portfolio review.
+              </span>
+            </td>
+          </tr>
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+  <!-- Flexible Delivery Models 2-Column Table -->
+  <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 9pt;">
+    <tr>
+      <td width="48%" bgcolor="#ffffff" style="border: 1pt solid #bae6fd; border-left: 2.5pt solid #0284c7; padding: 7pt 9pt; vertical-align: top;">
+        <span class="badge-cyan">REMOTE</span> <b style="font-size: 7.5pt; color: #0284c7;">MODE 1: INTERACTIVE ONLINE (GLOBAL)</b><br/>
+        <span style="font-size: 7.2pt; color: #334155; line-height: 1.35;">
+          &bull; Live 1-on-1 and small-cohort classes via Google Meet.<br/>
+          &bull; Full HD video recordings provided after each class.<br/>
+          &bull; GitHub repository code reviews and continuous mentor feedback.<br/>
+          &bull; Flexible evening and weekend hours for busy professionals.
+        </span>
+      </td>
+      <td width="4%"></td>
+      <td width="48%" bgcolor="#ffffff" style="border: 1pt solid #cbd5e1; border-left: 2.5pt solid #0f172a; padding: 7pt 9pt; vertical-align: top;">
+        <span class="badge-dark">IN-PERSON</span> <b style="font-size: 7.5pt; color: #0f172a;">MODE 2: HOME TUTORING (NAIROBI)</b><br/>
+        <span style="font-size: 7.2pt; color: #334155; line-height: 1.35;">
+          &bull; Premium personalized home tutoring across Nairobi.<br/>
+          &bull; Vetted, background-checked, patient senior mentors.<br/>
+          &bull; 100% focused attention tailored to student's exact learning pace.<br/>
+          &bull; Ideal for young children and beginners requiring hands-on guidance.
+        </span>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Mentorship Guarantee Box -->
+  <table width="100%" cellpadding="6" cellspacing="0" bgcolor="#f8fafc" style="border: 1pt solid #cbd5e1; margin-bottom: 0;">
+    <tr>
+      <td style="font-size: 7.2pt; color: #334155; line-height: 1.4;">
+        <b style="color: #0f172a;">OUR MENTORSHIP GUARANTEE:</b> Every learner builds real, verifiable portfolio projects from Day 1. We do not teach abstract theory in isolation—students write code, push to GitHub, and deploy live web software.
+      </td>
+    </tr>
+  </table>
+
+  <!-- Footer -->
+  <table class="p-footer">
+    <tr>
+      <td class="ft-text">Luffi Tech Corporate Business Profile &bull; Nairobi, Kenya</td>
+      <td class="ft-text" align="right">Page 5 of 7</td>
+    </tr>
+  </table>
+</div>
+
+<!-- =========================================================================
+     PAGE 6: CASE STUDIES & PROVEN CLIENT IMPACT
+     ========================================================================= -->
+<p style="page-break-before: always; margin: 0; padding: 0;">&nbsp;</p>
+<div class="page">
+  <table class="p-header">
+    <tr>
+      <td>
+        <div class="sec-tag">SECTION 05 &bull; CASE STUDIES &amp; TRACK RECORD</div>
+        <div class="sec-title">Proven Client Impact &amp; Case Studies</div>
+      </td>
+      <td align="right" valign="middle">
+        <img src="{LOGO_PATH}" width="26" height="26" />
+      </td>
+    </tr>
+  </table>
+
+  <p class="lead">
+    Our solutions are measured by operational hours saved, revenue protected, and systems empowered. Below are real-world commercial software engagements engineered and deployed by Luffi Tech.
+  </p>
+
+  <!-- CASE STUDY 1: HOSPITALITY & M-PESA -->
+  <table width="100%" cellpadding="0" cellspacing="0" style="border: 1pt solid #cbd5e1; border-top: 2.5pt solid #0284c7; margin-bottom: 10pt;">
+    <tr>
+      <td bgcolor="#f8fafc" style="padding: 5pt 9pt; border-bottom: 1pt solid #e2e8f0;">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td><span style="font-size: 8pt; font-weight: bold; color: #0284c7;">CASE STUDY 01: HOSPITALITY &amp; M-PESA DARAJA AUTOMATION</span></td>
+            <td align="right"><span class="badge-cyan">WESTLANDS, NAIROBI</span></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td bgcolor="#ffffff" style="padding: 8pt 9pt; font-size: 7.2pt; color: #334155; line-height: 1.4;">
+        <b>Client Organization:</b> High-volume dining venue &bull; Sarah K., General Manager.<br/>
+        <b>Operational Challenge:</b> Peak rush cashier bottlenecks caused manual payment verification delays and accounting reconciliation backlogs exceeding 10+ hours per week.<br/>
+        <b>Engineering Solution:</b> Built custom ordering interface with automated Safaricom Daraja STK Push triggers and instant webhook callbacks syncing payments directly into cloud ledgers.<br/>
+        <b>Measurable Results:</b> <b style="color: #0284c7;">12+ hours saved weekly</b> in manual reconciliation; 100% elimination of payment disputes; transaction confirmation speed reduced to under 3 seconds.
+      </td>
+    </tr>
+  </table>
+
+  <!-- CASE STUDY 2: ENTERPRISE LOGISTICS -->
+  <table width="100%" cellpadding="0" cellspacing="0" style="border: 1pt solid #cbd5e1; border-top: 2.5pt solid #7e22ce; margin-bottom: 10pt;">
+    <tr>
+      <td bgcolor="#faf5ff" style="padding: 5pt 9pt; border-bottom: 1pt solid #e9d5ff;">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td><span style="font-size: 8pt; font-weight: bold; color: #7e22ce;">CASE STUDY 02: ENTERPRISE LOGISTICS &amp; CARGO DISPATCH PLATFORM</span></td>
+            <td align="right"><span class="badge-purple">EAST AFRICA FLEET</span></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td bgcolor="#ffffff" style="padding: 8pt 9pt; font-size: 7.2pt; color: #334155; line-height: 1.4;">
+        <b>Client Organization:</b> Regional cargo and freight enterprise &bull; David O., Operations Director.<br/>
+        <b>Operational Challenge:</b> Manual dispatch tracking, fragmented driver coordination, and lack of real-time cargo milestone updates leading to delayed client inquiries.<br/>
+        <b>Engineering Solution:</b> Developed a centralized cloud dispatch dashboard with automated route milestones, customer SMS notifications, and multi-branch management.<br/>
+        <b>Measurable Results:</b> <b style="color: #7e22ce;">45% throughput boost</b>, zero cargo status errors, and 99.9% uptime across high-concurrency dispatch operations.
+      </td>
+    </tr>
+  </table>
+
+  <!-- CASE STUDY 3: PRIVATE IN-HOME YOUTH CODING -->
+  <table width="100%" cellpadding="0" cellspacing="0" style="border: 1pt solid #a7f3d0; border-top: 2.5pt solid #059669; margin-bottom: 0;">
+    <tr>
+      <td bgcolor="#f0fdf4" style="padding: 5pt 9pt; border-bottom: 1pt solid #dcfce7;">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td><span style="font-size: 8pt; font-weight: bold; color: #065f46;">CASE STUDY 03: PRIVATE IN-HOME YOUTH CODING MENTORSHIP</span></td>
+            <td align="right"><span class="badge-green">KILIMANI, NAIROBI</span></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td bgcolor="#ffffff" style="padding: 8pt 9pt; font-size: 7.2pt; color: #334155; line-height: 1.4;">
+        <b>Client / Learner:</b> Primary school student (Age 10) &bull; Wanjiku M., Parent &amp; Educator.<br/>
+        <b>Educational Challenge:</b> Passive tablet consumption with no structured computational thinking or digital creativity.<br/>
+        <b>Mentorship Solution:</b> Weekly in-home mentoring covering Scratch visual programming, algorithmic logic, and Python game design with a vetted mentor.<br/>
+        <b>Measurable Results:</b> Student independently coded 3 playable original games; noticeable improvement in mathematics and analytical reasoning scores.
+      </td>
+    </tr>
+  </table>
+
+  <!-- Footer -->
+  <table class="p-footer">
+    <tr>
+      <td class="ft-text">Luffi Tech Corporate Business Profile &bull; Nairobi, Kenya</td>
+      <td class="ft-text" align="right">Page 6 of 7</td>
+    </tr>
+  </table>
+</div>
+
+<!-- =========================================================================
+     PAGE 7: RAPID ONBOARDING & CORPORATE DIRECTORY
+     ========================================================================= -->
+<p style="page-break-before: always; margin: 0; padding: 0;">&nbsp;</p>
+<div class="page">
+  <table class="p-header">
+    <tr>
+      <td>
+        <div class="sec-tag">SECTION 06 &bull; ENGAGEMENT &amp; DIRECTORY</div>
+        <div class="sec-title">Corporate Credentials &amp; Contact</div>
+      </td>
+      <td align="right" valign="middle">
+        <img src="{LOGO_PATH}" width="26" height="26" />
+      </td>
+    </tr>
+  </table>
+
+  <p class="lead">
+    Partnering with Luffi Tech is fast, transparent, and structured around your milestones. Here is our 3-step rapid onboarding framework to take your project from blueprint to production.
+  </p>
+
+  <!-- 3-Step Rapid Engagement Process -->
+  <table width="100%" cellpadding="0" cellspacing="0" style="border: 1pt solid #cbd5e1; border-top: 2.5pt solid #0f172a; margin-bottom: 9pt;">
+    <tr>
+      <td bgcolor="#0f172a" style="color: #ffffff; font-weight: bold; font-size: 8pt; padding: 5pt 9pt;">
+        THE 3-STEP RAPID ENGAGEMENT ONBOARDING PROCESS
+      </td>
+    </tr>
+    <tr>
+      <td bgcolor="#ffffff" style="font-size: 7.2pt; color: #334155; line-height: 1.4; padding: 7pt 9pt;">
+        <b style="color: #0284c7;">STEP 1: RAPID ARCHITECTURAL REVIEW (Within 2 Hours)</b><br/>
+        Send us your project brief or inquiry. A senior engineer analyzes technical feasibility, payment gateways, and architectural targets within 2 business hours.<br/>
+        <div style="border-top: 1pt solid #e2e8f0; margin: 3pt 0;"></div>
+        <b style="color: #7e22ce;">STEP 2: 30-MINUTE DISCOVERY &amp; ALIGNMENT CALL</b><br/>
+        We discuss specific user flows, payment integrations (Daraja / Stripe), infrastructure requirements, budgets, and launch timelines without sales jargon.<br/>
+        <div style="border-top: 1pt solid #e2e8f0; margin: 3pt 0;"></div>
+        <b style="color: #059669;">STEP 3: MILESTONE PROPOSAL &amp; ROADMAP (Delivered in 24 &ndash; 48 Hours)</b><br/>
+        You receive a comprehensive, milestone-based technical proposal detailing sprint deliverables, transparent pricing, and deployment dates.
+      </td>
+    </tr>
+  </table>
+
+  <!-- Official Corporate Directory Table -->
+  <table width="100%" cellpadding="4" cellspacing="0" bgcolor="#0f172a" style="border-top: 2.5pt solid #0284c7; margin-bottom: 1pt;">
+    <tr><td style="color: #38bdf8; font-weight: bold; font-size: 8pt; padding: 4pt 8pt;">OFFICIAL CORPORATE DIRECTORY</td></tr>
+  </table>
+  <table width="100%" cellpadding="5" cellspacing="0" bgcolor="#ffffff" style="border: 1pt solid #cbd5e1; margin-bottom: 9pt;">
+    <tr bgcolor="#f8fafc">
+      <td width="28%" style="font-weight: bold; color: #0f172a; font-size: 7.5pt; border-bottom: 1pt solid #e2e8f0;">Company Name:</td>
+      <td width="72%" style="color: #0284c7; font-weight: bold; font-size: 7.5pt; border-bottom: 1pt solid #e2e8f0;">Luffi Tech</td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold; color: #0f172a; font-size: 7.5pt; border-bottom: 1pt solid #e2e8f0;">Core Competencies:</td>
+      <td style="color: #334155; font-size: 7.5pt; border-bottom: 1pt solid #e2e8f0;">Software Engineering, M-Pesa FinTech, Autonomous AI &amp; Academy</td>
+    </tr>
+    <tr bgcolor="#f8fafc">
+      <td style="font-weight: bold; color: #0f172a; font-size: 7.5pt; border-bottom: 1pt solid #e2e8f0;">Headquarters:</td>
+      <td style="color: #334155; font-size: 7.5pt; border-bottom: 1pt solid #e2e8f0;">Nairobi, Kenya (Servicing East Africa &amp; Global Clients)</td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold; color: #0f172a; font-size: 7.5pt; border-bottom: 1pt solid #e2e8f0;">Direct Line &amp; WhatsApp:</td>
+      <td style="font-weight: bold; color: #059669; font-size: 7.5pt; border-bottom: 1pt solid #e2e8f0;">+254 702 104 690 (24/7 Priority Support)</td>
+    </tr>
+    <tr bgcolor="#f8fafc">
+      <td style="font-weight: bold; color: #0f172a; font-size: 7.5pt; border-bottom: 1pt solid #e2e8f0;">Official Email:</td>
+      <td style="color: #0284c7; font-size: 7.5pt; border-bottom: 1pt solid #e2e8f0;">contact.luffitech@gmail.com</td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold; color: #0f172a; font-size: 7.5pt; border-bottom: 1pt solid #e2e8f0;">Web Platform:</td>
+      <td style="color: #0284c7; font-size: 7.5pt; border-bottom: 1pt solid #e2e8f0;">www.luffitech.com</td>
+    </tr>
+    <tr bgcolor="#f8fafc">
+      <td style="font-weight: bold; color: #0f172a; font-size: 7.5pt;">Social Channels:</td>
+      <td style="color: #64748b; font-size: 7.5pt;">LinkedIn: @luffi-tech &bull; X: @luffitech &bull; TikTok: @luffi.tech</td>
+    </tr>
+  </table>
+
+  <!-- Closing Executive Callout Chassis -->
+  <table width="100%" cellpadding="8" cellspacing="0" bgcolor="#070a13" style="border: 1.5pt solid #0284c7; text-align: center;">
+    <tr>
+      <td>
+        <span style="font-size: 11pt; font-weight: bold; color: #38bdf8;">Let&rsquo;s Build Something Extraordinary Together.</span><br/>
+        <span style="font-size: 7.5pt; color: #94a3b8; line-height: 1.35;">
+          Whether you need scalable enterprise software, automated M-Pesa payments, or world-class engineering mentorship, Luffi Tech is your trusted technology partner.
+        </span><br/>
+        <div style="height: 4pt;"></div>
+        <span style="font-size: 8pt; font-weight: bold; color: #ffffff;">
+          Direct Line / WhatsApp: <span style="color: #4ade80;">+254 702 104 690</span> &bull; Email: <span style="color: #38bdf8;">contact.luffitech@gmail.com</span>
+        </span>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Footer -->
+  <table class="p-footer">
+    <tr>
+      <td class="ft-text">Luffi Tech Corporate Business Profile &bull; Nairobi, Kenya</td>
+      <td class="ft-text" align="right">Page 7 of 7</td>
+    </tr>
+  </table>
+</div>
+
+</body>
+</html>
+"""
+
+output_html = os.path.join(BASE_DIR, "Luffi_Tech_Business_Profile.html")
+with open(output_html, "w", encoding="utf-8") as f:
+    f.write(html)
+
+print("Generated image-free Luffi_Tech_Business_Profile.html successfully.")
