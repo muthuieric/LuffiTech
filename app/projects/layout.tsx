@@ -84,7 +84,7 @@ const projectsJsonLd = {
       item: {
         '@type': 'WebSite',
         name: "Amaya's Kitchen",
-        url: 'https://amayas-kitchen-qazm.vercel.app/',
+        url: 'https://amayasswahilikitchen.co.ke',
         description: 'Culinary and hospitality web experience with mobile-first menu architecture.',
         author: {
           '@type': 'Organization',
